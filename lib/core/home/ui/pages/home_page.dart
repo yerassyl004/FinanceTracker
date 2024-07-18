@@ -1,6 +1,8 @@
 import 'package:finance_app/core/home/ui/widgets/header_widget.dart';
 import 'package:finance_app/core/home/ui/widgets/transactions_list.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cupertino_icons/cupertino_icons.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -22,6 +24,15 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),
+          Positioned(
+            right: 16,
+            bottom: 16,
+            child: FloatingActionButton(
+              backgroundColor: Colors.grey.shade300,
+              onPressed: () {},
+              child: const Icon(CupertinoIcons.add)
+            )
+          )
         ],
       ),
     );
