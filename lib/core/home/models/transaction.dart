@@ -9,6 +9,7 @@ class Transaction {
   final Account account;
   final Category category;
   final TypeSpending typeSpending;
+  final Account? destination;
 
   const Transaction({
     required this.account,
@@ -16,6 +17,7 @@ class Transaction {
     required this.category,
     required this.typeSpending,
     required this.cash,
+    this.destination,
     this.note,
     }
   );

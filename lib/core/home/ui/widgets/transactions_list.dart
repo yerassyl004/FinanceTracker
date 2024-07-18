@@ -14,7 +14,7 @@ class TransactionsList extends StatelessWidget {
         title: 'Food',
         icon: 'food'
       ),
-      typeSpending: TypeSpending.expense,
+      typeSpending: TypeSpending.income,
       account: Account(
         cash: 5000,
         icon: 'card',
@@ -42,12 +42,17 @@ class TransactionsList extends StatelessWidget {
         title: 'Food',
         icon: 'food'
       ),
-      typeSpending: TypeSpending.expense,
+      typeSpending: TypeSpending.transfer,
       account: Account(
         cash: 5000,
         icon: 'card',
         title: 'Card'
       ),
+      destination: Account(
+        cash: 5000,
+        icon: 'card',
+        title: 'Card'
+      )
     ),
   ];
 
