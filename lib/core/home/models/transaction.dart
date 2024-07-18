@@ -3,7 +3,7 @@ import 'package:finance_app/core/home/models/type_spending.dart';
 import 'package:finance_app/core/home/models/category.dart';
 
 class Transaction {
-  final int amount;
+  final int cash;
   final DateTime date;
   final String? note;
   final Account account;
@@ -11,11 +11,11 @@ class Transaction {
   final TypeSpending typeSpending;
 
   const Transaction({
-    required this.amount,
+    required this.account,
     required this.date,
     required this.category,
     required this.typeSpending,
-    required this.account,
+    required this.cash,
     this.note,
     }
   );

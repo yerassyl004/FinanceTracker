@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-
 class Account {
-  final Icon icon;
+  final String icon;
   final String title;
   int cash;
 
