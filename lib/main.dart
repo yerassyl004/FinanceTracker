@@ -1,4 +1,4 @@
-import 'package:finance_app/core/home/ui/pages/home_page.dart';
+import 'package:finance_app/core/tab_bar/ui/page/tab_bar_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const TabBarPage(),
     );
   }
 }
