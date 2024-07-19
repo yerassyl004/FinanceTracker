@@ -1,15 +1,13 @@
 import 'package:finance_app/core/add_transation/ui/widget/input_textField_widget.dart';
 import 'package:finance_app/core/add_transation/ui/widget/transfer_info_widget.dart';
 import 'package:finance_app/core/add_transation/ui/widget/types_spending_widget.dart';
+import 'package:finance_app/core/home/models/type_spending.dart';
 import 'package:flutter/material.dart';
 
 class AddTransactionPage extends StatefulWidget {
   AddTransactionPage({super.key});
 
-  String selectedType = 'Transfer';
-  String transfer = 'Transfer';
-  String expanse = 'Expanse';
-  String income = "Income";
+  TypeSpending selectedType = TypeSpending.expense;
 
   @override
   _AddTransactionPageState createState() => _AddTransactionPageState();
@@ -33,9 +31,20 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
     print('Amount: $amount, Notes: $notes');
   }
 
-  void _typeSpendingChange(String type) {
+  String _setTypeSpending(TypeSpending type_spending) {
+    switch (type_spending) {
+      case TypeSpending.expense:
+      return 'Expanse';
+      case TypeSpending.income:
+      return 'Income';
+      case TypeSpending.transfer:
+      return 'Transfer';
+    }
+  }
+
+  void _typeSpendingChange(TypeSpending type_spending) {
     setState(() {
-      widget.selectedType = type;
+      widget.selectedType = type_spending;
     });
   }
 
@@ -56,10 +65,10 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TypesSpendingWidget(
-                          title: widget.transfer, 
-                          isSelected: widget.selectedType == widget.transfer, 
+                          title: _setTypeSpending(TypeSpending.transfer), 
+                          isSelected: widget.selectedType == TypeSpending.transfer, 
                           onTap: () {
-                          _typeSpendingChange(widget.transfer);
+                          _typeSpendingChange(TypeSpending.transfer);
                           },
                         ),
                       Container(
@@ -69,10 +78,10 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                         margin: const EdgeInsets.symmetric(horizontal: 16.0),
                       ),
                       TypesSpendingWidget(
-                        title: widget.expanse, 
-                        isSelected: widget.selectedType == widget.expanse, 
+                        title: _setTypeSpending(TypeSpending.expense), 
+                        isSelected: widget.selectedType == TypeSpending.expense, 
                         onTap: () {
-                          _typeSpendingChange(widget.expanse);
+                          _typeSpendingChange(TypeSpending.expense);
                           },
                         ),
                       Container(
@@ -82,10 +91,10 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                         margin: const EdgeInsets.symmetric(horizontal: 16.0),
                       ),
                       TypesSpendingWidget(
-                        title: widget.income, 
-                        isSelected: widget.selectedType == widget.income, 
+                        title: _setTypeSpending(TypeSpending.income), 
+                        isSelected: widget.selectedType == TypeSpending.income, 
                         onTap: () {
-                          _typeSpendingChange(widget.income);
+                          _typeSpendingChange(TypeSpending.income);
                           },
                         ),
                     ],
