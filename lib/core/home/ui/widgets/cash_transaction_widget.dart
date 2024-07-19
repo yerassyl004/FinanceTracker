@@ -1,4 +1,4 @@
-import 'package:finance_app/core/home/models/type_spending.dart';
+import 'package:finance_app/core/models/type_spending.dart';
 import 'package:flutter/material.dart';
 
 class CashTransactionWidget extends StatelessWidget {

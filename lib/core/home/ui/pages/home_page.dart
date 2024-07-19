@@ -1,4 +1,4 @@
-import 'package:finance_app/core/add_transation/ui/pages/add_transaction_page.dart';
+import 'package:finance_app/core/add_transaction/ui/pages/add_transaction_page.dart';
 import 'package:finance_app/core/home/ui/widgets/header_widget.dart';
 import 'package:finance_app/core/home/ui/widgets/transactions_list.dart';
 import 'package:flutter/cupertino.dart';

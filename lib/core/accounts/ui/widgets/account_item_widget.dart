@@ -1,4 +1,4 @@
-import 'package:finance_app/core/home/models/account.dart';
+import 'package:finance_app/core/models/account.dart';
 import 'package:flutter/material.dart';
 
 class AccountItemWidget extends StatelessWidget {

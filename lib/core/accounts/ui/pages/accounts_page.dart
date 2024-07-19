@@ -1,6 +1,6 @@
 import 'package:finance_app/core/accounts/ui/widgets/account_item_widget.dart';
 import 'package:finance_app/core/accounts/ui/widgets/add_account_button.dart';
-import 'package:finance_app/core/home/models/account.dart';
+import 'package:finance_app/core/models/account.dart';
 import 'package:flutter/material.dart';
 
 class AccountsPage extends StatelessWidget {
