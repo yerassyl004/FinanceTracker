@@ -1,4 +1,4 @@
-import 'package:finance_app/core/account/ui/pages/analysis_page.dart';
+import 'package:finance_app/core/analysis/ui/pages/analysis_page.dart';
 import 'package:finance_app/core/home/ui/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
