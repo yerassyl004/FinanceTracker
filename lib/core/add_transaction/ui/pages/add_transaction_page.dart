@@ -1,8 +1,9 @@
 import 'package:finance_app/core/accounts/ui/pages/accounts_page.dart';
-import 'package:finance_app/core/add_transation/ui/widget/input_textField_widget.dart';
-import 'package:finance_app/core/add_transation/ui/widget/transfer_info_widget.dart';
-import 'package:finance_app/core/add_transation/ui/widget/types_spending_widget.dart';
-import 'package:finance_app/core/home/models/type_spending.dart';
+import 'package:finance_app/core/add_transaction/ui/widget/input_textField_widget.dart';
+import 'package:finance_app/core/add_transaction/ui/widget/transfer_info_widget.dart';
+import 'package:finance_app/core/add_transaction/ui/widget/types_spending_widget.dart';
+import 'package:finance_app/core/categories/ui/pages/categories_page.dart';
+import 'package:finance_app/core/models/type_spending.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -63,11 +64,11 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
           ),
         ),
         builder: (BuildContext context) {
-          return ClipRRect(
+          return const ClipRRect(
             borderRadius: const BorderRadius.vertical(
               top: Radius.circular(20.0),
             ),
-            child: AccountsPage(),
+            child: CategoriesPage(),
           );
         });
   }

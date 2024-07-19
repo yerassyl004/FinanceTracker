@@ -1,5 +1,5 @@
-import 'package:finance_app/core/home/models/transaction.dart';
-import 'package:finance_app/core/home/models/type_spending.dart';
+import 'package:finance_app/core/models/transaction.dart';
+import 'package:finance_app/core/models/type_spending.dart';
 import 'package:finance_app/core/home/ui/widgets/cash_transaction_widget.dart';
 import 'package:flutter/material.dart';
 

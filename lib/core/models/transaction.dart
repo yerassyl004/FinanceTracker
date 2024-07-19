@@ -1,6 +1,6 @@
-import 'package:finance_app/core/home/models/account.dart';
-import 'package:finance_app/core/home/models/type_spending.dart';
-import 'package:finance_app/core/home/models/category.dart';
+import 'package:finance_app/core/models/account.dart';
+import 'package:finance_app/core/models/type_spending.dart';
+import 'package:finance_app/core/models/category.dart';
 
 class Transaction {
   final int cash;
