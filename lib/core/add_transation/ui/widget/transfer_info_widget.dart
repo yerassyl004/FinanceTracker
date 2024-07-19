@@ -14,7 +14,7 @@ class TransferInfoWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.blue.shade900,
+          color: Colors.blueAccent,
           width: 2.0
         ),
         borderRadius: BorderRadius.circular(16),
