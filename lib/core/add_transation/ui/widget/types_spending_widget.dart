@@ -4,28 +4,33 @@ import 'package:flutter/material.dart';
 class TypesSpendingWidget extends StatelessWidget {
   final String title;
   final bool isSelected;
+  final VoidCallback onTap;
   const TypesSpendingWidget({
     super.key,
     required this.title,
-    required this.isSelected
+    required this.isSelected,
+    required this.onTap
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        isSelected ?
-        const Icon(CupertinoIcons.check_mark_circled_solid) :
-        const SizedBox(),
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: Colors.black,
-          ),
-        )
-      ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        children: [
+          isSelected ?
+          const Icon(CupertinoIcons.check_mark_circled_solid) :
+          const SizedBox(),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
+          )
+        ],
+      ),
     );
   }
 }

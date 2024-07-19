@@ -42,8 +42,8 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                       builder: (BuildContext context) {
-                        return const ClipRRect(
-                          borderRadius: BorderRadius.vertical(
+                        return ClipRRect(
+                          borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(20.0),
                           ),
                           child: AddTransactionPage(),

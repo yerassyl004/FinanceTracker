@@ -5,12 +5,15 @@ class InputTextfieldWidget extends StatelessWidget {
   final int maxLine;
   final int minLine;
   final TextInputType inputType;
+  final TextEditingController controller;
   const InputTextfieldWidget(
       {super.key,
       required this.hintText,
       required this.inputType,
       required this.maxLine,
-      required this.minLine});
+      required this.minLine,
+      required this.controller
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +29,7 @@ class InputTextfieldWidget extends StatelessWidget {
         style: const TextStyle(
           fontSize: 18,
         ),
+        controller: controller,
         keyboardType: inputType,
         minLines: minLine,
         maxLines: maxLine,
