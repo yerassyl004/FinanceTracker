@@ -30,30 +30,13 @@ class HomePage extends StatelessWidget {
               child: FloatingActionButton(
                   backgroundColor: Colors.grey.shade300,
                   onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      useSafeArea: true,
-                      enableDrag: true,
-                      useRootNavigator: true,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(20.0),
-                        ),
-                      ),
-                      builder: (BuildContext context) {
-                        return ClipRRect(
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(20.0),
-                          ),
-                          child: AddTransactionPage(),
-                        );
-                      },
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AddTransactionPage()),
                     );
                   },
-                  child: const Icon(CupertinoIcons.add)
-                )
-              )
+                  child: const Icon(CupertinoIcons.add)))
         ],
       ),
     );
