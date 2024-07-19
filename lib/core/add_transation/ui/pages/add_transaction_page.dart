@@ -1,9 +1,11 @@
+import 'package:finance_app/core/accounts/ui/pages/accounts_page.dart';
 import 'package:finance_app/core/add_transation/ui/widget/input_textField_widget.dart';
 import 'package:finance_app/core/add_transation/ui/widget/transfer_info_widget.dart';
 import 'package:finance_app/core/add_transation/ui/widget/types_spending_widget.dart';
 import 'package:finance_app/core/home/models/type_spending.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class AddTransactionPage extends StatefulWidget {
   AddTransactionPage({super.key});
 
@@ -34,11 +36,11 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   String _setTypeSpending(TypeSpending type_spending) {
     switch (type_spending) {
       case TypeSpending.expense:
-      return 'Expanse';
+        return 'Expanse';
       case TypeSpending.income:
-      return 'Income';
+        return 'Income';
       case TypeSpending.transfer:
-      return 'Transfer';
+        return 'Transfer';
     }
   }
 
@@ -48,6 +50,28 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
     });
   }
 
+  void _selectTransferInfo() {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        useSafeArea: true,
+        enableDrag: true,
+        useRootNavigator: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20.0),
+          ),
+        ),
+        builder: (BuildContext context) {
+          return ClipRRect(
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(20.0),
+            ),
+            child: AccountsPage(),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,11 +79,9 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
         title: const Text(
           'New transaction',
           style: TextStyle(
-            fontSize: 22,
-            color: Colors.black,
-            fontWeight: FontWeight.w500
-          ),
+              fontSize: 22, color: Colors.black, fontWeight: FontWeight.w500),
         ),
+        backgroundColor: Colors.grey.shade100,
       ),
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
@@ -75,12 +97,13 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TypesSpendingWidget(
-                          title: _setTypeSpending(TypeSpending.transfer), 
-                          isSelected: widget.selectedType == TypeSpending.transfer, 
-                          onTap: () {
+                        title: _setTypeSpending(TypeSpending.transfer),
+                        isSelected:
+                            widget.selectedType == TypeSpending.transfer,
+                        onTap: () {
                           _typeSpendingChange(TypeSpending.transfer);
-                          },
-                        ),
+                        },
+                      ),
                       Container(
                         width: 1,
                         height: 20,
@@ -88,12 +111,12 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                         margin: const EdgeInsets.symmetric(horizontal: 16.0),
                       ),
                       TypesSpendingWidget(
-                        title: _setTypeSpending(TypeSpending.expense), 
-                        isSelected: widget.selectedType == TypeSpending.expense, 
+                        title: _setTypeSpending(TypeSpending.expense),
+                        isSelected: widget.selectedType == TypeSpending.expense,
                         onTap: () {
                           _typeSpendingChange(TypeSpending.expense);
-                          },
-                        ),
+                        },
+                      ),
                       Container(
                         width: 1,
                         height: 20,
@@ -101,26 +124,31 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                         margin: const EdgeInsets.symmetric(horizontal: 16.0),
                       ),
                       TypesSpendingWidget(
-                        title: _setTypeSpending(TypeSpending.income), 
-                        isSelected: widget.selectedType == TypeSpending.income, 
+                        title: _setTypeSpending(TypeSpending.income),
+                        isSelected: widget.selectedType == TypeSpending.income,
                         onTap: () {
                           _typeSpendingChange(TypeSpending.income);
-                          },
-                        ),
+                        },
+                      ),
                     ],
                   ),
                   const SizedBox(height: 32),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Expanded(
-                        child: TransferInfoWidget(image: 'card', title: 'Account'),
+                        child: TransferInfoWidget(
+                            image: 'card',
+                            title: 'Account',
+                            onTap: _selectTransferInfo),
                       ),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       Expanded(
-                          child:
-                              TransferInfoWidget(image: 'food', title: 'Category')),
+                          child: TransferInfoWidget(
+                              image: 'food',
+                              title: 'Category',
+                              onTap: _selectTransferInfo)),
                     ],
                   ),
                   const SizedBox(height: 16),
@@ -140,22 +168,26 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                     controller: _notesController,
                   ),
                   const SizedBox(height: 12),
-                  Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                    const Text(
-                      'Jul 19, 2024',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                    ),
-                    Container(
-                      width: 1,
-                      height: 20,
-                      color: Colors.grey,
-                      margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                    ),
-                    const Text(
-                      '2:29 PM',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                    ),
-                  ])
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Text(
+                          'Jul 19, 2024',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w400),
+                        ),
+                        Container(
+                          width: 1,
+                          height: 20,
+                          color: Colors.grey,
+                          margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                        ),
+                        const Text(
+                          '2:29 PM',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w400),
+                        ),
+                      ])
                 ],
               ),
             ),
