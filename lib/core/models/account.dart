@@ -1,7 +1,7 @@
 class Account {
   final String icon;
   final String title;
-  int cash;
+  double cash;
 
   Account({
     required this.cash,

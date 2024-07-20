@@ -1,6 +1,6 @@
-import 'dart:convert';
-
 import 'package:finance_app/core/accounts/ui/pages/accounts_page.dart';
+import 'package:finance_app/core/add_transaction/service/transaction_save.dart';
+import 'package:finance_app/core/add_transaction/service/transactions_service.dart';
 import 'package:finance_app/core/add_transaction/ui/widget/input_textField_widget.dart';
 import 'package:finance_app/core/add_transaction/ui/widget/transfer_info_widget.dart';
 import 'package:finance_app/core/add_transaction/ui/widget/types_spending_widget.dart';
@@ -10,9 +10,10 @@ import 'package:finance_app/core/models/category.dart';
 import 'package:finance_app/core/models/modalType.dart';
 import 'package:finance_app/core/models/transaction.dart';
 import 'package:finance_app/core/models/type_spending.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class AddTransactionPage extends StatefulWidget {
   AddTransactionPage({super.key});
 
@@ -37,10 +38,6 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   }
 
   void _saveTransaction() async {
-    final prefs = await SharedPreferences.getInstance();
-    final List<String> transactionList =
-        prefs.getStringList('transactions') ?? [];
-
     // Check required fields based on TypeSpending
     if (_amountController.text.isEmpty ||
         selectedAccount == null ||
@@ -54,16 +51,22 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
       return;
     }
 
-    final int cash;
+    final double cash;
     try {
-      cash = int.parse(_amountController.text);
+      cash = double.parse(_amountController.text);
+      _transactionService(widget.selectedType, cash);
+      _addTransaction(cash);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Invalid amount entered.')),
       );
       return;
     }
+    Navigator.pop(context, true);
+  }
 
+  void _addTransaction(double cash) {
+    final transactionsService = TransactionSave();
     final transaction = Transaction(
       cash: cash,
       date: DateTime.now(),
@@ -76,12 +79,19 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
       destination:
           widget.selectedType == TypeSpending.transfer ? receiverAccount : null,
     );
+    transactionsService.saveTransaction(transaction);
+  }
 
-    transactionList.add(jsonEncode(transaction.toJson()));
-    await prefs.setStringList('transactions', transactionList);
-
-    print('Transaction saved: ${transaction.toJson()}');
-    Navigator.pop(context, true);
+  void _transactionService(TypeSpending typeSpending, double cash) {
+    final transactionsService = TransactionsService();
+    switch (typeSpending) {
+      case TypeSpending.transfer:
+        transactionsService.transferTransaction(selectedAccount!, receiverAccount!, cash);
+      case TypeSpending.expense:
+        transactionsService.expenseTransaction(selectedAccount!, cash);
+      case TypeSpending.income:
+        transactionsService.incomeTransaction(selectedAccount!, cash);
+    }
   }
 
   String _setTypeSpending(TypeSpending typeSpending) {
@@ -96,6 +106,11 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   }
 
   void _typeSpendingChange(TypeSpending typeSpending) {
+    selectedAccount = null;
+    selectedCategory = null;
+    receiverAccount = null;
+    _amountController.text = '';
+    _notesController.text = '';
     setState(() {
       widget.selectedType = typeSpending;
     });
@@ -212,28 +227,32 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                     children: [
                       Expanded(
                         child: TransferInfoWidget(
-                          image: selectedAccount?.icon ?? 'card',
+                          image: selectedAccount?.icon ?? 'wallet_icon',
                           title: selectedAccount?.title ?? 'Account',
                           onTap: () =>
                               _selectTransferInfo(Modaltype.selectedAccount),
+                          isSelected: selectedAccount != null,
                         ),
                       ),
                       const SizedBox(width: 8),
                       widget.selectedType == TypeSpending.transfer
                           ? Expanded(
                               child: TransferInfoWidget(
-                                image: receiverAccount?.icon ?? 'card',
+                                image: receiverAccount?.icon ?? 'wallet_icon',
                                 title: receiverAccount?.title ?? 'Account',
                                 onTap: () => _selectTransferInfo(
                                     Modaltype.receiverAccount),
+                                isSelected: receiverAccount != null,
                               ),
                             )
                           : Expanded(
                               child: TransferInfoWidget(
-                                image: selectedCategory?.icon ?? 'food',
+                                image:
+                                    selectedCategory?.icon ?? 'category_icon',
                                 title: selectedCategory?.title ?? 'Category',
                                 onTap: () =>
                                     _selectTransferInfo(Modaltype.category),
+                                isSelected: selectedCategory != null,
                               ),
                             ),
                     ],
@@ -258,9 +277,9 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const Text(
-                        'Jul 19, 2024',
-                        style: TextStyle(
+                      Text(
+                        DateFormat('MMM d, EEEE').format(DateTime.now()),
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                       Container(
@@ -269,13 +288,13 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                         color: Colors.grey,
                         margin: const EdgeInsets.symmetric(horizontal: 8.0),
                       ),
-                      const Text(
-                        '2:29 PM',
-                        style: TextStyle(
+                      Text(
+                        DateFormat('h:mm a').format(DateTime.now()),
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ],
-                  ),
+                  )
                 ],
               ),
             ),

@@ -49,18 +49,19 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const HeaderWidget(),
+              const SizedBox(height: 16),
               Expanded(
                 child: FutureBuilder<List<Transaction>>(
                   future: _transactionsFuture,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     } else if (snapshot.hasData) {
                       return TransactionsList(transactions: snapshot.data!);
                     } else {
-                      return Center(child: Text('No transactions found.'));
+                      return const Center(child: Text('No transactions found.'));
                     }
                   },
                 ),

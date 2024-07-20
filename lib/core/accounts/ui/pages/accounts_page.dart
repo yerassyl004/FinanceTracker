@@ -1,16 +1,49 @@
+import 'dart:convert';
 import 'package:finance_app/core/accounts/ui/widgets/account_item_widget.dart';
 import 'package:finance_app/core/accounts/ui/widgets/add_account_button.dart';
 import 'package:finance_app/core/models/account.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class AccountsPage extends StatelessWidget {
+class AccountsPage extends StatefulWidget {
   final Function(Account) onTapAccount;
-  AccountsPage({super.key, required this.onTapAccount});
+  const AccountsPage({super.key, required this.onTapAccount});
 
-  final List<Account> account = <Account>[
+  @override
+  _AccountsPageState createState() => _AccountsPageState();
+}
+
+class _AccountsPageState extends State<AccountsPage> {
+  List<Account> account = [
     Account(cash: 20000, icon: 'card', title: 'Card'),
     Account(cash: 30000, icon: 'food', title: 'Cash'),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAccountData();
+    // _saveAccountData();
+  }
+
+  Future<void> _loadAccountData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> accountsList = prefs.getStringList('accounts') ?? [];
+
+    setState(() {
+      account = accountsList
+          .map((jsonString) => Account.fromJson(jsonDecode(jsonString)))
+          .toList();
+    });
+  }
+
+  Future<void> _saveAccountData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> accountsList =
+        account.map((acc) => jsonEncode(acc.toJson())).toList();
+
+    await prefs.setStringList('accounts', accountsList);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +68,11 @@ class AccountsPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 ...account.map((account) => GestureDetector(
-                  onTap: () {
-                    onTapAccount(account);
-                  },
-                  child: AccountItemWidget(account: account),
-                )),
+                      onTap: () {
+                        widget.onTapAccount(account);
+                      },
+                      child: AccountItemWidget(account: account),
+                    )),
                 const SizedBox(height: 16),
                 Center(
                   child: AddAccountButton(
