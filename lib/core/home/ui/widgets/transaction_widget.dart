@@ -49,8 +49,9 @@ class TransactionWidget extends StatelessWidget {
                     children: [
                       Image.asset(
                         'assets/images/$accountIcon.png',
-                        height: 30,
+                        width: 25,
                       ),
+                      const SizedBox(width: 5),
                       Text(
                         accountTitle
                       ),
