@@ -5,6 +5,7 @@ import 'package:finance_app/core/add_transaction/ui/widget/types_spending_widget
 import 'package:finance_app/core/categories/ui/pages/categories_page.dart';
 import 'package:finance_app/core/models/account.dart';
 import 'package:finance_app/core/models/category.dart';
+import 'package:finance_app/core/models/modalType.dart';
 import 'package:finance_app/core/models/type_spending.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +24,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   final TextEditingController _notesController = TextEditingController();
   Category? selectedCategory;
   Account? selectedAccount;
+  Account? receiverAccount;
 
   @override
   void dispose() {
@@ -55,7 +57,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
     });
   }
 
-  void _selectTransferInfo() {
+  void _selectTransferInfo(Modaltype type) {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -72,9 +74,20 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
             borderRadius: const BorderRadius.vertical(
               top: Radius.circular(20.0),
             ),
-            child: AccountsPage(onTapAccount: _setAccountData),
+            child: modalType(type),
           );
         });
+  }
+
+  Widget modalType(Modaltype type) {
+    switch (type) {
+      case Modaltype.selectedAccount:
+      return AccountsPage(onTapAccount: _setAccountData);
+      case Modaltype.category:
+      return CategoriesPage(onCategorySelected: _setCategoryData);
+      case Modaltype.receiverAccount:
+      return AccountsPage(onTapAccount: _setReceiverAccountData);
+    }
   }
 
   void _setCategoryData(Category category) {
@@ -87,6 +100,13 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   void _setAccountData(Account account) {
     setState(() {
       selectedAccount = account;
+    });
+    Navigator.pop(context);
+  }
+
+  void _setReceiverAccountData(Account account) {
+    setState(() {
+      receiverAccount = account;
     });
     Navigator.pop(context);
   }
@@ -162,14 +182,26 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                         child: TransferInfoWidget(
                             image: selectedAccount?.icon ?? 'card',
                             title: selectedAccount?.title ?? 'Account',
-                            onTap: _selectTransferInfo),
+                            onTap: () {
+                              _selectTransferInfo(Modaltype.selectedAccount);
+                            }),
                       ),
                       const SizedBox(width: 8),
+                      widget.selectedType == TypeSpending.transfer ?
+                      Expanded(
+                          child: TransferInfoWidget(
+                              image: receiverAccount?.icon ?? 'card',
+                              title: receiverAccount?.title ?? 'Account',
+                              onTap: () {
+                              _selectTransferInfo(Modaltype.receiverAccount);
+                            })) :
                       Expanded(
                           child: TransferInfoWidget(
                               image: categoryIcon ?? 'food',
                               title: categoryTitle ?? 'Category',
-                              onTap: _selectTransferInfo)),
+                              onTap: () {
+                              _selectTransferInfo(Modaltype.category);
+                            }))
                     ],
                   ),
                   const SizedBox(height: 16),
