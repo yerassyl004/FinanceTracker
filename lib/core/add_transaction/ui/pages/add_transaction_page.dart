@@ -1,7 +1,9 @@
+import 'package:finance_app/core/accounts/ui/pages/accounts_page.dart';
 import 'package:finance_app/core/add_transaction/ui/widget/input_textField_widget.dart';
 import 'package:finance_app/core/add_transaction/ui/widget/transfer_info_widget.dart';
 import 'package:finance_app/core/add_transaction/ui/widget/types_spending_widget.dart';
 import 'package:finance_app/core/categories/ui/pages/categories_page.dart';
+import 'package:finance_app/core/models/account.dart';
 import 'package:finance_app/core/models/category.dart';
 import 'package:finance_app/core/models/type_spending.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
   Category? selectedCategory;
+  Account? selectedAccount;
 
   @override
   void dispose() {
@@ -69,7 +72,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
             borderRadius: const BorderRadius.vertical(
               top: Radius.circular(20.0),
             ),
-            child: CategoriesPage(onCategorySelected: _setCategoryData),
+            child: AccountsPage(onTapAccount: _setAccountData),
           );
         });
   }
@@ -77,6 +80,13 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   void _setCategoryData(Category category) {
     setState(() {
       selectedCategory = category;
+    });
+    Navigator.pop(context);
+  }
+
+  void _setAccountData(Account account) {
+    setState(() {
+      selectedAccount = account;
     });
     Navigator.pop(context);
   }
@@ -150,8 +160,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                     children: [
                       Expanded(
                         child: TransferInfoWidget(
-                            image: 'card',
-                            title: 'Account',
+                            image: selectedAccount?.icon ?? 'card',
+                            title: selectedAccount?.title ?? 'Account',
                             onTap: _selectTransferInfo),
                       ),
                       const SizedBox(width: 8),

@@ -4,7 +4,8 @@ import 'package:finance_app/core/models/account.dart';
 import 'package:flutter/material.dart';
 
 class AccountsPage extends StatelessWidget {
-  AccountsPage({super.key});
+  final Function(Account) onTapAccount;
+  AccountsPage({super.key, required this.onTapAccount});
 
   final List<Account> account = <Account>[
     Account(cash: 20000, icon: 'card', title: 'Card'),
@@ -33,7 +34,12 @@ class AccountsPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                ...account.map((acc) => AccountItemWidget(account: acc)),
+                ...account.map((account) => GestureDetector(
+                  onTap: () {
+                    onTapAccount(account);
+                  },
+                  child: AccountItemWidget(account: account),
+                )),
                 const SizedBox(height: 16),
                 Center(
                   child: AddAccountButton(
