@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class TransferInfoWidget extends StatelessWidget {
   final String image;
   final String title;
+  final bool isSelected;
   final VoidCallback onTap;
   const TransferInfoWidget({
     super.key,
     required this.image,
     required this.title,
-    required this.onTap
+    required this.onTap,
+    required this.isSelected
   });
 
   @override
@@ -18,7 +20,7 @@ class TransferInfoWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.blueAccent,
+            color: isSelected ? Colors.blueAccent : Colors.grey,
             width: 2.0
           ),
           borderRadius: BorderRadius.circular(16),

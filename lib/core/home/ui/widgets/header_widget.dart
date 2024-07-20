@@ -34,10 +34,10 @@ class HeaderWidget extends StatelessWidget {
               ),
               const SizedBox(width: 24),
               const Text(
-                'MyMoney',
+                'Finance Tracker',
                 textAlign: TextAlign.start,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold
                 ),
               ),

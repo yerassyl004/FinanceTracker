@@ -5,7 +5,7 @@ import 'package:finance_app/core/models/category.dart';
 import 'package:finance_app/core/models/type_spending.dart';
 
 class Transaction {
-  final int cash;
+  final double cash;
   final DateTime date;
   final String? note;
   final Account account;
