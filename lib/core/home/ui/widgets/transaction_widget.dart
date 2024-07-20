@@ -12,9 +12,9 @@ class TransactionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String categoryIcon = transaction.category.icon;
+    String? categoryIcon = transaction.category?.icon;
     String accountIcon = transaction.account.icon;
-    String categoryTitle = transaction.category.title;
+    String? categoryTitle = transaction.category?.title;
     String accountTitle = transaction.account.title;
     String? distanationTitle = transaction.destination?.title;
     String? distanationIcon = transaction.destination?.icon;
@@ -28,7 +28,7 @@ class TransactionWidget extends StatelessWidget {
           Row(
             children: [
               Image.asset(
-                'assets/images/$categoryIcon.png',
+                'assets/images/${categoryIcon ?? 'card'}.png',
                 height: 50,
               ),
               const SizedBox(width: 8),
@@ -38,7 +38,7 @@ class TransactionWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    categoryTitle,
+                    categoryTitle ?? 'Transfer',
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 16,

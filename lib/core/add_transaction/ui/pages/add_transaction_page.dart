@@ -41,7 +41,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
     final List<String> transactionList =
         prefs.getStringList('transactions') ?? [];
 
-    if (_amountController.text.isEmpty || selectedAccount == null || selectedCategory == null) {
+    if (_amountController.text.isEmpty || selectedAccount == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fill in all required fields.')),
       );
@@ -63,7 +63,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
       date: DateTime.now(),
       note: _notesController.text,
       account: selectedAccount!,
-      category: selectedCategory!,
+      category: widget.selectedType == TypeSpending.transfer ? null : selectedCategory,
       typeSpending: widget.selectedType,
       destination: widget.selectedType == TypeSpending.transfer ? receiverAccount : null,
     );

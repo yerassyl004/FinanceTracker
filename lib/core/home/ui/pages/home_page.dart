@@ -27,7 +27,14 @@ class _HomePageState extends State<HomePage> {
   Future<List<Transaction>> _loadTransactions() async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> transactionList = prefs.getStringList('transactions') ?? [];
-    return transactionList.map((jsonString) => Transaction.fromJson(jsonDecode(jsonString))).toList();
+    return transactionList.map((jsonString) {
+      try {
+        return Transaction.fromJson(jsonDecode(jsonString));
+      } catch (e) {
+        // Handle invalid JSON string
+        return null;
+      }
+    }).where((transaction) => transaction != null).cast<Transaction>().toList();
   }
 
   @override
