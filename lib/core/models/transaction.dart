@@ -21,4 +21,28 @@ class Transaction {
     this.note,
     }
   );
+
+  Map<String, dynamic> toJson() {
+    return {
+      'cash': cash,
+      'date': date.toIso8601String(),
+      'note': note,
+      'account': account.toJson(),
+      'category': category.toJson(),
+      'typeSpending': typeSpending.index,
+      'destination': destination?.toJson(),
+    };
+  }
+
+  factory Transaction.fromJson(Map<String, dynamic> json) {
+    return Transaction(
+      cash: json['cash'],
+      date: DateTime.parse(json['date']),
+      note: json['note'],
+      account: Account.fromJson(json['account']),
+      category: Category.fromJson(json['category']),
+      typeSpending: TypeSpending.values[json['typeSpending']],
+      destination: json['destination'] != null ? Account.fromJson(json['destination']) : null,
+    );
+  }
 }

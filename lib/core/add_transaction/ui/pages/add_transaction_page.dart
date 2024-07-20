@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:finance_app/core/accounts/ui/pages/accounts_page.dart';
 import 'package:finance_app/core/add_transaction/ui/widget/input_textField_widget.dart';
 import 'package:finance_app/core/add_transaction/ui/widget/transfer_info_widget.dart';
@@ -6,7 +8,9 @@ import 'package:finance_app/core/categories/ui/pages/categories_page.dart';
 import 'package:finance_app/core/models/account.dart';
 import 'package:finance_app/core/models/category.dart';
 import 'package:finance_app/core/models/modalType.dart';
+import 'package:finance_app/core/models/transaction.dart';
 import 'package:finance_app/core/models/type_spending.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -33,11 +37,21 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
     super.dispose();
   }
 
-  void _saveTransaction() {
-    final String amount = _amountController.text;
-    final String notes = _notesController.text;
+  void _saveTransaction() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> transactionList = prefs.getStringList('transactions') ?? [];
+    final transaction = Transaction(
+      cash: int.parse(_amountController.text),
+      date: DateTime.now(),
+      note: _notesController.text,
+      account: selectedAccount!,
+      category: selectedCategory!,
+      typeSpending: widget.selectedType,
+    );
+    transactionList.add(jsonEncode(transaction.toJson()));
+    await prefs.setStringList('transactions', transactionList);
 
-    print('Amount: $amount, Notes: $notes');
+    print('Transaction saved: ${transaction.toJson()}');
   }
 
   String _setTypeSpending(TypeSpending type_spending) {
