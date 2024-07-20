@@ -3,7 +3,8 @@ import 'package:finance_app/core/models/category.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesPage extends StatelessWidget {
-  const CategoriesPage({super.key});
+  final Function(Category) onCategorySelected;
+  const CategoriesPage({super.key, required this.onCategorySelected});
 
   final List<Category> categories = const [
     Category(title: 'Food', icon: 'card'),
@@ -37,9 +38,14 @@ class CategoriesPage extends StatelessWidget {
                 spacing: 16,
                 runSpacing: 16,
                 children: categories.map((category) {
-                  return SizedBox(
-                    width: (MediaQuery.of(context).size.width - 64) / 3,
-                    child: CategoryGridItem(category: category),
+                  return GestureDetector(
+                    onTap: () {
+                      onCategorySelected(category);
+                    },
+                    child: SizedBox(
+                      width: (MediaQuery.of(context).size.width - 64) / 3,
+                      child: CategoryGridItem(category: category),
+                    ),
                   );
                 }).toList(),
               ),

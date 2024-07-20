@@ -3,7 +3,7 @@ import 'package:finance_app/core/models/category.dart'; // Adjust the import pat
 
 class CategoryGridItem extends StatelessWidget {
   final Category category;
-
+  // final Function(Category)
   const CategoryGridItem({super.key, required this.category});
 
   @override

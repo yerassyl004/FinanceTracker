@@ -1,8 +1,8 @@
-import 'package:finance_app/core/accounts/ui/pages/accounts_page.dart';
 import 'package:finance_app/core/add_transaction/ui/widget/input_textField_widget.dart';
 import 'package:finance_app/core/add_transaction/ui/widget/transfer_info_widget.dart';
 import 'package:finance_app/core/add_transaction/ui/widget/types_spending_widget.dart';
 import 'package:finance_app/core/categories/ui/pages/categories_page.dart';
+import 'package:finance_app/core/models/category.dart';
 import 'package:finance_app/core/models/type_spending.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +19,7 @@ class AddTransactionPage extends StatefulWidget {
 class _AddTransactionPageState extends State<AddTransactionPage> {
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
+  Category? selectedCategory;
 
   @override
   void dispose() {
@@ -64,17 +65,26 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
           ),
         ),
         builder: (BuildContext context) {
-          return const ClipRRect(
+          return ClipRRect(
             borderRadius: const BorderRadius.vertical(
               top: Radius.circular(20.0),
             ),
-            child: CategoriesPage(),
+            child: CategoriesPage(onCategorySelected: _setCategoryData),
           );
         });
   }
 
+  void _setCategoryData(Category category) {
+    setState(() {
+      selectedCategory = category;
+    });
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
+    String? categoryIcon = selectedCategory?.icon;
+    String? categoryTitle = selectedCategory?.title;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -147,8 +157,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                       const SizedBox(width: 8),
                       Expanded(
                           child: TransferInfoWidget(
-                              image: 'food',
-                              title: 'Category',
+                              image: categoryIcon ?? 'food',
+                              title: categoryTitle ?? 'Category',
                               onTap: _selectTransferInfo)),
                     ],
                   ),
