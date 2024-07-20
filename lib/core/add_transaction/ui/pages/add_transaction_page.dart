@@ -41,7 +41,13 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
     final List<String> transactionList =
         prefs.getStringList('transactions') ?? [];
 
-    if (_amountController.text.isEmpty || selectedAccount == null) {
+    // Check required fields based on TypeSpending
+    if (_amountController.text.isEmpty ||
+        selectedAccount == null ||
+        (widget.selectedType == TypeSpending.transfer &&
+            receiverAccount == null) ||
+        (widget.selectedType != TypeSpending.transfer &&
+            selectedCategory == null)) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fill in all required fields.')),
       );
@@ -63,9 +69,12 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
       date: DateTime.now(),
       note: _notesController.text,
       account: selectedAccount!,
-      category: widget.selectedType == TypeSpending.transfer ? null : selectedCategory,
+      category: widget.selectedType == TypeSpending.transfer
+          ? null
+          : selectedCategory,
       typeSpending: widget.selectedType,
-      destination: widget.selectedType == TypeSpending.transfer ? receiverAccount : null,
+      destination:
+          widget.selectedType == TypeSpending.transfer ? receiverAccount : null,
     );
 
     transactionList.add(jsonEncode(transaction.toJson()));
@@ -169,7 +178,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                     children: [
                       TypesSpendingWidget(
                         title: _setTypeSpending(TypeSpending.transfer),
-                        isSelected: widget.selectedType == TypeSpending.transfer,
+                        isSelected:
+                            widget.selectedType == TypeSpending.transfer,
                         onTap: () => _typeSpendingChange(TypeSpending.transfer),
                       ),
                       Container(
@@ -204,7 +214,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                         child: TransferInfoWidget(
                           image: selectedAccount?.icon ?? 'card',
                           title: selectedAccount?.title ?? 'Account',
-                          onTap: () => _selectTransferInfo(Modaltype.selectedAccount),
+                          onTap: () =>
+                              _selectTransferInfo(Modaltype.selectedAccount),
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -213,14 +224,16 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                               child: TransferInfoWidget(
                                 image: receiverAccount?.icon ?? 'card',
                                 title: receiverAccount?.title ?? 'Account',
-                                onTap: () => _selectTransferInfo(Modaltype.receiverAccount),
+                                onTap: () => _selectTransferInfo(
+                                    Modaltype.receiverAccount),
                               ),
                             )
                           : Expanded(
                               child: TransferInfoWidget(
                                 image: selectedCategory?.icon ?? 'food',
                                 title: selectedCategory?.title ?? 'Category',
-                                onTap: () => _selectTransferInfo(Modaltype.category),
+                                onTap: () =>
+                                    _selectTransferInfo(Modaltype.category),
                               ),
                             ),
                     ],
@@ -247,7 +260,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                     children: [
                       const Text(
                         'Jul 19, 2024',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                       Container(
                         width: 1,
@@ -257,7 +271,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                       ),
                       const Text(
                         '2:29 PM',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ],
                   ),
