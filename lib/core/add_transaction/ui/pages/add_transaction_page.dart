@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:finance_app/core/accounts/ui/pages/accounts_page.dart';
 import 'package:finance_app/core/add_transaction/ui/widget/input_textField_widget.dart';
 import 'package:finance_app/core/add_transaction/ui/widget/transfer_info_widget.dart';
@@ -6,10 +8,11 @@ import 'package:finance_app/core/categories/ui/pages/categories_page.dart';
 import 'package:finance_app/core/models/account.dart';
 import 'package:finance_app/core/models/category.dart';
 import 'package:finance_app/core/models/modalType.dart';
+import 'package:finance_app/core/models/transaction.dart';
 import 'package:finance_app/core/models/type_spending.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class AddTransactionPage extends StatefulWidget {
   AddTransactionPage({super.key});
 
@@ -33,17 +36,58 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
     super.dispose();
   }
 
-  void _saveTransaction() {
-    final String amount = _amountController.text;
-    final String notes = _notesController.text;
+  void _saveTransaction() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> transactionList =
+        prefs.getStringList('transactions') ?? [];
 
-    print('Amount: $amount, Notes: $notes');
+    // Check required fields based on TypeSpending
+    if (_amountController.text.isEmpty ||
+        selectedAccount == null ||
+        (widget.selectedType == TypeSpending.transfer &&
+            receiverAccount == null) ||
+        (widget.selectedType != TypeSpending.transfer &&
+            selectedCategory == null)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill in all required fields.')),
+      );
+      return;
+    }
+
+    final int cash;
+    try {
+      cash = int.parse(_amountController.text);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Invalid amount entered.')),
+      );
+      return;
+    }
+
+    final transaction = Transaction(
+      cash: cash,
+      date: DateTime.now(),
+      note: _notesController.text,
+      account: selectedAccount!,
+      category: widget.selectedType == TypeSpending.transfer
+          ? null
+          : selectedCategory,
+      typeSpending: widget.selectedType,
+      destination:
+          widget.selectedType == TypeSpending.transfer ? receiverAccount : null,
+    );
+
+    transactionList.add(jsonEncode(transaction.toJson()));
+    await prefs.setStringList('transactions', transactionList);
+
+    print('Transaction saved: ${transaction.toJson()}');
+    Navigator.pop(context, true);
   }
 
-  String _setTypeSpending(TypeSpending type_spending) {
-    switch (type_spending) {
+  String _setTypeSpending(TypeSpending typeSpending) {
+    switch (typeSpending) {
       case TypeSpending.expense:
-        return 'Expanse';
+        return 'Expense';
       case TypeSpending.income:
         return 'Income';
       case TypeSpending.transfer:
@@ -51,42 +95,39 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
     }
   }
 
-  void _typeSpendingChange(TypeSpending type_spending) {
+  void _typeSpendingChange(TypeSpending typeSpending) {
     setState(() {
-      widget.selectedType = type_spending;
+      widget.selectedType = typeSpending;
     });
   }
 
   void _selectTransferInfo(Modaltype type) {
     showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        useSafeArea: true,
-        enableDrag: true,
-        useRootNavigator: true,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(20.0),
-          ),
-        ),
-        builder: (BuildContext context) {
-          return ClipRRect(
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(20.0),
-            ),
-            child: modalType(type),
-          );
-        });
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      enableDrag: true,
+      useRootNavigator: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+      ),
+      builder: (BuildContext context) {
+        return ClipRRect(
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20.0)),
+          child: modalType(type),
+        );
+      },
+    );
   }
 
   Widget modalType(Modaltype type) {
     switch (type) {
       case Modaltype.selectedAccount:
-      return AccountsPage(onTapAccount: _setAccountData);
+        return AccountsPage(onTapAccount: _setAccountData);
       case Modaltype.category:
-      return CategoriesPage(onCategorySelected: _setCategoryData);
+        return CategoriesPage(onCategorySelected: _setCategoryData);
       case Modaltype.receiverAccount:
-      return AccountsPage(onTapAccount: _setReceiverAccountData);
+        return AccountsPage(onTapAccount: _setReceiverAccountData);
     }
   }
 
@@ -113,12 +154,10 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
 
   @override
   Widget build(BuildContext context) {
-    String? categoryIcon = selectedCategory?.icon;
-    String? categoryTitle = selectedCategory?.title;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'New transaction',
+          'New Transaction',
           style: TextStyle(
               fontSize: 22, color: Colors.black, fontWeight: FontWeight.w500),
         ),
@@ -141,9 +180,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                         title: _setTypeSpending(TypeSpending.transfer),
                         isSelected:
                             widget.selectedType == TypeSpending.transfer,
-                        onTap: () {
-                          _typeSpendingChange(TypeSpending.transfer);
-                        },
+                        onTap: () => _typeSpendingChange(TypeSpending.transfer),
                       ),
                       Container(
                         width: 1,
@@ -154,9 +191,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                       TypesSpendingWidget(
                         title: _setTypeSpending(TypeSpending.expense),
                         isSelected: widget.selectedType == TypeSpending.expense,
-                        onTap: () {
-                          _typeSpendingChange(TypeSpending.expense);
-                        },
+                        onTap: () => _typeSpendingChange(TypeSpending.expense),
                       ),
                       Container(
                         width: 1,
@@ -167,41 +202,40 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                       TypesSpendingWidget(
                         title: _setTypeSpending(TypeSpending.income),
                         isSelected: widget.selectedType == TypeSpending.income,
-                        onTap: () {
-                          _typeSpendingChange(TypeSpending.income);
-                        },
+                        onTap: () => _typeSpendingChange(TypeSpending.income),
                       ),
                     ],
                   ),
                   const SizedBox(height: 32),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    mainAxisSize: MainAxisSize.max,
                     children: [
                       Expanded(
                         child: TransferInfoWidget(
-                            image: selectedAccount?.icon ?? 'card',
-                            title: selectedAccount?.title ?? 'Account',
-                            onTap: () {
-                              _selectTransferInfo(Modaltype.selectedAccount);
-                            }),
+                          image: selectedAccount?.icon ?? 'card',
+                          title: selectedAccount?.title ?? 'Account',
+                          onTap: () =>
+                              _selectTransferInfo(Modaltype.selectedAccount),
+                        ),
                       ),
                       const SizedBox(width: 8),
-                      widget.selectedType == TypeSpending.transfer ?
-                      Expanded(
-                          child: TransferInfoWidget(
-                              image: receiverAccount?.icon ?? 'card',
-                              title: receiverAccount?.title ?? 'Account',
-                              onTap: () {
-                              _selectTransferInfo(Modaltype.receiverAccount);
-                            })) :
-                      Expanded(
-                          child: TransferInfoWidget(
-                              image: categoryIcon ?? 'food',
-                              title: categoryTitle ?? 'Category',
-                              onTap: () {
-                              _selectTransferInfo(Modaltype.category);
-                            }))
+                      widget.selectedType == TypeSpending.transfer
+                          ? Expanded(
+                              child: TransferInfoWidget(
+                                image: receiverAccount?.icon ?? 'card',
+                                title: receiverAccount?.title ?? 'Account',
+                                onTap: () => _selectTransferInfo(
+                                    Modaltype.receiverAccount),
+                              ),
+                            )
+                          : Expanded(
+                              child: TransferInfoWidget(
+                                image: selectedCategory?.icon ?? 'food',
+                                title: selectedCategory?.title ?? 'Category',
+                                onTap: () =>
+                                    _selectTransferInfo(Modaltype.category),
+                              ),
+                            ),
                     ],
                   ),
                   const SizedBox(height: 16),
@@ -222,25 +256,26 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                   ),
                   const SizedBox(height: 12),
                   Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        const Text(
-                          'Jul 19, 2024',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w400),
-                        ),
-                        Container(
-                          width: 1,
-                          height: 20,
-                          color: Colors.grey,
-                          margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                        ),
-                        const Text(
-                          '2:29 PM',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w400),
-                        ),
-                      ])
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const Text(
+                        'Jul 19, 2024',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w400),
+                      ),
+                      Container(
+                        width: 1,
+                        height: 20,
+                        color: Colors.grey,
+                        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                      ),
+                      const Text(
+                        '2:29 PM',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
