@@ -1,6 +1,6 @@
-import 'dart:convert';
-
 import 'package:finance_app/core/accounts/ui/pages/accounts_page.dart';
+import 'package:finance_app/core/add_transaction/service/transaction_save.dart';
+import 'package:finance_app/core/add_transaction/service/transactions_service.dart';
 import 'package:finance_app/core/add_transaction/ui/widget/input_textField_widget.dart';
 import 'package:finance_app/core/add_transaction/ui/widget/transfer_info_widget.dart';
 import 'package:finance_app/core/add_transaction/ui/widget/types_spending_widget.dart';
@@ -11,7 +11,6 @@ import 'package:finance_app/core/models/modalType.dart';
 import 'package:finance_app/core/models/transaction.dart';
 import 'package:finance_app/core/models/type_spending.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -39,10 +38,6 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   }
 
   void _saveTransaction() async {
-    final prefs = await SharedPreferences.getInstance();
-    final List<String> transactionList =
-        prefs.getStringList('transactions') ?? [];
-
     // Check required fields based on TypeSpending
     if (_amountController.text.isEmpty ||
         selectedAccount == null ||
@@ -59,36 +54,19 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
     final double cash;
     try {
       cash = double.parse(_amountController.text);
+      _transactionService(widget.selectedType, cash);
+      _addTransaction(cash);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Invalid amount entered.')),
       );
       return;
     }
+    Navigator.pop(context, true);
+  }
 
-    // Load all accounts from SharedPreferences
-    final List<String> accountsList = prefs.getStringList('accounts') ?? [];
-    List<Account> accounts = accountsList.map((jsonString) {
-      return Account.fromJson(jsonDecode(jsonString));
-    }).toList();
-
-    // Update account balances
-    for (var account in accounts) {
-      if (account.title == selectedAccount!.title) {
-        account.cash -= cash;
-      }
-      if (widget.selectedType == TypeSpending.transfer &&
-          receiverAccount != null &&
-          account.title == receiverAccount!.title) {
-        account.cash += cash;
-      }
-    }
-
-    // Save updated accounts to SharedPreferences
-    final updatedAccountsList =
-        accounts.map((account) => jsonEncode(account.toJson())).toList();
-    await prefs.setStringList('accounts', updatedAccountsList);
-
+  void _addTransaction(double cash) {
+    final transactionsService = TransactionSave();
     final transaction = Transaction(
       cash: cash,
       date: DateTime.now(),
@@ -101,12 +79,19 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
       destination:
           widget.selectedType == TypeSpending.transfer ? receiverAccount : null,
     );
+    transactionsService.saveTransaction(transaction);
+  }
 
-    transactionList.add(jsonEncode(transaction.toJson()));
-    await prefs.setStringList('transactions', transactionList);
-
-    print('Transaction saved: ${transaction.toJson()}');
-    Navigator.pop(context, true);
+  void _transactionService(TypeSpending typeSpending, double cash) {
+    final transactionsService = TransactionsService();
+    switch (typeSpending) {
+      case TypeSpending.transfer:
+        transactionsService.transferTransaction(selectedAccount!, receiverAccount!, cash);
+      case TypeSpending.expense:
+        transactionsService.expenseTransaction(selectedAccount!, cash);
+      case TypeSpending.income:
+        transactionsService.incomeTransaction(selectedAccount!, cash);
+    }
   }
 
   String _setTypeSpending(TypeSpending typeSpending) {

@@ -46,4 +46,6 @@ class Transaction {
       'destination': destination?.toJson(),
     };
   }
+
+  
 }
