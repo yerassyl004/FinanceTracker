@@ -15,7 +15,7 @@ class AnalysisPage extends StatelessWidget {
           const Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              HeaderWidget(),
+              // HeaderWidget(),
             ],
           ),
         ],
