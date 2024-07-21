@@ -79,9 +79,12 @@ class TransactionWidget extends StatelessWidget {
             ]
           ),
           const SizedBox(height: 4),
-          const Divider(
-            height: 2,
-            color: Colors.black
+          const Padding(
+            padding: EdgeInsets.only(left: 60),
+            child: Divider(
+              height: 2,
+              color: Color.fromRGBO(156, 182, 201, 1),
+            ),
           ),
         ],
       ),

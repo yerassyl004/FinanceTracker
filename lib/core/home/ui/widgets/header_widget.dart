@@ -41,26 +41,27 @@ class HeaderWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.menu)
-              ),
-              const SizedBox(width: 24),
+              // IconButton(
+              //   onPressed: () {},
+              //   icon: const Icon(Icons.menu)
+              // ),
+              // const SizedBox(width: 24),
               const Text(
                 'Finance Tracker',
-                textAlign: TextAlign.start,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold
                 ),
               ),
-              const Spacer(),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.search)
-              ),
+              // const Spacer(),
+              // IconButton(
+              //   onPressed: () {},
+              //   icon: const Icon(Icons.search)
+              // ),
             ],
           ),
           Row(
