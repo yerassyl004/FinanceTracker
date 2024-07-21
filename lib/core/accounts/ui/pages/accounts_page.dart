@@ -15,15 +15,16 @@ class AccountsPage extends StatefulWidget {
 
 class _AccountsPageState extends State<AccountsPage> {
   List<Account> account = [
-    Account(cash: 20000, icon: 'card', title: 'Card'),
-    Account(cash: 30000, icon: 'food', title: 'Cash'),
+    Account(cash: 10000, icon: 'card', title: 'Card'),
+    Account(cash: 10000, icon: 'cash_icon', title: 'Cash'),
+    Account(cash: 5000, icon: 'saving_icon', title: 'Saving'),
   ];
 
   @override
   void initState() {
     super.initState();
-    _loadAccountData();
     // _saveAccountData();
+    _loadAccountData();
   }
 
   Future<void> _loadAccountData() async {
