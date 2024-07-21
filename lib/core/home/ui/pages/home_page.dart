@@ -16,11 +16,19 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late Future<List<Transaction>> _transactionsFuture;
   CountCashService cashService = CountCashService();
+  var selectedMonth = DateTime.now();
 
   @override
   void initState() {
     super.initState();
-    _transactionsFuture = cashService.loadTransactions();
+    _transactionsFuture = cashService.loadTransactions(selectedMonth);
+  }
+
+  void _handleDateChanged(DateTime newDate) {
+    selectedMonth = newDate;
+    setState(() {
+      _transactionsFuture = cashService.loadTransactions(newDate);
+    });
   }
 
   @override
@@ -34,7 +42,7 @@ class _HomePageState extends State<HomePage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              HeaderWidget(transactionsFuture: _transactionsFuture),
+              HeaderWidget(transactionsFuture: _transactionsFuture, onDateChanged: _handleDateChanged),
               const SizedBox(height: 16),
               Expanded(
                 child: FutureBuilder<List<Transaction>>(
@@ -67,7 +75,7 @@ class _HomePageState extends State<HomePage> {
 
                 if (result == true) {
                   setState(() {
-                    _transactionsFuture = cashService.loadTransactions(); // Refresh transactions list
+                    _transactionsFuture = cashService.loadTransactions(selectedMonth); // Refresh transactions list
                   });
                 }
               },

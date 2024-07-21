@@ -2,18 +2,35 @@ import 'package:finance_app/core/home/service/count_cash_service.dart';
 import 'package:finance_app/core/home/ui/widgets/categories_widgets.dart';
 import 'package:finance_app/core/models/transaction.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-// ignore: must_be_immutable
-class HeaderWidget extends StatelessWidget {
-  // final double count;
+class HeaderWidget extends StatefulWidget {
   final Future<List<Transaction>> transactionsFuture;
-  HeaderWidget({super.key, required this.transactionsFuture});
+  final Function(DateTime) onDateChanged;
 
+  HeaderWidget({
+    Key? key,
+    required this.transactionsFuture,
+    required this.onDateChanged,
+  }) : super(key: key);
+
+  @override
+  _HeaderWidgetState createState() => _HeaderWidgetState();
+}
+
+class _HeaderWidgetState extends State<HeaderWidget> {
+  late DateTime _currentDate;
   CountCashService cashService = CountCashService();
 
+  @override
+  void initState() {
+    super.initState();
+    _currentDate = DateTime.now();
+  }
+
   Future<Map<String, double>> _loadCounts() async {
-    final expense = await cashService.expenseCount(transactionsFuture);
-    final income = await cashService.incomeCount(transactionsFuture);
+    final expense = await cashService.expenseCount(widget.transactionsFuture);
+    final income = await cashService.incomeCount(widget.transactionsFuture);
     return {
       'expense': expense,
       'income': income,
@@ -21,9 +38,25 @@ class HeaderWidget extends StatelessWidget {
     };
   }
 
+  void _previousMonth() {
+    setState(() {
+      _currentDate = DateTime(_currentDate.year, _currentDate.month - 1);
+    });
+    widget.onDateChanged(_currentDate);
+  }
+
+  void _nextMonth() {
+    setState(() {
+      _currentDate = DateTime(_currentDate.year, _currentDate.month + 1);
+    });
+    widget.onDateChanged(_currentDate);
+  }
+
   @override
   Widget build(BuildContext context) {
     final padding = MediaQuery.of(context).padding;
+    String monthYear = DateFormat('MMMM, yyyy').format(_currentDate);
+
     return Container(
       padding: EdgeInsets.only(top: padding.top),
       decoration: BoxDecoration(
@@ -44,44 +77,34 @@ class HeaderWidget extends StatelessWidget {
           const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // IconButton(
-              //   onPressed: () {},
-              //   icon: const Icon(Icons.menu)
-              // ),
-              // const SizedBox(width: 24),
-              const Text(
+              Text(
                 'Finance Tracker',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 22,
-                  fontWeight: FontWeight.bold
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              // const Spacer(),
-              // IconButton(
-              //   onPressed: () {},
-              //   icon: const Icon(Icons.search)
-              // ),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.arrow_back_ios)
+                onPressed: _previousMonth,
+                icon: const Icon(Icons.arrow_back_ios),
               ),
-              const Text(
-                'July, 2024',
-                style: TextStyle(
+              Text(
+                monthYear,
+                style: const TextStyle(
                   fontSize: 16,
-                  fontWeight: FontWeight.w500
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.arrow_forward_ios)
-              )
+                onPressed: _nextMonth,
+                icon: const Icon(Icons.arrow_forward_ios),
+              ),
             ],
           ),
           const SizedBox(height: 16),
@@ -99,9 +122,21 @@ class HeaderWidget extends StatelessWidget {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CategoriesWidgets(category: 'Expense', cash: counts['expense']!.toStringAsFixed(2), color: Colors.red),
-                      CategoriesWidgets(category: 'Income', cash: counts['income']!.toStringAsFixed(2), color: Colors.green),
-                      CategoriesWidgets(category: 'Total', cash: counts['total']!.toStringAsFixed(2), color: Colors.blue),
+                      CategoriesWidgets(
+                        category: 'Expense',
+                        cash: counts['expense']!.toStringAsFixed(2),
+                        color: Colors.red,
+                      ),
+                      CategoriesWidgets(
+                        category: 'Income',
+                        cash: counts['income']!.toStringAsFixed(2),
+                        color: Colors.green,
+                      ),
+                      CategoriesWidgets(
+                        category: 'Total',
+                        cash: counts['total']!.toStringAsFixed(2),
+                        color: Colors.blue,
+                      ),
                     ],
                   );
                 } else {
