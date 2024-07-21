@@ -1,13 +1,29 @@
+import 'package:finance_app/core/home/service/count_cash_service.dart';
 import 'package:finance_app/core/home/ui/widgets/categories_widgets.dart';
+import 'package:finance_app/core/models/transaction.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class HeaderWidget extends StatelessWidget {
-  const HeaderWidget({super.key});
+  // final double count;
+  final Future<List<Transaction>> transactionsFuture;
+  HeaderWidget({super.key, required this.transactionsFuture});
+
+  CountCashService cashService = CountCashService();
+
+  Future<Map<String, double>> _loadCounts() async {
+    final expense = await cashService.expenseCount(transactionsFuture);
+    final income = await cashService.incomeCount(transactionsFuture);
+    return {
+      'expense': expense,
+      'income': income,
+      'total': income - expense
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
     final padding = MediaQuery.of(context).padding;
-
     return Container(
       padding: EdgeInsets.only(top: padding.top),
       decoration: BoxDecoration(
@@ -23,7 +39,6 @@ class HeaderWidget extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        // mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
@@ -69,16 +84,30 @@ class HeaderWidget extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CategoriesWidgets(category: 'Expense', cash: '25,000.00'),
-              CategoriesWidgets(category: 'Income', cash: '25,000.00'),
-              CategoriesWidgets(category: 'Total', cash: '25,000.00'),
-            ],
-          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: FutureBuilder<Map<String, double>>(
+              future: _loadCounts(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (snapshot.hasData) {
+                  final counts = snapshot.data!;
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CategoriesWidgets(category: 'Expense', cash: counts['expense']!.toStringAsFixed(2), color: Colors.red),
+                      CategoriesWidgets(category: 'Income', cash: counts['income']!.toStringAsFixed(2), color: Colors.green),
+                      CategoriesWidgets(category: 'Total', cash: counts['total']!.toStringAsFixed(2), color: Colors.blue),
+                    ],
+                  );
+                } else {
+                  return const Text('No transactions found.');
+                }
+              },
+            ),
           ),
           const SizedBox(height: 8),
         ],

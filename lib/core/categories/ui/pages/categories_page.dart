@@ -7,13 +7,15 @@ class CategoriesPage extends StatelessWidget {
   const CategoriesPage({super.key, required this.onCategorySelected});
 
   final List<Category> categories = const [
-    Category(title: 'Food', icon: 'card'),
-    Category(title: 'Transport', icon: 'card'),
-    Category(title: 'Shopping', icon: 'card'),
-    Category(title: 'Home', icon: 'card'),
-    Category(title: 'Health', icon: 'card'),
-    Category(title: 'Bills', icon: 'food'),
-    Category(title: 'Entertainment', icon: 'food'),
+    Category(title: 'Food', icon: 'foods_icon'),
+    Category(title: 'Transport', icon: 'car_icon'),
+    Category(title: 'Clothes', icon: 'clothes_icon'),
+    Category(title: 'Shopping', icon: 'shopping_icon'),
+    Category(title: 'Home', icon: 'home_icon'),
+    Category(title: 'Health', icon: 'health_icon'),
+    Category(title: 'Bills', icon: 'bills_icon'),
+    Category(title: 'Education', icon: 'education_icon'),
+    Category(title: 'Beauty', icon: 'beauty_icon'),
   ];
 
   @override

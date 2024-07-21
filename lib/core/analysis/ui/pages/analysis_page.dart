@@ -1,4 +1,3 @@
-import 'package:finance_app/core/home/ui/widgets/header_widget.dart';
 import 'package:flutter/material.dart';
 
 class AnalysisPage extends StatelessWidget {
@@ -15,7 +14,7 @@ class AnalysisPage extends StatelessWidget {
           const Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              HeaderWidget(),
+              // HeaderWidget(),
             ],
           ),
         ],

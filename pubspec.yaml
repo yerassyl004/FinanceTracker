@@ -67,6 +67,17 @@ flutter:
     - assets/images/add.png
     - assets/images/category_icon.png
     - assets/images/wallet_icon.png
+    - assets/images/beauty_icon.png
+    - assets/images/health_icon.png
+    - assets/images/shopping_icon.png
+    - assets/images/home_icon.png
+    - assets/images/foods_icon.png
+    - assets/images/bills_icon.png
+    - assets/images/clothes_icon.png
+    - assets/images/car_icon.png
+    - assets/images/education_icon.png
+    - assets/images/cash_icon.png
+    - assets/images/saving_icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -1,12 +1,10 @@
-import 'dart:convert';
-
 import 'package:finance_app/core/add_transaction/ui/pages/add_transaction_page.dart';
+import 'package:finance_app/core/home/service/count_cash_service.dart';
 import 'package:finance_app/core/home/ui/widgets/header_widget.dart';
 import 'package:finance_app/core/home/ui/widgets/transactions_list.dart';
 import 'package:finance_app/core/models/transaction.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,24 +15,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late Future<List<Transaction>> _transactionsFuture;
+  CountCashService cashService = CountCashService();
 
   @override
   void initState() {
     super.initState();
-    _transactionsFuture = _loadTransactions();
-  }
-
-  Future<List<Transaction>> _loadTransactions() async {
-    final prefs = await SharedPreferences.getInstance();
-    final List<String> transactionList = prefs.getStringList('transactions') ?? [];
-    return transactionList.map((jsonString) {
-      try {
-        return Transaction.fromJson(jsonDecode(jsonString));
-      } catch (e) {
-        // Handle invalid JSON string
-        return null;
-      }
-    }).where((transaction) => transaction != null).cast<Transaction>().toList();
+    _transactionsFuture = cashService.loadTransactions();
   }
 
   @override
@@ -48,7 +34,7 @@ class _HomePageState extends State<HomePage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const HeaderWidget(),
+              HeaderWidget(transactionsFuture: _transactionsFuture),
               const SizedBox(height: 16),
               Expanded(
                 child: FutureBuilder<List<Transaction>>(
@@ -81,7 +67,7 @@ class _HomePageState extends State<HomePage> {
 
                 if (result == true) {
                   setState(() {
-                    _transactionsFuture = _loadTransactions(); // Refresh transactions list
+                    _transactionsFuture = cashService.loadTransactions(); // Refresh transactions list
                   });
                 }
               },
