@@ -6,19 +6,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class CountCashService {
 
-  Future<List<Transaction>> loadTransactions() async {
-    final prefs = await SharedPreferences.getInstance();
-    final List<String> transactionList = prefs.getStringList('transactions') ?? [];
-    return transactionList.map((jsonString) {
-      try {
-        return Transaction.fromJson(jsonDecode(jsonString));
-      } catch (e) {
-        // Handle invalid JSON string
-        return null;
-      }
-    }).where((transaction) => transaction != null).cast<Transaction>().toList();
+  Future<List<Transaction>> loadTransactions(DateTime selectedDate) async {
+  final prefs = await SharedPreferences.getInstance();
+  final List<String> transactionList = prefs.getStringList('transactions') ?? [];
   
-  }
+  return transactionList.map((jsonString) {
+    try {
+      return Transaction.fromJson(jsonDecode(jsonString));
+    } catch (e) {
+      // Handle invalid JSON string
+      return null;
+    }
+  }).where((transaction) {
+    if (transaction != null) {
+      return transaction.date.year == selectedDate.year && transaction.date.month == selectedDate.month;
+    }
+    return false;
+  }).cast<Transaction>().toList();
+}
   
   Future<double> expenseCount(Future<List<Transaction>> transactionsFuture) async {
     final transactions = await transactionsFuture;
