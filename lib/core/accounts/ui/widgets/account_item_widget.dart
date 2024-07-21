@@ -33,10 +33,10 @@ class AccountItemWidget extends StatelessWidget {
           const Spacer(),
           Text(
             account.cash.toString(),
-            style: const TextStyle(
+            style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.normal,
-                color: Colors.green),
+                color: account.cash > 0 ? Colors.green : Colors.red),
           ),
         ],
       ),

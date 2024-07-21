@@ -31,11 +31,13 @@ class _AccountsPageState extends State<AccountsPage> {
     final prefs = await SharedPreferences.getInstance();
     final List<String> accountsList = prefs.getStringList('accounts') ?? [];
 
+    if (accountsList.isNotEmpty) {
     setState(() {
       account = accountsList
           .map((jsonString) => Account.fromJson(jsonDecode(jsonString)))
           .toList();
     });
+    }
   }
 
   Future<void> _saveAccountData() async {
