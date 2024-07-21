@@ -8,11 +8,11 @@ class HeaderWidget extends StatefulWidget {
   final Future<List<Transaction>> transactionsFuture;
   final Function(DateTime) onDateChanged;
 
-  HeaderWidget({
-    Key? key,
+  const HeaderWidget({
+    super.key,
     required this.transactionsFuture,
     required this.onDateChanged,
-  }) : super(key: key);
+  });
 
   @override
   _HeaderWidgetState createState() => _HeaderWidgetState();
@@ -135,7 +135,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                       CategoriesWidgets(
                         category: 'Total',
                         cash: counts['total']!.toStringAsFixed(2),
-                        color: Colors.blue,
+                        color: counts['total']! > 0 ?Colors.blue : Colors.red,
                       ),
                     ],
                   );
