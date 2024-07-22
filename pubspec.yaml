@@ -78,6 +78,7 @@ flutter:
     - assets/images/education_icon.png
     - assets/images/cash_icon.png
     - assets/images/saving_icon.png
+    - assets/images/transfer_icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
