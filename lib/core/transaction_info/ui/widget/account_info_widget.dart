@@ -1,9 +1,9 @@
-import 'package:finance_app/core/models/transaction.dart';
+import 'package:finance_app/core/models/account.dart';
 import 'package:flutter/material.dart';
 
 class AccountInfoWidget extends StatelessWidget {
-  final Transaction transaction;
-  const AccountInfoWidget({super.key, required this.transaction});
+  final Account account;
+  const AccountInfoWidget({super.key, required this.account});
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +23,14 @@ class AccountInfoWidget extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(6.0),
               child: Image.asset(
-                'assets/images/${transaction.account.icon}.png',
+                'assets/images/${account.icon}.png',
                 height: 40,
               ),
             ),
           ),
           const SizedBox(width: 16),
           Text(
-            transaction.account.title,
+            account.title,
             style: const TextStyle(
                 fontSize: 20, fontWeight: FontWeight.w500, color: Colors.black),
           ),
