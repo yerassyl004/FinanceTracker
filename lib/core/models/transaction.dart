@@ -1,8 +1,10 @@
 import 'package:finance_app/core/models/account.dart';
 import 'package:finance_app/core/models/category.dart';
 import 'package:finance_app/core/models/type_spending.dart';
+import 'package:uuid/uuid.dart';
 
 class Transaction {
+  final String id;
   final double cash;
   final DateTime date;
   final String? note;
@@ -12,6 +14,7 @@ class Transaction {
   final Account? destination;
 
   Transaction({
+    String? id,
     required this.cash,
     required this.date,
     required this.note,
@@ -19,10 +22,11 @@ class Transaction {
     this.category,
     required this.typeSpending,
     this.destination,
-  });
+  }) : id = id ?? const Uuid().v4();
 
   factory Transaction.fromJson(Map<String, dynamic> json) {
     return Transaction(
+      id: json['id'],
       cash: json['cash'],
       date: DateTime.parse(json['date']),
       note: json['note'],
@@ -35,6 +39,7 @@ class Transaction {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'cash': cash,
       'date': date.toIso8601String(),
       'note': note,

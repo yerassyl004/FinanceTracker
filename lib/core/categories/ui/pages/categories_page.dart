@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 class CategoriesPage extends StatelessWidget {
   final Function(Category) onCategorySelected;
-  const CategoriesPage({super.key, required this.onCategorySelected});
+  CategoriesPage({super.key, required this.onCategorySelected});
 
-  final List<Category> categories = const [
+  final List<Category> categories = [
     Category(title: 'Food', icon: 'foods_icon'),
     Category(title: 'Transport', icon: 'car_icon'),
     Category(title: 'Clothes', icon: 'clothes_icon'),
