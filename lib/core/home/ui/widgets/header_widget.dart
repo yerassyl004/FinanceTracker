@@ -8,11 +8,11 @@ class HeaderWidget extends StatefulWidget {
   final Future<List<Transaction>> transactionsFuture;
   final Function(DateTime) onDateChanged;
 
-  HeaderWidget({
-    Key? key,
+  const HeaderWidget({
+    super.key,
     required this.transactionsFuture,
     required this.onDateChanged,
-  }) : super(key: key);
+  });
 
   @override
   _HeaderWidgetState createState() => _HeaderWidgetState();
