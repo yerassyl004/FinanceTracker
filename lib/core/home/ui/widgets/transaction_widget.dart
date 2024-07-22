@@ -52,7 +52,7 @@ class TransactionWidget extends StatelessWidget {
               Row(
                 children: [
                   Image.asset(
-                    'assets/images/${categoryIcon ?? 'card'}.png',
+                    'assets/images/${categoryIcon ?? 'transfer_icon'}.png',
                     height: 50,
                   ),
                   const SizedBox(width: 8),

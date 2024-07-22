@@ -12,7 +12,7 @@ class TransactionsService {
     }).toList();
 
     for (var account in accounts) {
-      if (account.title == selectedAccount.title) {
+      if (account.id == selectedAccount.id) {
         account.cash -= cash;
       }
     }
@@ -30,7 +30,7 @@ class TransactionsService {
     }).toList();
 
     for (var account in accounts) {
-      if (account.title == selectedAccount.title) {
+      if (account.id == selectedAccount.id) {
         account.cash += cash;
       }
     }

@@ -86,7 +86,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
     final transactionsService = TransactionsService();
     switch (typeSpending) {
       case TypeSpending.transfer:
-        transactionsService.transferTransaction(selectedAccount!, receiverAccount!, cash);
+        transactionsService.transferTransaction(
+            selectedAccount!, receiverAccount!, cash);
       case TypeSpending.expense:
         transactionsService.expenseTransaction(selectedAccount!, cash);
       case TypeSpending.income:
@@ -140,7 +141,12 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
       case Modaltype.selectedAccount:
         return AccountsPage(onTapAccount: _setAccountData);
       case Modaltype.category:
-        return CategoriesPage(onCategorySelected: _setCategoryData);
+        if (widget.selectedType == TypeSpending.income) {
+          return CategoriesPage(
+              onCategorySelected: _setCategoryData, isExpense: false);
+        }
+        return CategoriesPage(
+            onCategorySelected: _setCategoryData, isExpense: true);
       case Modaltype.receiverAccount:
         return AccountsPage(onTapAccount: _setReceiverAccountData);
     }

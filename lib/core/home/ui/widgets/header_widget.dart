@@ -124,18 +124,18 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                     children: [
                       CategoriesWidgets(
                         category: 'Expense',
-                        cash: counts['expense']!.toStringAsFixed(2),
+                        cash: counts['expense']?.toStringAsFixed(2) ?? '0',
                         color: Colors.orange,
                       ),
                       CategoriesWidgets(
                         category: 'Income',
-                        cash: counts['income']!.toStringAsFixed(2),
+                        cash: counts['income']?.toStringAsFixed(2) ?? '0',
                         color: Colors.green,
                       ),
                       CategoriesWidgets(
                         category: 'Total',
-                        cash: counts['total']!.toStringAsFixed(2),
-                        color: counts['total']! > 0 ?Colors.blue : Colors.red,
+                        cash: counts['total']?.toStringAsFixed(2) ?? '0',
+                        color: counts['total']! > 0 ? Colors.blue : Colors.orange,
                       ),
                     ],
                   );

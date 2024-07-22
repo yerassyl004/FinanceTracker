@@ -16,13 +16,19 @@ class TransferNoteWidget extends StatelessWidget {
         decoration: const InputDecoration(
             hintText: 'No notes',
             border: InputBorder.none,
-            hintStyle: const TextStyle(fontSize: 18)),
+            hintStyle: TextStyle(
+              fontWeight: FontWeight.normal,
+              fontSize: 18, 
+              color: Colors.black
+            )),
         style: const TextStyle(
+          color: Colors.black,
           fontSize: 18,
         ),
         controller: controller,
         minLines: 1,
         maxLines: 3,
+        enabled: false,
       ),
     );
   }

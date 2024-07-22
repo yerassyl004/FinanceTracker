@@ -36,7 +36,7 @@ class AccountItemWidget extends StatelessWidget {
             style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.normal,
-                color: account.cash > 0 ? Colors.green : Colors.red),
+                color: account.cash > 0 ? Colors.green : Colors.orange),
           ),
         ],
       ),
