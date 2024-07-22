@@ -4,16 +4,18 @@ import 'package:flutter/material.dart';
 class CashTransactionWidget extends StatelessWidget {
   final TypeSpending typeSpending;
   final String cash;
+  final double font;
   const CashTransactionWidget({
     super.key,
     required this.typeSpending,
-    required this.cash
+    required this.cash,
+    required this.font
   });
 
   Color color(TypeSpending typeSpending) {
     switch (typeSpending) {
       case TypeSpending.expense:
-        return Colors.red;
+        return Colors.orange;
       case TypeSpending.income:
         return Colors.green;
       case TypeSpending.transfer:
@@ -29,7 +31,7 @@ class CashTransactionWidget extends StatelessWidget {
       '₸$cash',
       style: TextStyle(
         color: color(typeSpending),
-        fontSize: 16
+        fontSize: font
       ),
     );
   }

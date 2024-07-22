@@ -12,7 +12,6 @@ class TransactionWidget extends StatelessWidget {
   });
 
   void _handleTransactionTap(BuildContext context, Transaction transaction) {
-    print('Tapped on transaction: ${transaction.note}');
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -41,8 +40,6 @@ class TransactionWidget extends StatelessWidget {
     String? distanationIcon = transaction.destination?.icon;
     String cash = transaction.cash.toString();
     TypeSpending typeSpending = transaction.typeSpending;
-
-    
  
     return GestureDetector(
       onTap: () => _handleTransactionTap(context, transaction),
@@ -102,7 +99,7 @@ class TransactionWidget extends StatelessWidget {
                     ],
                   ),
                   const Spacer(),
-                  CashTransactionWidget(typeSpending: typeSpending, cash: cash)
+                  CashTransactionWidget(typeSpending: typeSpending, cash: cash, font: 16)
                 ]
               ),
               const SizedBox(height: 4),

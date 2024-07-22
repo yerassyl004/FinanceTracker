@@ -125,7 +125,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                       CategoriesWidgets(
                         category: 'Expense',
                         cash: counts['expense']!.toStringAsFixed(2),
-                        color: Colors.red,
+                        color: Colors.orange,
                       ),
                       CategoriesWidgets(
                         category: 'Income',
