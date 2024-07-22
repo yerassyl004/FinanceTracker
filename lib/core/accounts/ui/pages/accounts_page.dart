@@ -44,8 +44,8 @@ class _AccountsPageState extends State<AccountsPage> {
                 const Text(
                   'Select an account',
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 24,
                     color: Colors.black,
                   ),
                 ),
@@ -56,14 +56,14 @@ class _AccountsPageState extends State<AccountsPage> {
                       },
                       child: AccountItemWidget(account: account),
                     )),
-                const SizedBox(height: 16),
-                Center(
-                  child: AddAccountButton(
-                    onTap: () {
-                      // Your onTap function here
-                    },
-                  ),
-                ),
+                // const SizedBox(height: 16),
+                // Center(
+                //   child: AddAccountButton(
+                //     onTap: () {
+                //       // Your onTap function here
+                //     },
+                //   ),
+                // ),
               ],
             ),
           ),

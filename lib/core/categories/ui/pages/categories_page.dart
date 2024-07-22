@@ -1,22 +1,30 @@
+import 'package:finance_app/core/categories/service/category_service.dart';
 import 'package:finance_app/core/categories/ui/widget/category_grid_item.dart';
 import 'package:finance_app/core/models/category.dart';
 import 'package:flutter/material.dart';
 
-class CategoriesPage extends StatelessWidget {
+class CategoriesPage extends StatefulWidget {
+  final bool isExpense;
   final Function(Category) onCategorySelected;
-  CategoriesPage({super.key, required this.onCategorySelected});
+  const CategoriesPage(
+      {super.key, required this.onCategorySelected, required this.isExpense});
 
-  final List<Category> categories = [
-    Category(title: 'Food', icon: 'foods_icon'),
-    Category(title: 'Transport', icon: 'car_icon'),
-    Category(title: 'Clothes', icon: 'clothes_icon'),
-    Category(title: 'Shopping', icon: 'shopping_icon'),
-    Category(title: 'Home', icon: 'home_icon'),
-    Category(title: 'Health', icon: 'health_icon'),
-    Category(title: 'Bills', icon: 'bills_icon'),
-    Category(title: 'Education', icon: 'education_icon'),
-    Category(title: 'Beauty', icon: 'beauty_icon'),
-  ];
+  @override
+  State<CategoriesPage> createState() => _CategoriesPageState();
+}
+
+class _CategoriesPageState extends State<CategoriesPage> {
+  List<Category> categories = [];
+
+  final CategoryService _categoryService = CategoryService();
+
+  @override
+  void initState() {
+    widget.isExpense ? 
+    categories = _categoryService.getDefaultExpenseCategories() : 
+    categories = _categoryService.getDefaultIncomeCategories();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +38,8 @@ class CategoriesPage extends StatelessWidget {
               const Text(
                 'Categories',
                 style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
                   color: Colors.black,
                 ),
               ),
@@ -42,7 +50,7 @@ class CategoriesPage extends StatelessWidget {
                 children: categories.map((category) {
                   return GestureDetector(
                     onTap: () {
-                      onCategorySelected(category);
+                      widget.onCategorySelected(category);
                     },
                     child: SizedBox(
                       width: (MediaQuery.of(context).size.width - 64) / 3,

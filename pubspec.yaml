@@ -81,6 +81,15 @@ flutter:
     - assets/images/saving_icon.png
     - assets/images/transfer_icon.png
 
+    - assets/images/salary_icon.png
+    - assets/images/sale_icon.png
+    - assets/images/rental_icon.png
+    - assets/images/refunds_icon.png
+    - assets/images/lottery_icon.png
+    - assets/images/grants_icon.png
+    - assets/images/coupons_icon.png
+    - assets/images/awards_icon.png
+    
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
