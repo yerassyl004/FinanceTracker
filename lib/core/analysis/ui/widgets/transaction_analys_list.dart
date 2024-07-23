@@ -1,13 +1,13 @@
+import 'package:finance_app/core/analysis/ui/widgets/transaction_analys_widget.dart';
 import 'package:finance_app/core/models/transaction.dart';
-import 'package:finance_app/core/home/ui/widgets/transaction_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // Add this for date formatting
 
-class TransactionsList extends StatelessWidget {
+class TransactionAnalysList extends StatelessWidget {
   final List<Transaction> transactions;
   final ScrollController scrollController;
 
-  const TransactionsList({
+  const TransactionAnalysList({
     super.key,
     required this.transactions,
     required this.scrollController,
@@ -62,7 +62,7 @@ class TransactionsList extends StatelessWidget {
           ),
         );
       }
-      items.add(TransactionWidget(transaction: transaction));
+      items.add(TransactionAnalysWidget(transaction: transaction));
     }
 
     return ListView.builder(

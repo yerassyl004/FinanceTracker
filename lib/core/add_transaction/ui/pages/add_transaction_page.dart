@@ -300,7 +300,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),

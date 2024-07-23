@@ -39,10 +39,10 @@ class _TabBarPageState extends State<TabBarPage> {
             icon: Icon(Icons.analytics),
             label: 'Analysis',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance),
-            label: 'Accounts',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.account_balance),
+          //   label: 'Accounts',
+          // ),
           // BottomNavigationBarItem(
           //   icon: Icon(Icons.category),
           //   label: 'Categories',

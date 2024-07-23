@@ -7,7 +7,8 @@ class AccountItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      color: Colors.transparent,
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
