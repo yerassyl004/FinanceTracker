@@ -1,7 +1,7 @@
 import 'package:finance_app/core/add_transaction/ui/pages/add_transaction_page.dart';
 import 'package:finance_app/core/analysis/service/analys_service.dart';
+import 'package:finance_app/core/analysis/ui/widgets/analys_header_widget.dart';
 import 'package:finance_app/core/analysis/ui/widgets/transaction_analys_list.dart';
-import 'package:finance_app/core/home/ui/widgets/header_widget.dart';
 import 'package:finance_app/core/models/transaction.dart';
 import 'package:finance_app/core/models/type_spending.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,19 +15,21 @@ class AnalysisPage extends StatefulWidget {
   State<AnalysisPage> createState() => _AnalysisPageState();
 }
 
-class _AnalysisPageState extends State<AnalysisPage> with SingleTickerProviderStateMixin {
-
+class _AnalysisPageState extends State<AnalysisPage>
+    with SingleTickerProviderStateMixin {
   late Future<List<Transaction>> _transactionsFuture;
   AnalysService analysService = AnalysService();
   var selectedMonth = DateTime.now();
   final ScrollController _scrollController = ScrollController();
   late AnimationController _fabAnimationController;
   late Animation<Offset> _fabAnimation;
+  var selectedType = TypeSpending.expense;
 
   @override
   void initState() {
     super.initState();
-    _transactionsFuture = analysService.loadTransactions(selectedMonth, TypeSpending.expense);
+    _transactionsFuture =
+        analysService.loadTransactions(selectedMonth, selectedType);
 
     _fabAnimationController = AnimationController(
       duration: const Duration(milliseconds: 300),
@@ -43,9 +45,11 @@ class _AnalysisPageState extends State<AnalysisPage> with SingleTickerProviderSt
   }
 
   void _scrollListener() {
-    if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+    if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
       _fabAnimationController.forward();
-    } else if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
+    } else if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.forward) {
       _fabAnimationController.reverse();
     }
   }
@@ -60,8 +64,18 @@ class _AnalysisPageState extends State<AnalysisPage> with SingleTickerProviderSt
   void _handleDateChanged(DateTime newDate) {
     selectedMonth = newDate;
     setState(() {
-      _transactionsFuture = analysService.loadTransactions(newDate, TypeSpending.expense);
+      _transactionsFuture =
+          analysService.loadTransactions(newDate, selectedType);
     });
+  }
+
+  void _setTypeSpending(TypeSpending typeSpending) {
+    setState(() {
+      // selectedType = typeSpending;
+      _transactionsFuture =
+          analysService.loadTransactions(selectedMonth, typeSpending);
+    });
+    print(selectedType);
   }
 
   @override
@@ -75,7 +89,10 @@ class _AnalysisPageState extends State<AnalysisPage> with SingleTickerProviderSt
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              HeaderWidget(transactionsFuture: _transactionsFuture, onDateChanged: _handleDateChanged),
+              AnalysHeaderWidget(
+                  transactionsFuture: _transactionsFuture,
+                  onDateChanged: _handleDateChanged,
+                  typeSpending: _setTypeSpending),
               const SizedBox(height: 16),
               Expanded(
                 child: FutureBuilder<List<Transaction>>(
@@ -91,7 +108,8 @@ class _AnalysisPageState extends State<AnalysisPage> with SingleTickerProviderSt
                         scrollController: _scrollController,
                       );
                     } else {
-                      return const Center(child: Text('No transactions found.'));
+                      return const Center(
+                          child: Text('No transactions found.'));
                     }
                   },
                 ),
@@ -108,11 +126,13 @@ class _AnalysisPageState extends State<AnalysisPage> with SingleTickerProviderSt
                 onPressed: () async {
                   final result = await Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AddTransactionPage()),
+                    MaterialPageRoute(
+                        builder: (context) => AddTransactionPage()),
                   );
                   if (result == true) {
                     setState(() {
-                      _transactionsFuture = analysService.loadTransactions(selectedMonth, TypeSpending.expense);
+                      _transactionsFuture = analysService.loadTransactions(
+                          selectedMonth, selectedType);
                     });
                   }
                 },

@@ -35,6 +35,9 @@ class TransactionAnalysWidget extends StatelessWidget {
     String categoryTitle = transaction.category?.title ?? 'Transfer';
     TypeSpending typeSpending = transaction.typeSpending;
     AnalysService analysService = AnalysService();
+    Future<double> percentageItem = typeSpending == TypeSpending.expense
+        ? analysService.getExpensePercentItem(transaction)
+        : analysService.getIncomePercentItem(transaction);
 
     return GestureDetector(
       onTap: () => _handleTransactionTap(context, transaction),
@@ -44,59 +47,67 @@ class TransactionAnalysWidget extends StatelessWidget {
           color: Colors.transparent,
           child: Column(
             children: [
-              Row(children: [
-                Image.asset(
-                  'assets/images/$categoryIcon.png',
-                  height: 50,
-                ),
-                const SizedBox(width: 8),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      categoryTitle,
-                      style: const TextStyle(
+              Row(
+                children: [
+                  Image.asset(
+                    'assets/images/$categoryIcon.png',
+                    height: 50,
+                  ),
+                  const SizedBox(width: 8),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        categoryTitle,
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    Row(
-                      children: [
-                        Image.asset(
-                          'assets/images/$accountIcon.png',
-                          width: 25,
+                          fontWeight: FontWeight.w500,
                         ),
-                        const SizedBox(width: 5),
-                        CashTransactionWidget(typeSpending: typeSpending, cash: transaction.cash.toStringAsFixed(2), font: 16)
-                      ],
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                FutureBuilder<double>(
-                    future: analysService.getPercentItem(transaction),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<double> snapshot) {
+                      ),
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/$accountIcon.png',
+                            width: 25,
+                          ),
+                          const SizedBox(width: 5),
+                          CashTransactionWidget(
+                            typeSpending: typeSpending,
+                            cash: transaction.cash.toStringAsFixed(2),
+                            font: 16,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  FutureBuilder<double>(
+                    future: percentageItem,
+                    builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const CircularProgressIndicator();
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
                       } else if (snapshot.hasData) {
+                        final percentage = snapshot.data!;
+                        if (percentage.isNaN || percentage.isInfinite) {
+                          return const Text('Invalid data');
+                        }
                         return Column(
                           children: [
-                            Text('${snapshot.data?.toStringAsFixed(2)}%'),
+                            Text('${percentage.toStringAsFixed(2)}%'),
                             const SizedBox(height: 4),
-                             SizedBox(
+                            SizedBox(
                               width: 100,
                               height: 10,
                               child: LinearProgressIndicator(
                                 borderRadius: BorderRadius.circular(5),
-                                value: snapshot.data! / 100,
+                                value: percentage / 100,
                                 backgroundColor: Colors.grey[300],
-                                valueColor: const AlwaysStoppedAnimation<Color>(
-                                    Colors.orange),
+                                valueColor: const AlwaysStoppedAnimation<Color>(Colors.orange),
                               ),
                             ),
                           ],
@@ -104,8 +115,10 @@ class TransactionAnalysWidget extends StatelessWidget {
                       } else {
                         return const Text('No data');
                       }
-                    })
-              ]),
+                    },
+                  ),
+                ],
+              ),
               const SizedBox(height: 4),
               const Padding(
                 padding: EdgeInsets.only(left: 60),

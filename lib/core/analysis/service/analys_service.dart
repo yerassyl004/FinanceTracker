@@ -22,7 +22,7 @@ class AnalysService {
           if (transaction != null) {
             return transaction.date.year == selectedDate.year &&
                 transaction.date.month == selectedDate.month &&
-                transaction.typeSpending == TypeSpending.expense;
+                transaction.typeSpending == typeSpending;
           }
           return false;
         })
@@ -54,7 +54,7 @@ class AnalysService {
     return count;
   }
 
-  Future<double> getPercentItem(Transaction transaction) async {
+  Future<double> getExpensePercentItem(Transaction transaction) async {
     double cash = transaction.cash;
     Future<List<Transaction>> list = loadTransactions(transaction.date, TypeSpending.expense);
     double total = await expenseTotal(list);
@@ -64,7 +64,7 @@ class AnalysService {
   Future<double> getIncomePercentItem(Transaction transaction) async {
     double cash = transaction.cash;
     Future<List<Transaction>> list = loadTransactions(transaction.date, TypeSpending.income);
-    double total = await expenseTotal(list);
+    double total = await incomeTotal(list);
     return (cash / total) * 100;
   }
 }
