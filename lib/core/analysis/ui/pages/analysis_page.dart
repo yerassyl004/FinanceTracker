@@ -1,12 +1,20 @@
 import 'package:finance_app/core/add_transaction/ui/pages/add_transaction_page.dart';
 import 'package:finance_app/core/analysis/service/analys_service.dart';
 import 'package:finance_app/core/analysis/ui/widgets/analys_header_widget.dart';
+import 'package:finance_app/core/analysis/ui/widgets/multi_segment_circular_percent_indicator.dart';
 import 'package:finance_app/core/analysis/ui/widgets/transaction_analys_list.dart';
+import 'package:finance_app/core/models/segment.dart';
 import 'package:finance_app/core/models/transaction.dart';
 import 'package:finance_app/core/models/type_spending.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'dart:async';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+
+import 'package:flutter/services.dart';
+
 
 class AnalysisPage extends StatefulWidget {
   const AnalysisPage({super.key});
@@ -24,6 +32,7 @@ class _AnalysisPageState extends State<AnalysisPage>
   late AnimationController _fabAnimationController;
   late Animation<Offset> _fabAnimation;
   var selectedType = TypeSpending.expense;
+  late List<Segment> segments = [];
 
   @override
   void initState() {
@@ -42,6 +51,7 @@ class _AnalysisPageState extends State<AnalysisPage>
     ).animate(_fabAnimationController);
 
     _scrollController.addListener(_scrollListener);
+    getSegmentPercentage();
   }
 
   void _scrollListener() {
@@ -78,8 +88,27 @@ class _AnalysisPageState extends State<AnalysisPage>
     print(selectedType);
   }
 
+  Future<List<ui.Image>> _loadImages(List<String> paths) async {
+    List<ui.Image> images = [];
+    for (String path in paths) {
+      final ByteData data = await rootBundle.load(path);
+      final List<int> bytes = data.buffer.asUint8List();
+      final Completer<ui.Image> completer = Completer();
+      ui.decodeImageFromList(Uint8List.fromList(bytes), (ui.Image img) {
+        completer.complete(img);
+      });
+      images.add(await completer.future);
+    }
+    return images;
+  }
+
+  void getSegmentPercentage() async {
+    segments = await analysService.getSegmentPercentage(_transactionsFuture);
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Stack(
         children: [
@@ -94,6 +123,11 @@ class _AnalysisPageState extends State<AnalysisPage>
                   onDateChanged: _handleDateChanged,
                   typeSpending: _setTypeSpending),
               const SizedBox(height: 16),
+              Center(
+                child: MultiSegmentCircularPercentIndicator(
+                    segments: segments,
+                  ),
+              ),
               Expanded(
                 child: FutureBuilder<List<Transaction>>(
                   future: _transactionsFuture,
