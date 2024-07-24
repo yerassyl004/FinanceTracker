@@ -8,17 +8,6 @@ class HeaderDetailWidget extends StatelessWidget {
   final Transaction transaction;
   const HeaderDetailWidget({super.key, required this.transaction});
 
-  String _setTypeSpending(TypeSpending typeSpending) {
-    switch (typeSpending) {
-      case TypeSpending.expense:
-        return 'Expense';
-      case TypeSpending.income:
-        return 'Income';
-      case TypeSpending.transfer:
-        return 'Transfer';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     String? icon = transaction.typeSpending == TypeSpending.transfer
@@ -27,19 +16,11 @@ class HeaderDetailWidget extends StatelessWidget {
     String? title = transaction.typeSpending == TypeSpending.transfer
         ? 'Transfer'
         : transaction.category?.title;
-    String date = DateFormat('dd/MM/yyyy hh:mm').format(transaction.date);
+    String date = DateFormat('dd/MM/yyyy HH:mm').format(transaction.date);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Text(
-        //  _setTypeSpending(transaction.typeSpending),
-        //   style: const TextStyle(
-        //     fontSize: 26,
-        //     fontWeight: FontWeight.w600,
-        //     color: Colors.black
-        //   ),
-        // ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
