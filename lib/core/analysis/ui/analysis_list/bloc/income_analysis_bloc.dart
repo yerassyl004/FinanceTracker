@@ -1,7 +1,7 @@
-import 'package:bloc/bloc.dart';
 import 'package:finance_app/core/analysis/service/analys_service.dart';
 import 'package:finance_app/core/analysis/ui/analysis_list/bloc/income_analysis_event.dart';
 import 'package:finance_app/core/analysis/ui/analysis_list/bloc/income_analysis_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class IncomeAnalysisBloc extends Bloc<IncomeAnalysisEvent, IncomeAnalysisState> {
   final AnalysService analysService;

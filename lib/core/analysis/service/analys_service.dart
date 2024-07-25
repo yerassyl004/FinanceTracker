@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:finance_app/core/models/analysis.dart';
-import 'package:finance_app/core/models/category.dart';
 import 'package:finance_app/core/models/segment.dart';
 import 'package:finance_app/core/models/transaction.dart';
 import 'package:finance_app/core/models/type_spending.dart';

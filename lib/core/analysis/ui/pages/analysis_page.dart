@@ -67,19 +67,19 @@ void initState() {
     _scrollController.dispose();
     _fabAnimationController.dispose();
     _analysisBloc.close();
+    _incomeAnalysisBloc.close();
     super.dispose();
   }
 
   void _handleDateChanged(DateTime newDate) {
     selectedMonth = newDate;
     _analysisBloc.add(LoadTransactions(selectedMonth, selectedType));
+    _incomeAnalysisBloc.add(LoadIncomeTransactions(selectedMonth, selectedType));
   }
 
   void _setTypeSpending(TypeSpending typeSpending) {
-    setState(() {
-      selectedType = typeSpending;
-    });
     _analysisBloc.add(LoadTransactions(selectedMonth, typeSpending));
+    _incomeAnalysisBloc.add(LoadIncomeTransactions(selectedMonth, typeSpending));
   }
 
   @override
