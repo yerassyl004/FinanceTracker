@@ -46,7 +46,7 @@ class MultiSegmentCircularPercentIndicator extends StatelessWidget {
       future: _loadImages(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return const SizedBox();
         } else if (snapshot.hasError) {
           return const Text('Error loading images');
         } else {

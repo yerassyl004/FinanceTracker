@@ -37,7 +37,7 @@ class _AnalysisPageState extends State<AnalysisPage>
     _analysisBloc = AnalysisBloc(analysService: AnalysService());
     _incomeAnalysisBloc = IncomeAnalysisBloc(analysService: AnalysService());
     _fabAnimationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 100),
       vsync: this,
     );
 
@@ -87,39 +87,44 @@ class _AnalysisPageState extends State<AnalysisPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade100,
       body: Stack(
         children: [
           CustomScrollView(
             controller: _scrollController,
             slivers: [
               const SliverToBoxAdapter(
-                child: SizedBox(height: 150), // Placeholder for fixed header space
+                child: SizedBox(height: 160),
               ),
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 26),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: Colors.white,
-                    ),
-                    child: Center(
-                      child: BlocBuilder<AnalysisBloc, AnalysisState>(
-                        bloc: _analysisBloc,
-                        builder: (context, state) {
-                          if (state is AnalysisLoading) {
-                            return const CircularProgressIndicator();
-                          } else if (state is AnalysisLoaded) {
-                            return MultiSegmentCircularPercentIndicator(
-                              segments: state.segments,
-                            );
-                          } else if (state is AnalysisError) {
-                            return Text('Error: ${state.message}');
-                          } else {
-                            return const Text('No data available');
-                          }
-                        },
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 250,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 26),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: Colors.white,
+                      ),
+                      child: Center(
+                        child: BlocBuilder<AnalysisBloc, AnalysisState>(
+                          bloc: _analysisBloc,
+                          builder: (context, state) {
+                            if (state is AnalysisLoading) {
+                              return const SizedBox();
+                            } else if (state is AnalysisLoaded) {
+                              return MultiSegmentCircularPercentIndicator(
+                                segments: state.segments,
+                              );
+                            } else if (state is AnalysisError) {
+                              return Text('Error: ${state.message}');
+                            } else {
+                              return const Text('No data available');
+                            }
+                          },
+                        ),
                       ),
                     ),
                   ),

@@ -75,7 +75,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              HeaderWidget(transactionsFuture: _transactionsFuture, onDateChanged: _handleDateChanged),
+              SizedBox(
+                width: double.infinity,
+                height: 180,
+                child: HeaderWidget(transactionsFuture: _transactionsFuture, onDateChanged: _handleDateChanged)),
               const SizedBox(height: 16),
               Expanded(
                 child: FutureBuilder<List<Transaction>>(

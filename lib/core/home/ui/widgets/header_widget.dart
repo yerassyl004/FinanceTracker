@@ -74,19 +74,6 @@ class _HeaderWidgetState extends State<HeaderWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          // const Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     Text(
-          //       'Finance Tracker',
-          //       textAlign: TextAlign.center,
-          //       style: TextStyle(
-          //         fontSize: 22,
-          //         fontWeight: FontWeight.bold,
-          //       ),
-          //     ),
-          //   ],
-          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -114,34 +101,34 @@ class _HeaderWidgetState extends State<HeaderWidget> {
               future: _loadCounts(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
+                  return const SizedBox();
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (snapshot.hasData) {
                   final counts = snapshot.data!;
                   return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CategoriesWidgets(
-                        category: 'Expense',
-                        cash: counts['expense']?.toStringAsFixed(2) ?? '0',
-                        color: Colors.orange,
-                      ),
-                      CategoriesWidgets(
-                        category: 'Income',
-                        cash: counts['income']?.toStringAsFixed(2) ?? '0',
-                        color: Colors.green,
-                      ),
-                      CategoriesWidgets(
-                        category: 'Total',
-                        cash: counts['total']?.toStringAsFixed(2) ?? '0',
-                        color: counts['total']! > 0 ? Colors.blue : Colors.orange,
-                      ),
-                    ],
-                  );
-                } else {
-                  return const Text('No transactions found.');
-                }
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CategoriesWidgets(
+                          category: 'Expense',
+                          cash: counts['expense']?.toStringAsFixed(2) ?? '0',
+                          color: Colors.orange,
+                        ),
+                        CategoriesWidgets(
+                          category: 'Income',
+                          cash: counts['income']?.toStringAsFixed(2) ?? '0',
+                          color: Colors.green,
+                        ),
+                        CategoriesWidgets(
+                          category: 'Total',
+                          cash: counts['total']?.toStringAsFixed(2) ?? '0',
+                          color: counts['total']! > 0 ? Colors.blue : Colors.orange,
+                        ),
+                      ],
+                    );
+                  } else {
+                    return const Center(child: Text('No transactions found.'));
+                  }
               },
             ),
           ),
