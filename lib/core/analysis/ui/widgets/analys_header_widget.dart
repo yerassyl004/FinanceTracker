@@ -1,18 +1,15 @@
 import 'package:finance_app/core/analysis/ui/widgets/analys_type_spending_widget.dart';
 import 'package:finance_app/core/home/service/count_cash_service.dart';
-import 'package:finance_app/core/models/transaction.dart';
 import 'package:finance_app/core/models/type_spending.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class AnalysHeaderWidget extends StatefulWidget {
-  final Future<List<Transaction>> transactionsFuture;
   final Function(DateTime) onDateChanged;
   final Function(TypeSpending) typeSpending;
 
   const AnalysHeaderWidget({
     super.key,
-    required this.transactionsFuture,
     required this.onDateChanged,
     required this.typeSpending
   });
