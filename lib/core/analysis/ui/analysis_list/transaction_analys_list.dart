@@ -6,12 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransactionAnalysList extends StatelessWidget {
   final IncomeAnalysisBloc incomeAnalysisBloc;
-  final ScrollController scrollController;
 
   const TransactionAnalysList({
     super.key,
     required this.incomeAnalysisBloc,
-    required this.scrollController,
   });
 
   @override
@@ -20,20 +18,28 @@ class TransactionAnalysList extends StatelessWidget {
       bloc: incomeAnalysisBloc,
       builder: (context, state) {
         if (state is IncomeAnalysisLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return const SliverToBoxAdapter(
+            child: Center(child: CircularProgressIndicator()),
+          );
         } else if (state is IncomeAnalysisLoaded) {
-          return ListView.builder(
-            controller: scrollController,
-            padding: EdgeInsets.zero,
-            itemCount: state.analysisList.length,
-            itemBuilder: (context, index) {
-              return TransactionAnalysWidget(analysis: state.analysisList[index]);
-            },
+          return SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return TransactionAnalysWidget(
+                  analysis: state.analysisList[index],
+                );
+              },
+              childCount: state.analysisList.length,
+            ),
           );
         } else if (state is IncomeAnalysisError) {
-          return Center(child: Text('Error: ${state.message}'));
+          return SliverToBoxAdapter(
+            child: Center(child: Text('Error: ${state.message}')),
+          );
         } else {
-          return const Center(child: Text('No transactions found.'));
+          return const SliverToBoxAdapter(
+            child: Center(child: Text('No transactions found.')),
+          );
         }
       },
     );

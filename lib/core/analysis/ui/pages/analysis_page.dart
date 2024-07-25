@@ -32,32 +32,29 @@ class _AnalysisPageState extends State<AnalysisPage>
   var selectedType = TypeSpending.expense;
 
   @override
-void initState() {
-  super.initState();
-  _analysisBloc = AnalysisBloc(analysService: AnalysService());
-  _incomeAnalysisBloc = IncomeAnalysisBloc(analysService: AnalysService());
-  _fabAnimationController = AnimationController(
-    duration: const Duration(milliseconds: 300),
-    vsync: this,
-  );
+  void initState() {
+    super.initState();
+    _analysisBloc = AnalysisBloc(analysService: AnalysService());
+    _incomeAnalysisBloc = IncomeAnalysisBloc(analysService: AnalysService());
+    _fabAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
 
-  _fabAnimation = Tween<Offset>(
-    begin: Offset.zero,
-    end: const Offset(0.0, 2.0),
-  ).animate(_fabAnimationController);
+    _fabAnimation = Tween<Offset>(
+      begin: Offset.zero,
+      end: const Offset(0.0, 2.0),
+    ).animate(_fabAnimationController);
 
-  _scrollController.addListener(_scrollListener);
-  _analysisBloc.add(LoadTransactions(selectedMonth, selectedType));
-  _incomeAnalysisBloc.add(LoadIncomeTransactions(selectedMonth, selectedType));  // Add this line
-}
-
+    _scrollController.addListener(_scrollListener);
+    _analysisBloc.add(LoadTransactions(selectedMonth, selectedType));
+    _incomeAnalysisBloc.add(LoadIncomeTransactions(selectedMonth, selectedType));
+  }
 
   void _scrollListener() {
-    if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.reverse) {
+    if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
       _fabAnimationController.forward();
-    } else if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.forward) {
+    } else if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
       _fabAnimationController.reverse();
     }
   }
@@ -72,12 +69,17 @@ void initState() {
   }
 
   void _handleDateChanged(DateTime newDate) {
-    selectedMonth = newDate;
+    setState(() {
+      selectedMonth = newDate;
+    });
     _analysisBloc.add(LoadTransactions(selectedMonth, selectedType));
     _incomeAnalysisBloc.add(LoadIncomeTransactions(selectedMonth, selectedType));
   }
 
   void _setTypeSpending(TypeSpending typeSpending) {
+    setState(() {
+      selectedType = typeSpending;
+    });
     _analysisBloc.add(LoadTransactions(selectedMonth, typeSpending));
     _incomeAnalysisBloc.add(LoadIncomeTransactions(selectedMonth, typeSpending));
   }
@@ -87,25 +89,21 @@ void initState() {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            color: Colors.grey.shade100,
-          ),
-          Padding(
-            padding: EdgeInsets.zero,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                AnalysHeaderWidget(
-                    onDateChanged: _handleDateChanged,
-                    typeSpending: _setTypeSpending),
-                Padding(
+          CustomScrollView(
+            controller: _scrollController,
+            slivers: [
+              const SliverToBoxAdapter(
+                child: SizedBox(height: 150), // Placeholder for fixed header space
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 26),
-                     decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: Colors.white
-                  ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Colors.white,
+                    ),
                     child: Center(
                       child: BlocBuilder<AnalysisBloc, AnalysisState>(
                         bloc: _analysisBloc,
@@ -126,13 +124,19 @@ void initState() {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: TransactionAnalysList(
-                    incomeAnalysisBloc: _incomeAnalysisBloc,
-                    scrollController: _scrollController,
-                  ),
-                ),
-              ],
+              ),
+              TransactionAnalysList(
+                incomeAnalysisBloc: _incomeAnalysisBloc,
+              ),
+            ],
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 0,
+            child: AnalysHeaderWidget(
+              onDateChanged: _handleDateChanged,
+              typeSpending: _setTypeSpending,
             ),
           ),
           Positioned(
@@ -145,12 +149,11 @@ void initState() {
                 onPressed: () async {
                   final result = await Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => AddTransactionPage()),
+                    MaterialPageRoute(builder: (context) => AddTransactionPage()),
                   );
                   if (result == true) {
-                    _analysisBloc
-                        .add(LoadTransactions(selectedMonth, selectedType));
+                    _analysisBloc.add(LoadTransactions(selectedMonth, selectedType));
+                    _incomeAnalysisBloc.add(LoadIncomeTransactions(selectedMonth, selectedType));
                   }
                 },
                 child: const Icon(CupertinoIcons.add),
