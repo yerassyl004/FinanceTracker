@@ -3,9 +3,11 @@ import 'package:finance_app/core/analysis/bloc/analysis_bloc.dart';
 import 'package:finance_app/core/analysis/bloc/analysis_event.dart';
 import 'package:finance_app/core/analysis/bloc/analysis_state.dart';
 import 'package:finance_app/core/analysis/service/analys_service.dart';
+import 'package:finance_app/core/analysis/ui/analysis_list/bloc/income_analysis_bloc.dart';
+import 'package:finance_app/core/analysis/ui/analysis_list/bloc/income_analysis_event.dart';
 import 'package:finance_app/core/analysis/ui/widgets/analys_header_widget.dart';
 import 'package:finance_app/core/analysis/ui/widgets/multi_segment_circular_percent_indicator.dart';
-import 'package:finance_app/core/analysis/ui/widgets/transaction_analys_list.dart';
+import 'package:finance_app/core/analysis/ui/analysis_list/transaction_analys_list.dart';
 import 'package:finance_app/core/models/type_spending.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +24,7 @@ class AnalysisPage extends StatefulWidget {
 class _AnalysisPageState extends State<AnalysisPage>
     with SingleTickerProviderStateMixin {
   late AnalysisBloc _analysisBloc;
+  late IncomeAnalysisBloc _incomeAnalysisBloc;
   late AnimationController _fabAnimationController;
   late Animation<Offset> _fabAnimation;
   final ScrollController _scrollController = ScrollController();
@@ -29,22 +32,25 @@ class _AnalysisPageState extends State<AnalysisPage>
   var selectedType = TypeSpending.expense;
 
   @override
-  void initState() {
-    super.initState();
-    _analysisBloc = AnalysisBloc(analysService: AnalysService());
-    _fabAnimationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
+void initState() {
+  super.initState();
+  _analysisBloc = AnalysisBloc(analysService: AnalysService());
+  _incomeAnalysisBloc = IncomeAnalysisBloc(analysService: AnalysService());
+  _fabAnimationController = AnimationController(
+    duration: const Duration(milliseconds: 300),
+    vsync: this,
+  );
 
-    _fabAnimation = Tween<Offset>(
-      begin: Offset.zero,
-      end: const Offset(0.0, 2.0),
-    ).animate(_fabAnimationController);
+  _fabAnimation = Tween<Offset>(
+    begin: Offset.zero,
+    end: const Offset(0.0, 2.0),
+  ).animate(_fabAnimationController);
 
-    _scrollController.addListener(_scrollListener);
-    _analysisBloc.add(LoadTransactions(selectedMonth, selectedType));
-  }
+  _scrollController.addListener(_scrollListener);
+  _analysisBloc.add(LoadTransactions(selectedMonth, selectedType));
+  _incomeAnalysisBloc.add(LoadIncomeTransactions(selectedMonth, selectedType));  // Add this line
+}
+
 
   void _scrollListener() {
     if (_scrollController.position.userScrollDirection ==
@@ -121,23 +127,9 @@ class _AnalysisPageState extends State<AnalysisPage>
                   ),
                 ),
                 Expanded(
-                  child: BlocBuilder<AnalysisBloc, AnalysisState>(
-                    bloc: _analysisBloc,
-                    builder: (context, state) {
-                      if (state is AnalysisLoading) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (state is AnalysisLoaded) {
-                        return TransactionAnalysList(
-                          transactions: state.transactions,
-                          scrollController: _scrollController,
-                        );
-                      } else if (state is AnalysisError) {
-                        return Center(child: Text('Error: ${state.message}'));
-                      } else {
-                        return const Center(
-                            child: Text('No transactions found.'));
-                      }
-                    },
+                  child: TransactionAnalysList(
+                    incomeAnalysisBloc: _incomeAnalysisBloc,
+                    scrollController: _scrollController,
                   ),
                 ),
               ],
