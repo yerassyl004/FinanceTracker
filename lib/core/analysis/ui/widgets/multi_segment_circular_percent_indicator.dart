@@ -79,7 +79,7 @@ class _CircularSegmentPainter extends CustomPainter {
         ..style = PaintingStyle.stroke
         ..strokeWidth = 20;
 
-      final sweepAngle = segment.percent * 360;
+      final sweepAngle = segment.percent * 360 / 100;
       canvas.drawArc(rect, radians(startAngle), radians(sweepAngle), false, paint);
 
       // Calculate the position for the image

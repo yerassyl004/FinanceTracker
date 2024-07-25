@@ -44,7 +44,7 @@ class TransactionWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => _handleTransactionTap(context, transaction),
       child: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 4),
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
         child: Container(
           color: Colors.transparent,
           child: Column(
@@ -53,7 +53,7 @@ class TransactionWidget extends StatelessWidget {
                 children: [
                   Image.asset(
                     'assets/images/${categoryIcon ?? 'transfer_icon'}.png',
-                    height: 50,
+                    height: 40,
                   ),
                   const SizedBox(width: 8),
                   Column(
@@ -102,7 +102,7 @@ class TransactionWidget extends StatelessWidget {
                   CashTransactionWidget(typeSpending: typeSpending, cash: cash, font: 16)
                 ]
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 8),
               const Padding(
                 padding: EdgeInsets.only(left: 60),
                 child: Divider(
