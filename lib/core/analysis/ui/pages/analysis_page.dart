@@ -21,8 +21,7 @@ class AnalysisPage extends StatefulWidget {
   State<AnalysisPage> createState() => _AnalysisPageState();
 }
 
-class _AnalysisPageState extends State<AnalysisPage>
-    with SingleTickerProviderStateMixin {
+class _AnalysisPageState extends State<AnalysisPage> with SingleTickerProviderStateMixin {
   late AnalysisBloc _analysisBloc;
   late IncomeAnalysisBloc _incomeAnalysisBloc;
   late AnimationController _fabAnimationController;
@@ -101,30 +100,44 @@ class _AnalysisPageState extends State<AnalysisPage>
                   padding: const EdgeInsets.all(16),
                   child: SizedBox(
                     width: double.infinity,
-                    height: 250,
+                    height: 320,
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 26),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
                         color: Colors.white,
                       ),
-                      child: Center(
-                        child: BlocBuilder<AnalysisBloc, AnalysisState>(
-                          bloc: _analysisBloc,
-                          builder: (context, state) {
-                            if (state is AnalysisLoading) {
-                              return const SizedBox();
-                            } else if (state is AnalysisLoaded) {
-                              return MultiSegmentCircularPercentIndicator(
-                                segments: state.segments,
-                              );
-                            } else if (state is AnalysisError) {
-                              return Text('Error: ${state.message}');
-                            } else {
-                              return const Text('No data available');
-                            }
-                          },
-                        ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Categories',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500
+                            ),
+                          ),
+                          const SizedBox(height: 30),
+                          BlocBuilder<AnalysisBloc, AnalysisState>(
+                              bloc: _analysisBloc,
+                              builder: (context, state) {
+                                if (state is AnalysisLoading) {
+                                  return const SizedBox();
+                                } else if (state is AnalysisLoaded) {
+                                    return MultiSegmentCircularPercentIndicator(
+                                      segments: state.segments,
+                                    );
+                                } else if (state is AnalysisError) {
+                                  return Text('Error: ${state.message}');
+                                } else {
+                                  return const SizedBox();
+                                }
+                              },
+                            ),
+                          
+                        ],
                       ),
                     ),
                   ),
