@@ -15,7 +15,6 @@ class CountCashService {
           try {
             return Transaction.fromJson(jsonDecode(jsonString));
           } catch (e) {
-            // Handle invalid JSON string
             return null;
           }
         })
@@ -35,9 +34,9 @@ class CountCashService {
     return filteredTransactions;
   }
 
-  Future<double> expenseCount(
-      Future<List<Transaction>> transactionsFuture) async {
-    final transactions = await transactionsFuture;
+  double expenseCount(
+      List<Transaction> transactionsFuture) {
+    final transactions = transactionsFuture;
     var count = 0.0;
     for (var transaction in transactions) {
       if (transaction.typeSpending == TypeSpending.expense) {
@@ -47,9 +46,9 @@ class CountCashService {
     return count;
   }
 
-  Future<double> incomeCount(
-      Future<List<Transaction>> transactionsFuture) async {
-    final transactions = await transactionsFuture;
+  double incomeCount(
+      List<Transaction> transactionsFuture) {
+    final transactions = transactionsFuture;
     var count = 0.0;
     for (var transaction in transactions) {
       if (transaction.typeSpending == TypeSpending.income) {
