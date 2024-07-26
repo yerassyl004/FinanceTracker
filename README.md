@@ -1,4 +1,4 @@
-# finance_app
+# Finance Tracker
 
 A new Flutter project.
 
