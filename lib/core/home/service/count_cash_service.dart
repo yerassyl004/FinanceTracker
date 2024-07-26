@@ -10,7 +10,7 @@ class CountCashService {
     final List<String> transactionList =
         prefs.getStringList('transactions') ?? [];
 
-    return transactionList
+    final filteredTransactions = transactionList
         .map((jsonString) {
           try {
             return Transaction.fromJson(jsonDecode(jsonString));
@@ -28,6 +28,11 @@ class CountCashService {
         })
         .cast<Transaction>()
         .toList();
+
+    filteredTransactions
+        .sort((a, b) => b.date.compareTo(a.date)); // Sort in descending order
+
+    return filteredTransactions;
   }
 
   Future<double> expenseCount(

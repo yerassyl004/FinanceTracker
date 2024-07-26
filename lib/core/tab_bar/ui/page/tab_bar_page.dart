@@ -1,5 +1,6 @@
 import 'package:finance_app/core/analysis/ui/pages/analysis_page.dart';
 import 'package:finance_app/core/home/ui/pages/home_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TabBarPage extends StatefulWidget {
@@ -32,8 +33,8 @@ class _TabBarPageState extends State<TabBarPage> {
         backgroundColor: Colors.grey.shade100,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(Icons.checklist),
+            label: 'Records',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.analytics),

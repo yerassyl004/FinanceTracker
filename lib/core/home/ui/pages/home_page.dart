@@ -75,8 +75,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              HeaderWidget(transactionsFuture: _transactionsFuture, onDateChanged: _handleDateChanged),
-              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                height: 180,
+                child: HeaderWidget(transactionsFuture: _transactionsFuture, onDateChanged: _handleDateChanged)),
               Expanded(
                 child: FutureBuilder<List<Transaction>>(
                   future: _transactionsFuture,
@@ -86,13 +88,19 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     } else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     } else if (snapshot.hasData) {
+                        if (snapshot.data!.isEmpty) {
+                        return const Padding(
+                          padding: EdgeInsets.all(24.0),
+                          child: Center(child: Text('No records in this month. Tap + to add new expense or income', maxLines: 2,textAlign: TextAlign.center,)),
+                        );
+                      }
                       return TransactionsList(
                         transactions: snapshot.data!,
                         scrollController: _scrollController,
                       );
                     } else {
                       return const Center(child: Text('No transactions found.'));
-                    }
+                    } 
                   },
                 ),
               ),
