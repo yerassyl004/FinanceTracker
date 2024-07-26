@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class HeaderWidget extends StatefulWidget {
-  final Future<List<Transaction>> transactionsFuture;
+  final List<Transaction> transactionsFuture;
   final Function(DateTime) onDateChanged;
 
   const HeaderWidget({
@@ -28,16 +28,6 @@ class _HeaderWidgetState extends State<HeaderWidget> {
     _currentDate = DateTime.now();
   }
 
-  Future<Map<String, double>> _loadCounts() async {
-    final expense = await cashService.expenseCount(widget.transactionsFuture);
-    final income = await cashService.incomeCount(widget.transactionsFuture);
-    return {
-      'expense': expense,
-      'income': income,
-      'total': income - expense
-    };
-  }
-
   void _previousMonth() {
     setState(() {
       _currentDate = DateTime(_currentDate.year, _currentDate.month - 1);
@@ -54,6 +44,10 @@ class _HeaderWidgetState extends State<HeaderWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final categoryWidth = (MediaQuery.of(context).size.width - 16) / 3;
+    final expense = cashService.expenseCount(widget.transactionsFuture);
+    final income = cashService.incomeCount(widget.transactionsFuture);
+    final total = income - expense;
     final padding = MediaQuery.of(context).padding;
     String monthYear = DateFormat('MMMM, yyyy').format(_currentDate);
 
@@ -75,17 +69,21 @@ class _HeaderWidgetState extends State<HeaderWidget> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
                 onPressed: _previousMonth,
                 icon: const Icon(Icons.arrow_back_ios),
               ),
-              Text(
-                monthYear,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+              SizedBox(
+                width: 170,
+                child: Text(
+                  monthYear,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
               IconButton(
@@ -96,40 +94,35 @@ class _HeaderWidgetState extends State<HeaderWidget> {
           ),
           const SizedBox(height: 16),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: FutureBuilder<Map<String, double>>(
-              future: _loadCounts(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const SizedBox();
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else if (snapshot.hasData) {
-                  final counts = snapshot.data!;
-                  return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CategoriesWidgets(
-                          category: 'Expense',
-                          cash: counts['expense']?.toStringAsFixed(2) ?? '0',
-                          color: Colors.orange,
-                        ),
-                        CategoriesWidgets(
-                          category: 'Income',
-                          cash: counts['income']?.toStringAsFixed(2) ?? '0',
-                          color: Colors.green,
-                        ),
-                        CategoriesWidgets(
-                          category: 'Total',
-                          cash: counts['total']?.toStringAsFixed(2) ?? '0',
-                          color: counts['total']! > 0 ? Colors.blue : Colors.orange,
-                        ),
-                      ],
-                    );
-                  } else {
-                    return const Center(child: Text('No transactions found.'));
-                  }
-              },
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: categoryWidth,
+                  child: CategoriesWidgets(
+                    category: 'Expense',
+                    cash: expense.toStringAsFixed(2),
+                    color: Colors.orange,
+                  ),
+                ),
+                SizedBox(
+                  width: categoryWidth,
+                  child: CategoriesWidgets(
+                    category: 'Income',
+                    cash: income.toStringAsFixed(2),
+                    color: Colors.green,
+                  ),
+                ),
+                SizedBox(
+                  width: categoryWidth,
+                  child: CategoriesWidgets(
+                    category: 'Total',
+                    cash: total.toStringAsFixed(2),
+                    color: total > 0 ? Colors.blue : Colors.orange,
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 8),

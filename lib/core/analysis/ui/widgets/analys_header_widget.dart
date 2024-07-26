@@ -73,17 +73,21 @@ class _AnalysHeaderWidgetState extends State<AnalysHeaderWidget> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
                 onPressed: _previousMonth,
                 icon: const Icon(Icons.arrow_back_ios),
               ),
-              Text(
-                monthYear,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+              SizedBox(
+                width: 170,
+                child: Text(
+                  monthYear,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
               IconButton(

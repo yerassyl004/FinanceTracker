@@ -28,10 +28,11 @@ class CategoriesWidgets extends StatelessWidget {
         Text(
           '₸$cash',
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 15,
             fontWeight: FontWeight.w500,
             color: color
           ),
+          maxLines: 1,
           textAlign: TextAlign.center,
         )
       ],
