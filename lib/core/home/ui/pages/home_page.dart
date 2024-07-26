@@ -80,27 +80,8 @@ class _HomePageState extends State<HomePage>
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(
-                width: double.infinity,
+              const SizedBox(
                 height: 180,
-                child: BlocBuilder<TransactionBloc, TransactionState>(
-                  bloc: _transactionBloc,
-                  builder: (context, state) {
-                    if (state is TransactionError) {
-                      return Center(child: Text('Error: ${state.message}'));
-                    } else if (state is TransactionLoading) {
-                      return const SizedBox();
-                    } else if (state is TransactionLoaded) {
-                      return HeaderWidget(
-                        transactionsFuture: state.transaction,
-                        onDateChanged: _handleDateChanged,
-                      );
-                    } else {
-                      return const Center(
-                          child: Text('No transactions found.'));
-                    }
-                  },
-                ),
               ),
               Expanded(
                 child: BlocBuilder<TransactionBloc, TransactionState>(
@@ -135,6 +116,28 @@ class _HomePageState extends State<HomePage>
                 ),
               ),
             ],
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 0,
+            child: BlocBuilder<TransactionBloc, TransactionState>(
+              bloc: _transactionBloc,
+              builder: (context, state) {
+                if (state is TransactionError) {
+                  return Center(child: Text('Error: ${state.message}'));
+                } else if (state is TransactionLoading) {
+                  return const SizedBox();
+                } else if (state is TransactionLoaded) {
+                  return HeaderWidget(
+                    transactionsFuture: state.transaction,
+                    onDateChanged: _handleDateChanged,
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              },
+            ),
           ),
           Positioned(
             right: 16,
