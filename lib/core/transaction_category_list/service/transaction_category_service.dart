@@ -2,12 +2,14 @@ import 'dart:convert';
 
 import 'package:finance_app/core/models/category.dart';
 import 'package:finance_app/core/models/transaction.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TransactionCategoryService {
   Future<List<Transaction>> loadTransactions(Category category) async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String> transactionList = prefs.getStringList('transactions') ?? [];
+    final List<String> transactionList =
+        prefs.getStringList('transactions') ?? [];
 
     final filteredTransactions = transactionList
         .map((jsonString) {
@@ -36,5 +38,13 @@ class TransactionCategoryService {
       count += transaction.cash;
     }
     return count;
+  }
+
+  String getDate(List<Transaction> transactions) {
+    if (transactions.isEmpty) return '';
+
+    DateTime dateTime = transactions.first.date;
+    DateFormat formatter = DateFormat('MMMM yyyy');
+    return formatter.format(dateTime);
   }
 }

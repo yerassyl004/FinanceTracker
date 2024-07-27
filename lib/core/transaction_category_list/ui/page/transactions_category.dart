@@ -50,7 +50,7 @@ class _TransactionsCategoryState extends State<TransactionsCategory> {
               } else if (state is TransactionCategoryLoaded) {
                 return TransactionCategoryHeader(
                     category: widget.category,
-                    totalCash: service.getTotalCash(state.transaction));
+                    totalCash: service.getTotalCash(state.transaction), date: service.getDate(state.transaction));
               } else {
                 return const SizedBox();
               }

@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 class TransactionCategoryHeader extends StatelessWidget {
   final Category category;
   final double totalCash;
-  const TransactionCategoryHeader({super.key, required this.category, required this.totalCash});
+  final String date;
+  const TransactionCategoryHeader({super.key, required this.category, required this.totalCash, required this.date});
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +46,9 @@ class TransactionCategoryHeader extends StatelessWidget {
             style: const TextStyle(
                 fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black),
           ),
-          const Text(
-            'July 2024',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          Text(
+            date,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
           Text(
             '₸${totalCash.toStringAsFixed(2)}',
