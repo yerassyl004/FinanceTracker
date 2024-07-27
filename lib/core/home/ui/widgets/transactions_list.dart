@@ -19,7 +19,7 @@ class TransactionsList extends StatelessWidget {
     String? lastDate;
 
     for (var transaction in transactions) {
-      final transactionDate = DateFormat.yMMMd().format(transaction.date);
+      final transactionDate = '${DateFormat('MMMM d').format(transaction.date)}, ${DateFormat('EEEE').format(transaction.date)}';
       if (transactionDate != lastDate) {
         lastDate = transactionDate;
         items.add(

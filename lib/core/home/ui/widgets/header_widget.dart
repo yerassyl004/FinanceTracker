@@ -117,7 +117,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                 SizedBox(
                   width: categoryWidth,
                   child: CategoriesWidgets(
-                    category: 'Total',
+                    category: 'Balance',
                     cash: total.toStringAsFixed(2),
                     color: total > 0 ? Colors.blue : Colors.orange,
                   ),

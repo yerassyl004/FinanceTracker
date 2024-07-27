@@ -77,19 +77,29 @@ class TransactionWidget extends StatelessWidget {
                           ),
                           const SizedBox(width: 5),
                           Text(
-                            accountTitle
+                            accountTitle,
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600
+                            ),
                           ),
                           typeSpending == TypeSpending.transfer ?
                           Row(
                             children: [
-                              const Icon(Icons.arrow_right),
+                              const Icon(Icons.arrow_right, color: Colors.grey,),
                               Image.asset(
                                 'assets/images/$distanationIcon.png',
-                              height: 30,
+                              height: 25,
                               ),
                               const SizedBox(width: 5),
                               Text(
-                                distanationTitle ?? ''
+                                distanationTitle ?? '',
+                                style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600
+                            ),
                               ),
                             ]
                           ) : 
@@ -104,7 +114,7 @@ class TransactionWidget extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               const Padding(
-                padding: EdgeInsets.only(left: 60),
+                padding: EdgeInsets.only(left: 50),
                 child: Divider(
                   height: 2,
                   color: Color.fromRGBO(156, 182, 201, 1),
