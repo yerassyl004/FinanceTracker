@@ -3,8 +3,8 @@ import 'package:finance_app/core/transaction_category_list/bloc/transaction_cate
 import 'package:finance_app/core/transaction_category_list/bloc/transaction_category_event.dart';
 import 'package:finance_app/core/transaction_category_list/bloc/transaction_category_state.dart';
 import 'package:finance_app/core/transaction_category_list/service/transaction_category_service.dart';
+import 'package:finance_app/core/transaction_category_list/ui/widget/transaction_category_header.dart';
 import 'package:finance_app/core/transaction_category_list/ui/widget/transaction_category_list.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,12 +19,12 @@ class TransactionsCategory extends StatefulWidget {
 
 class _TransactionsCategoryState extends State<TransactionsCategory> {
   late TransactionCategoryBloc categoryBloc;
+  TransactionCategoryService service = TransactionCategoryService();
 
   @override
   void initState() {
     super.initState();
-    categoryBloc =
-        TransactionCategoryBloc(service: TransactionCategoryService());
+    categoryBloc = TransactionCategoryBloc(service: service);
     categoryBloc.add(LoadTransactionsCategory(category: widget.category));
   }
 
@@ -36,10 +36,11 @@ class _TransactionsCategoryState extends State<TransactionsCategory> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: BlocBuilder<TransactionCategoryBloc, TransactionCategoryState>(
+    return Scaffold(
+      backgroundColor: Colors.grey.shade100,
+      body: Column(
+        children: [
+          BlocBuilder<TransactionCategoryBloc, TransactionCategoryState>(
             bloc: categoryBloc,
             builder: (context, state) {
               if (state is TransactionCategoryLoading) {
@@ -47,14 +48,35 @@ class _TransactionsCategoryState extends State<TransactionsCategory> {
               } else if (state is TransactionCategoryError) {
                 return Center(child: Text('Error: ${state.message}'));
               } else if (state is TransactionCategoryLoaded) {
-                return TransactionCategoryList(transactions: state.transaction);
+                return TransactionCategoryHeader(
+                    category: widget.category,
+                    totalCash: service.getTotalCash(state.transaction));
               } else {
                 return const SizedBox();
               }
             },
           ),
-        ),
-      ],
+          const SizedBox(height: 16),
+          Expanded(
+            child:
+                BlocBuilder<TransactionCategoryBloc, TransactionCategoryState>(
+              bloc: categoryBloc,
+              builder: (context, state) {
+                if (state is TransactionCategoryLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is TransactionCategoryError) {
+                  return Center(child: Text('Error: ${state.message}'));
+                } else if (state is TransactionCategoryLoaded) {
+                  return TransactionCategoryList(
+                      transactions: state.transaction);
+                } else {
+                  return const SizedBox();
+                }
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

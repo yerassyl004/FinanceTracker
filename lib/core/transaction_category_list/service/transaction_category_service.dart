@@ -29,4 +29,12 @@ class TransactionCategoryService {
     filteredTransactions.sort((a, b) => b.date.compareTo(a.date));
     return filteredTransactions;
   }
+
+  double getTotalCash(List<Transaction> transactions) {
+    var count = 0.0;
+    for (var transaction in transactions) {
+      count += transaction.cash;
+    }
+    return count;
+  }
 }

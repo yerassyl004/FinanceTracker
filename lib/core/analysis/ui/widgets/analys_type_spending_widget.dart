@@ -31,8 +31,8 @@ class AnalysTypeSpendingWidget extends StatelessWidget {
           typeSpending == TypeSpending.expense ? 'Expense' : 'Income',
           style: TextStyle(
               color: isSelected ? typeSpending == TypeSpending.expense
-                  ? Colors.orange
-                  : Colors.green : Colors.black,
+                  ? Colors.deepOrange
+                  : Colors.green.shade800 : Colors.black,
                    fontSize: 18, fontWeight: FontWeight.w600),
         ),
       ),
