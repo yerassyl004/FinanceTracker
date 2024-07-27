@@ -1,15 +1,13 @@
+import 'package:finance_app/core/home/ui/widgets/cash_transaction_widget.dart';
 import 'package:finance_app/core/models/transaction.dart';
 import 'package:finance_app/core/models/type_spending.dart';
-import 'package:finance_app/core/home/ui/widgets/cash_transaction_widget.dart';
 import 'package:finance_app/core/transaction_info/ui/page/tansaction_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class TransactionWidget extends StatelessWidget {
+class TransactionCategoryWidget extends StatelessWidget {
   final Transaction transaction;
-  const TransactionWidget({
-    super.key,
-    required this.transaction
-  });
+  const TransactionCategoryWidget({super.key, required this.transaction});
 
   void _handleTransactionTap(BuildContext context, Transaction transaction) {
     showModalBottomSheet(

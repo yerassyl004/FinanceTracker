@@ -1,17 +1,12 @@
 import 'package:finance_app/core/models/transaction.dart';
-import 'package:finance_app/core/home/ui/widgets/transaction_widget.dart';
+import 'package:finance_app/core/transaction_category_list/ui/widget/transaction_category_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Add this for date formatting
+import 'package:intl/intl.dart';
 
-class TransactionsList extends StatelessWidget {
+class TransactionCategoryList extends StatelessWidget {
   final List<Transaction> transactions;
-  final ScrollController scrollController;
-
-  const TransactionsList({
-    super.key,
-    required this.transactions,
-    required this.scrollController,
-  });
+  const TransactionCategoryList({super.key, required this.transactions});
 
   @override
   Widget build(BuildContext context) {
@@ -62,11 +57,10 @@ class TransactionsList extends StatelessWidget {
           ),
         );
       }
-      items.add(TransactionWidget(transaction: transaction));
+      items.add(TransactionCategoryWidget(transaction: transaction));
     }
 
     return ListView.builder(
-      controller: scrollController,
       padding: EdgeInsets.zero,
       itemCount: items.length,
       itemBuilder: (context, index) {

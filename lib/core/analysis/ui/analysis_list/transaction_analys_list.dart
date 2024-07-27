@@ -23,14 +23,15 @@ class TransactionAnalysList extends StatelessWidget {
           );
         } else if (state is IncomeAnalysisLoaded) {
           return SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return TransactionAnalysWidget(
-                  analysis: state.analysisList[index],
-                );
-              },
-              childCount: state.analysisList.length,
-            ),
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return TransactionAnalysWidget(
+                    analysis: state.analysisList[index],
+                  );
+                },
+                childCount: state.analysisList.length,
+              ),
+            
           );
         } else if (state is IncomeAnalysisError) {
           return SliverToBoxAdapter(
