@@ -17,18 +17,23 @@ class AnalysTypeSpendingWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.transparent : Colors.white,
+          color: isSelected ? typeSpending == TypeSpending.expense
+                  ? Colors.orange.shade100
+                  : Colors.green.shade100 : Colors.white,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(
-              color: isSelected ? typeSpending == TypeSpending.expense
-                  ? Colors.orange
-                  : Colors.green : Colors.transparent,
-              width: isSelected ? 1.0 : 0.0),
+          // border: Border.all(
+              // color: isSelected ? typeSpending == TypeSpending.expense
+              //     ? Colors.orange
+              //     : Colors.green : Colors.transparent,
+              // width: isSelected ? 1.0 : 0.0),
         ),
         child: Text(
           typeSpending == TypeSpending.expense ? 'Expense' : 'Income',
-          style: const TextStyle(
-              color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500),
+          style: TextStyle(
+              color: isSelected ? typeSpending == TypeSpending.expense
+                  ? Colors.orange
+                  : Colors.green : Colors.black,
+                   fontSize: 18, fontWeight: FontWeight.w600),
         ),
       ),
     );
