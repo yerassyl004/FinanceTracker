@@ -56,7 +56,6 @@ class _TransactionsCategoryState extends State<TransactionsCategory> {
               }
             },
           ),
-          const SizedBox(height: 16),
           Expanded(
             child:
                 BlocBuilder<TransactionCategoryBloc, TransactionCategoryState>(
