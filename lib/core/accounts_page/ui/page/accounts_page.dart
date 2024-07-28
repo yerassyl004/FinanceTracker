@@ -1,4 +1,5 @@
 import 'package:finance_app/core/accounts_modal/service/account_service.dart';
+import 'package:finance_app/core/accounts_modal/ui/pages/accounts_modal.dart';
 import 'package:finance_app/core/accounts_page/bloc/accounts_bloc.dart';
 import 'package:finance_app/core/accounts_page/bloc/accounts_event.dart';
 import 'package:finance_app/core/accounts_page/bloc/accounts_state.dart';
@@ -10,6 +11,7 @@ import 'package:finance_app/core/home/bloc/transaction_state.dart';
 import 'package:finance_app/core/home/service/count_cash_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class AccountsPage extends StatefulWidget {
   const AccountsPage({super.key});
@@ -93,7 +95,14 @@ class _AccountsPageState extends State<AccountsPage> {
               bottom: 8,
               height: 48,
               child: FloatingActionButton(
-                onPressed: () {},
+                onPressed: () {
+              showBarModalBottomSheet(
+                expand: false,
+                context: context,
+                backgroundColor: Colors.transparent,
+                builder: (context) => AddAccountsPage(onTapAccount: (Account ) {  },),
+              );
+            },
                 backgroundColor: Colors.blueAccent,
                 child: const Text(
                   'Add new account',
@@ -106,6 +115,33 @@ class _AccountsPageState extends State<AccountsPage> {
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+
+class ModalInsideModal extends StatelessWidget {
+  const ModalInsideModal({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: SafeArea(
+        top: false,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.close),
+              title: const Text('Close'),
+              onTap: () => Navigator.of(context).pop(),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text('This is the modal content'),
+            ),
+          ],
+        ),
       ),
     );
   }

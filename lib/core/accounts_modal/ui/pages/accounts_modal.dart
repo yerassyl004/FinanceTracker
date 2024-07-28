@@ -29,42 +29,38 @@ class _AccountsPageState extends State<AddAccountsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      color: Colors.white,
       padding: const EdgeInsets.all(16.0),
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height * 0.8,
-        ),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Select an account',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 24,
-                    color: Colors.black,
-                  ),
+      child: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Select an account',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 24,
+                  color: Colors.black,
                 ),
-                const SizedBox(height: 16),
-                ...account.map((account) => GestureDetector(
-                      onTap: () {
-                        widget.onTapAccount(account);
-                      },
-                      child: AccountItemWidget(account: account),
-                    )),
-                const SizedBox(height: 16),
-                // Center(
-                //   child: AddAccountButton(
-                //     onTap: () {
-                //       // Your onTap function here
-                //     },
-                //   ),
-                // ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 16),
+              ...account.map((account) => GestureDetector(
+                    onTap: () {
+                      widget.onTapAccount(account);
+                    },
+                    child: AccountItemWidget(account: account),
+                  )),
+              const SizedBox(height: 16),
+              // Center(
+              //   child: AddAccountButton(
+              //     onTap: () {
+              //       // Your onTap function here
+              //     },
+              //   ),
+              // ),
+            ],
           ),
         ),
       ),

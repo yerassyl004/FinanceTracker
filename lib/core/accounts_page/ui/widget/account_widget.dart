@@ -19,47 +19,52 @@ class AccountWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-      child: Row(children: [
-        Image.asset(
-          'assets/images/${account.icon}.png',
-          height: 50,
-        ),
-        const SizedBox(width: 16),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              account.title,
-              style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
-            ),
-            const SizedBox(height: 4),
-            Row(
-              children: [
-                const Text(
-                  'Balance:',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  '₸${account.cash.toStringAsFixed(2)}',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: getColor()),
-                ),
-              ],
-            )
-          ],
-        ),
-        const Spacer(),
-        IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz))
-      ]),
+      child: Row(
+        children: [
+          Image.asset(
+            'assets/images/${account.icon}.png',
+            height: 50,
+          ),
+          const SizedBox(width: 16),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                account.title,
+                style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black),
+              ),
+              const SizedBox(height: 4),
+              Row(
+                children: [
+                  const Text(
+                    'Balance:',
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    '₸${account.cash.toStringAsFixed(2)}',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: getColor()),
+                  ),
+                ],
+              )
+            ],
+          ),
+          const Spacer(),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.more_horiz),
+          ),
+        ],
+      ),
     );
   }
 }
