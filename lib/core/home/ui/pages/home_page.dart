@@ -77,45 +77,47 @@ class _HomePageState extends State<HomePage>
           Container(
             color: Colors.grey.shade100,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(
-                height: 180,
-              ),
-              Expanded(
-                child: BlocBuilder<TransactionBloc, TransactionState>(
-                  bloc: _transactionBloc,
-                  builder: (context, state) {
-                    if (state is TransactionError) {
-                      return Center(child: Text('Error: ${state.message}'));
-                    } else if (state is TransactionLoading) {
-                      return const SizedBox();
-                    } else if (state is TransactionLoaded) {
-                      if (state.transaction.isEmpty) {
-                        return const Padding(
-                          padding: EdgeInsets.all(24.0),
-                          child: Center(
-                              child: Text(
-                            'No records in this month. Tap + to add new expense or income',
-                            maxLines: 2,
-                            textAlign: TextAlign.center,
-                          )),
-                        );
-                      } else {
-                        return TransactionsList(
-                          transactions: state.transaction,
-                          scrollController: _scrollController,
-                        );
-                      }
-                    } else {
-                      return const Center(
-                          child: Text('No transactions found.'));
-                    }
-                  },
+          SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(
+                  height: 115,
                 ),
-              ),
-            ],
+                Expanded(
+                  child: BlocBuilder<TransactionBloc, TransactionState>(
+                    bloc: _transactionBloc,
+                    builder: (context, state) {
+                      if (state is TransactionError) {
+                        return Center(child: Text('Error: ${state.message}'));
+                      } else if (state is TransactionLoading) {
+                        return const SizedBox();
+                      } else if (state is TransactionLoaded) {
+                        if (state.transaction.isEmpty) {
+                          return const Padding(
+                            padding: EdgeInsets.all(24.0),
+                            child: Center(
+                                child: Text(
+                              'No records in this month. Tap + to add new expense or income',
+                              maxLines: 2,
+                              textAlign: TextAlign.center,
+                            )),
+                          );
+                        } else {
+                          return TransactionsList(
+                            transactions: state.transaction,
+                            scrollController: _scrollController,
+                          );
+                        }
+                      } else {
+                        return const Center(
+                            child: Text('No transactions found.'));
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
           Positioned(
             left: 0,
