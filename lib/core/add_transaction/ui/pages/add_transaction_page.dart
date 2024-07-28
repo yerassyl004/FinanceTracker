@@ -1,4 +1,4 @@
-import 'package:finance_app/core/accounts/ui/pages/accounts_page.dart';
+import 'package:finance_app/core/accounts_modal/ui/pages/accounts_modal.dart';
 import 'package:finance_app/core/add_transaction/service/transaction_save.dart';
 import 'package:finance_app/core/add_transaction/service/transactions_service.dart';
 import 'package:finance_app/core/add_transaction/ui/widget/input_textField_widget.dart';
@@ -139,7 +139,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   Widget modalType(Modaltype type) {
     switch (type) {
       case Modaltype.selectedAccount:
-        return AccountsPage(onTapAccount: _setAccountData);
+        return AddAccountsPage(onTapAccount: _setAccountData);
       case Modaltype.category:
         if (widget.selectedType == TypeSpending.income) {
           return CategoriesPage(
@@ -148,7 +148,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
         return CategoriesPage(
             onCategorySelected: _setCategoryData, isExpense: true);
       case Modaltype.receiverAccount:
-        return AccountsPage(onTapAccount: _setReceiverAccountData);
+        return AddAccountsPage(onTapAccount: _setReceiverAccountData);
     }
   }
 

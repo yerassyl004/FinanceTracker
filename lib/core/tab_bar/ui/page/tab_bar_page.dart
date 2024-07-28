@@ -1,3 +1,4 @@
+import 'package:finance_app/core/accounts_page/ui/page/accounts_page.dart';
 import 'package:finance_app/core/analysis/ui/pages/analysis_page.dart';
 import 'package:finance_app/core/home/ui/pages/home_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,7 +17,7 @@ class _TabBarPageState extends State<TabBarPage> {
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     AnalysisPage(),
-    Center(child: Text('Settings Tab')),
+    AccountsPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -40,14 +41,10 @@ class _TabBarPageState extends State<TabBarPage> {
             icon: Icon(Icons.analytics),
             label: 'Analysis',
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.account_balance),
-          //   label: 'Accounts',
-          // ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.category),
-          //   label: 'Categories',
-          // ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance),
+            label: 'Accounts',
+          ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.blue,
