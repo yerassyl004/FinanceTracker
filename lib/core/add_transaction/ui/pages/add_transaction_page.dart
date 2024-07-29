@@ -1,4 +1,4 @@
-import 'package:finance_app/core/accounts/ui/pages/accounts_page.dart';
+import 'package:finance_app/core/accounts_modal/ui/pages/accounts_modal.dart';
 import 'package:finance_app/core/add_transaction/service/transaction_save.dart';
 import 'package:finance_app/core/add_transaction/service/transactions_service.dart';
 import 'package:finance_app/core/add_transaction/ui/widget/input_textField_widget.dart';
@@ -12,6 +12,7 @@ import 'package:finance_app/core/models/transaction.dart';
 import 'package:finance_app/core/models/type_spending.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 // ignore: must_be_immutable
 class AddTransactionPage extends StatefulWidget {
@@ -151,28 +152,18 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   }
 
   void _selectTransferInfo(Modaltype type) {
-    showModalBottomSheet(
+    showBarModalBottomSheet(
+      expand: false,
       context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      enableDrag: true,
-      useRootNavigator: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-      ),
-      builder: (BuildContext context) {
-        return ClipRRect(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20.0)),
-          child: modalType(type),
-        );
-      },
+      backgroundColor: Colors.transparent,
+      builder: (context) => modalType(type),
     );
   }
 
   Widget modalType(Modaltype type) {
     switch (type) {
       case Modaltype.selectedAccount:
-        return AccountsPage(onTapAccount: _setAccountData);
+        return AddAccountsPage(onTapAccount: _setAccountData);
       case Modaltype.category:
         if (widget.selectedType == TypeSpending.income) {
           return CategoriesPage(
@@ -181,7 +172,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
         return CategoriesPage(
             onCategorySelected: _setCategoryData, isExpense: true);
       case Modaltype.receiverAccount:
-        return AccountsPage(onTapAccount: _setReceiverAccountData);
+        return AddAccountsPage(onTapAccount: _setReceiverAccountData);
     }
   }
 

@@ -40,6 +40,7 @@ dependencies:
   uuid: ^4.4.2
   flutter_bloc: ^8.1.6
   equatable: ^2.0.5
+  modal_bottom_sheet: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +92,8 @@ flutter:
     - assets/images/grants_icon.png
     - assets/images/coupons_icon.png
     - assets/images/awards_icon.png
+    - assets/images/visa_icon.png
+    - assets/images/master_card_icon.png
     
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

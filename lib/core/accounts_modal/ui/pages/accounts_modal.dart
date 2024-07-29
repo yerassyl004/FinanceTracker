@@ -1,17 +1,17 @@
-import 'package:finance_app/core/accounts/service/account_service.dart';
-import 'package:finance_app/core/accounts/ui/widgets/account_item_widget.dart';
+import 'package:finance_app/core/accounts_modal/service/account_service.dart';
+import 'package:finance_app/core/accounts_modal/ui/widgets/account_item_widget.dart';
 import 'package:finance_app/core/models/account.dart';
 import 'package:flutter/material.dart';
 
-class AccountsPage extends StatefulWidget {
+class AddAccountsPage extends StatefulWidget {
   final Function(Account) onTapAccount;
-  const AccountsPage({super.key, required this.onTapAccount});
+  const AddAccountsPage({super.key, required this.onTapAccount});
 
   @override
   _AccountsPageState createState() => _AccountsPageState();
 }
 
-class _AccountsPageState extends State<AccountsPage> {
+class _AccountsPageState extends State<AddAccountsPage> {
   List<Account> account = [];
 
   final AccountService _accountService = AccountService();
@@ -29,12 +29,9 @@ class _AccountsPageState extends State<AccountsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      color: Colors.white,
       padding: const EdgeInsets.all(16.0),
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height * 0.8,
-        ),
         child: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -55,7 +52,7 @@ class _AccountsPageState extends State<AccountsPage> {
                       },
                       child: AccountItemWidget(account: account),
                     )),
-                // const SizedBox(height: 16),
+                const SizedBox(height: 16),
                 // Center(
                 //   child: AddAccountButton(
                 //     onTap: () {
@@ -66,7 +63,6 @@ class _AccountsPageState extends State<AccountsPage> {
               ],
             ),
           ),
-        ),
       ),
     );
   }
