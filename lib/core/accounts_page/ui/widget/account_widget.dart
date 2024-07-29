@@ -24,6 +24,7 @@ class AccountWidget extends StatelessWidget {
           Image.asset(
             'assets/images/${account.icon}.png',
             height: 50,
+            width: 50,
           ),
           const SizedBox(width: 16),
           Column(

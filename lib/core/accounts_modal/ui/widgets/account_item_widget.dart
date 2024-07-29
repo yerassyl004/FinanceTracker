@@ -21,7 +21,8 @@ class AccountItemWidget extends StatelessWidget {
               padding: const EdgeInsets.all(6.0),
               child: Image.asset(
                 'assets/images/${account.icon}.png',
-                height: 40,
+                height: 50,
+                width: 50,
               ),
             ),
           ),
