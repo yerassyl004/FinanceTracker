@@ -15,7 +15,8 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class AddTransactionPage extends StatefulWidget {
-  AddTransactionPage({super.key});
+  Transaction? transaction;
+  AddTransactionPage({super.key, this.transaction});
 
   TypeSpending selectedType = TypeSpending.expense;
 
@@ -37,8 +38,19 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
     super.dispose();
   }
 
+  @override
+  void initState() {
+    super.initState();
+    widget.selectedType =
+        widget.transaction?.typeSpending ?? TypeSpending.expense;
+    selectedAccount = widget.transaction?.account;
+    receiverAccount = widget.transaction?.destination;
+    selectedCategory = widget.transaction?.category;
+    _amountController.text = widget.transaction?.cash.toStringAsFixed(2) ?? '';
+    _notesController.text = widget.transaction?.note ?? '';
+  }
+
   void _saveTransaction() async {
-    // Check required fields based on TypeSpending
     if (_amountController.text.isEmpty ||
         selectedAccount == null ||
         (widget.selectedType == TypeSpending.transfer &&
@@ -55,14 +67,17 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
     try {
       cash = double.parse(_amountController.text);
       _transactionService(widget.selectedType, cash);
-      _addTransaction(cash);
+      if (widget.transaction == null) {
+        _addTransaction(cash);
+      } else {
+        _updateTransaction(cash);
+      }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Invalid amount entered.')),
       );
       return;
     }
-    Navigator.pop(context, true);
   }
 
   void _addTransaction(double cash) {
@@ -80,6 +95,23 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
           widget.selectedType == TypeSpending.transfer ? receiverAccount : null,
     );
     transactionsService.saveTransaction(transaction);
+    Navigator.pop(context, true);
+  }
+
+  void _updateTransaction(double cash) {
+    final transactionsService = TransactionSave();
+    widget.transaction?.cash = cash;
+    widget.transaction?.date = DateTime.now();
+    widget.transaction?.note = _notesController.text;
+    widget.transaction?.account = selectedAccount!;
+    widget.transaction?.category =
+        widget.selectedType == TypeSpending.transfer ? null : selectedCategory;
+    widget.transaction?.typeSpending = widget.selectedType;
+    widget.transaction?.destination =
+        widget.selectedType == TypeSpending.transfer ? receiverAccount : null;
+
+    transactionsService.updateTransactions(widget.transaction!);
+    Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
   void _transactionService(TypeSpending typeSpending, double cash) {
@@ -107,6 +139,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   }
 
   void _typeSpendingChange(TypeSpending typeSpending) {
+    widget.transaction = null;
     selectedAccount = null;
     selectedCategory = null;
     receiverAccount = null;
@@ -175,6 +208,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.transaction);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
