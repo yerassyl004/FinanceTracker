@@ -1,10 +1,10 @@
 import 'package:finance_app/core/accounts_modal/service/account_service.dart';
-import 'package:finance_app/core/accounts_modal/ui/pages/accounts_modal.dart';
 import 'package:finance_app/core/accounts_page/bloc/accounts_bloc.dart';
 import 'package:finance_app/core/accounts_page/bloc/accounts_event.dart';
 import 'package:finance_app/core/accounts_page/bloc/accounts_state.dart';
 import 'package:finance_app/core/accounts_page/ui/widget/accounts_header.dart';
 import 'package:finance_app/core/accounts_page/ui/widget/accounts_list.dart';
+import 'package:finance_app/core/create_account/ui/page/create_account_page.dart';
 import 'package:finance_app/core/home/bloc/transaction_bloc.dart';
 import 'package:finance_app/core/home/bloc/transaction_event.dart';
 import 'package:finance_app/core/home/bloc/transaction_state.dart';
@@ -97,10 +97,10 @@ class _AccountsPageState extends State<AccountsPage> {
               child: FloatingActionButton(
                 onPressed: () {
               showBarModalBottomSheet(
-                expand: false,
+                expand: true,
                 context: context,
                 backgroundColor: Colors.transparent,
-                builder: (context) => AddAccountsPage(onTapAccount: (Account ) {  },),
+                builder: (context) => CreateAccountPage(),
               );
             },
                 backgroundColor: Colors.blueAccent,
