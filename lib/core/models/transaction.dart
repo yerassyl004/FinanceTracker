@@ -4,14 +4,14 @@ import 'package:finance_app/core/models/type_spending.dart';
 import 'package:uuid/uuid.dart';
 
 class Transaction {
-  final String id;
-  final double cash;
-  final DateTime date;
-  final String? note;
-  final Account account;
-  final Category? category;
-  final TypeSpending typeSpending;
-  final Account? destination;
+  String id;
+  double cash;
+  DateTime date;
+  String? note;
+  Account account;
+  Category? category;
+  TypeSpending typeSpending;
+  Account? destination;
 
   Transaction({
     String? id,

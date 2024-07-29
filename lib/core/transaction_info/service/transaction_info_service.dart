@@ -3,19 +3,8 @@ import 'dart:convert';
 import 'package:finance_app/core/models/transaction.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class TransactionSave {
-  void saveTransaction(Transaction transaction) async {
-    final prefs = await SharedPreferences.getInstance();
-    final List<String> transactionList =
-        prefs.getStringList('transactions') ?? [];
-
-    transactionList.add(jsonEncode(transaction.toJson()));
-    await prefs.setStringList('transactions', transactionList);
-
-    print('Transaction saved: ${transaction.toJson()}');
-  }
-
-  void updateTransactions(Transaction newTransaction) async {
+class TransactionInfoService {
+  Future<void> deleteTransaction(Transaction transaction) async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> transactionList =
         prefs.getStringList('transactions') ?? [];
@@ -25,8 +14,8 @@ class TransactionSave {
     }).toList();
 
     for (var i = 0; i < transactions.length; i++) {
-      if (transactions[i].id == newTransaction.id) {
-        transactions[i] = newTransaction;
+      if (transactions[i].id == transaction.id) {
+        transactions.remove(transactions[i]);
         break;
       }
     }
