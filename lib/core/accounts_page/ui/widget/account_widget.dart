@@ -6,7 +6,12 @@ import 'package:finance_app/core/models/account.dart';
 class AccountWidget extends StatelessWidget {
   final Account account;
   final VoidCallback accountDeleted;
-  const AccountWidget({super.key, required this.account, required this.accountDeleted});
+  final Function(Account) accountEdit;
+  const AccountWidget(
+      {super.key,
+      required this.account,
+      required this.accountDeleted,
+      required this.accountEdit});
 
   Color getColor() {
     if (account.cash > 0) {
@@ -80,7 +85,7 @@ class AccountWidget extends StatelessWidget {
                   ),
                   const PopupMenuItem<int>(
                     value: 1,
-                     child: PopUpMenuText(title: 'Delete'),
+                    child: PopUpMenuText(title: 'Delete'),
                   ),
                 ],
                 icon: const Icon(Icons.more_horiz, color: Colors.transparent),
@@ -97,7 +102,7 @@ class AccountWidget extends StatelessWidget {
     AccountEditService service = AccountEditService();
     switch (item) {
       case 0:
-        print('Edit tapped');
+        accountEdit(account);
         break;
       case 1:
         service.deleteAccount(account);

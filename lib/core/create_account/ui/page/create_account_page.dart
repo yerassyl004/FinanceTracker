@@ -5,8 +5,10 @@ import 'package:finance_app/core/models/account.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CreateAccountPage extends StatefulWidget {
-  const CreateAccountPage({super.key});
+  Account? account;
+  CreateAccountPage({super.key, this.account});
 
   @override
   State<CreateAccountPage> createState() => _CreateAccountPageState();
@@ -29,8 +31,15 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   void initState() {
     super.initState();
     _balanceController.addListener(_addCurrencySymbol);
-    // _balanceController.text = '0';
-    _nameController.text = 'Unititled';
+    _balanceController.text = widget.account?.cash.toString() ?? '';
+    _nameController.text = widget.account?.title ?? 'Unititled';
+
+    if (widget.account != null) {
+      _selectedImageIndex = _imageAssets.indexOf(widget.account!.icon);
+      if (_selectedImageIndex == -1) {
+        _selectedImageIndex = 0; // Fallback to default if icon not found
+      }
+    }
   }
 
   void _addCurrencySymbol() {
@@ -200,9 +209,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               child: FloatingActionButton(
                 onPressed: _addAccount,
                 backgroundColor: Colors.blueAccent,
-                child: const Text(
-                  'Add',
-                  style: TextStyle(
+                child: Text(
+                  widget.account == null ? 'Add' : 'Save',
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,

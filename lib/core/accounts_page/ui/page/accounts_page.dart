@@ -9,6 +9,7 @@ import 'package:finance_app/core/home/bloc/transaction_bloc.dart';
 import 'package:finance_app/core/home/bloc/transaction_event.dart';
 import 'package:finance_app/core/home/bloc/transaction_state.dart';
 import 'package:finance_app/core/home/service/count_cash_service.dart';
+import 'package:finance_app/core/models/account.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -39,6 +40,19 @@ class _AccountsPageState extends State<AccountsPage> {
     _transactionBloc.add(LoadTransactionItems(month: newDate));
   }
 
+  Future<void> _pushCreateAccount(Account? account) async {
+    final result = await showBarModalBottomSheet(
+      expand: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => CreateAccountPage(account: account),
+    );
+
+    if (result == true) {
+      _accountsBloc.add(const LoadAccounts()); // Reload accounts
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +77,7 @@ class _AccountsPageState extends State<AccountsPage> {
                               accounts: state.accounts,
                               updateList: () {
                                 _accountsBloc.add(const LoadAccounts());
-                              },
+                              }, pushEditAccount: _pushCreateAccount,
                             );
                           } else {
                             return const SizedBox();
@@ -100,17 +114,8 @@ class _AccountsPageState extends State<AccountsPage> {
             bottom: 8,
             height: 48,
             child: FloatingActionButton(
-              onPressed: () async {
-                final result = await showBarModalBottomSheet(
-                  expand: true,
-                  context: context,
-                  backgroundColor: Colors.transparent,
-                  builder: (context) => const CreateAccountPage(),
-                );
-
-                if (result == true) {
-                  _accountsBloc.add(const LoadAccounts()); // Reload accounts
-                }
+              onPressed: () {
+                _pushCreateAccount(null);
               },
               backgroundColor: Colors.blueAccent,
               child: const Text(
