@@ -59,7 +59,7 @@ class _AccountsPageState extends State<AccountsPage> {
                           if (state is AccountLoading) {
                             return const SizedBox();
                           } else if (state is AccountsLoaded) {
-                            return AccountsList(accounts: state.accounts);
+                            return AccountsList(accounts: state.accounts, updateList: () { _accountsBloc.add(const LoadAccounts()); },);
                           } else {
                             return const SizedBox();
                           }
@@ -115,33 +115,6 @@ class _AccountsPageState extends State<AccountsPage> {
               ),
             ),
         ],
-      ),
-    );
-  }
-}
-
-class ModalInsideModal extends StatelessWidget {
-  const ModalInsideModal({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      child: SafeArea(
-        top: false,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.close),
-              title: const Text('Close'),
-              onTap: () => Navigator.of(context).pop(),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text('This is the modal content'),
-            ),
-          ],
-        ),
       ),
     );
   }

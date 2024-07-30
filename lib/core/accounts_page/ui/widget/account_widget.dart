@@ -5,7 +5,8 @@ import 'package:finance_app/core/models/account.dart';
 
 class AccountWidget extends StatelessWidget {
   final Account account;
-  const AccountWidget({super.key, required this.account});
+  final VoidCallback accountDeleted;
+  const AccountWidget({super.key, required this.account, required this.accountDeleted});
 
   Color getColor() {
     if (account.cash > 0) {
@@ -96,13 +97,11 @@ class AccountWidget extends StatelessWidget {
     AccountEditService service = AccountEditService();
     switch (item) {
       case 0:
-        // Perform the edit action
         print('Edit tapped');
         break;
       case 1:
-        // Perform the delete action
-        print('Delete tapped');
         service.deleteAccount(account);
+        accountDeleted();
         break;
     }
   }
