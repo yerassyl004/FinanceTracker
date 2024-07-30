@@ -9,6 +9,7 @@ import 'package:finance_app/core/home/bloc/transaction_bloc.dart';
 import 'package:finance_app/core/home/bloc/transaction_event.dart';
 import 'package:finance_app/core/home/bloc/transaction_state.dart';
 import 'package:finance_app/core/home/service/count_cash_service.dart';
+import 'package:finance_app/core/models/account.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -39,6 +40,19 @@ class _AccountsPageState extends State<AccountsPage> {
     _transactionBloc.add(LoadTransactionItems(month: newDate));
   }
 
+  Future<void> _pushCreateAccount(Account? account) async {
+    final result = await showBarModalBottomSheet(
+      expand: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => CreateAccountPage(account: account),
+    );
+
+    if (result == true) {
+      _accountsBloc.add(const LoadAccounts()); // Reload accounts
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +73,12 @@ class _AccountsPageState extends State<AccountsPage> {
                           if (state is AccountLoading) {
                             return const SizedBox();
                           } else if (state is AccountsLoaded) {
-                            return AccountsList(accounts: state.accounts);
+                            return AccountsList(
+                              accounts: state.accounts,
+                              updateList: () {
+                                _accountsBloc.add(const LoadAccounts());
+                              }, pushEditAccount: _pushCreateAccount,
+                            );
                           } else {
                             return const SizedBox();
                           }
@@ -90,58 +109,26 @@ class _AccountsPageState extends State<AccountsPage> {
             ),
           ),
           Positioned(
-              left: 16,
-              right: 16,
-              bottom: 8,
-              height: 48,
-              child: FloatingActionButton(
-                onPressed: () {
-              showBarModalBottomSheet(
-                expand: true,
-                context: context,
-                backgroundColor: Colors.transparent,
-                builder: (context) => CreateAccountPage(),
-              );
-            },
-                backgroundColor: Colors.blueAccent,
-                child: const Text(
-                  'Add new account',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+            left: 16,
+            right: 16,
+            bottom: 8,
+            height: 48,
+            child: FloatingActionButton(
+              onPressed: () {
+                _pushCreateAccount(null);
+              },
+              backgroundColor: Colors.blueAccent,
+              child: const Text(
+                'Add new account',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
+          ),
         ],
-      ),
-    );
-  }
-}
-
-class ModalInsideModal extends StatelessWidget {
-  const ModalInsideModal({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      child: SafeArea(
-        top: false,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.close),
-              title: const Text('Close'),
-              onTap: () => Navigator.of(context).pop(),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text('This is the modal content'),
-            ),
-          ],
-        ),
       ),
     );
   }

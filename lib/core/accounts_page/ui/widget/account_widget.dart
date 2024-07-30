@@ -1,9 +1,17 @@
-import 'package:finance_app/core/models/account.dart';
+import 'package:finance_app/core/accounts_page/service/account_edit_service.dart';
+import 'package:finance_app/core/accounts_page/ui/widget/pop_up_menu_text.dart';
 import 'package:flutter/material.dart';
+import 'package:finance_app/core/models/account.dart';
 
 class AccountWidget extends StatelessWidget {
   final Account account;
-  const AccountWidget({super.key, required this.account});
+  final VoidCallback accountDeleted;
+  final Function(Account) accountEdit;
+  const AccountWidget(
+      {super.key,
+      required this.account,
+      required this.accountDeleted,
+      required this.accountEdit});
 
   Color getColor() {
     if (account.cash > 0) {
@@ -60,12 +68,46 @@ class AccountWidget extends StatelessWidget {
             ],
           ),
           const Spacer(),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.more_horiz),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.more_horiz),
+              ),
+              PopupMenuButton<int>(
+                color: Colors.white,
+                onSelected: (item) => onSelected(context, item),
+                itemBuilder: (context) => [
+                  const PopupMenuItem<int>(
+                    value: 0,
+                    child: PopUpMenuText(title: 'Edit'),
+                  ),
+                  const PopupMenuItem<int>(
+                    value: 1,
+                    child: PopUpMenuText(title: 'Delete'),
+                  ),
+                ],
+                icon: const Icon(Icons.more_horiz, color: Colors.transparent),
+                offset: const Offset(0, 45),
+              ),
+            ],
           ),
         ],
       ),
     );
+  }
+
+  void onSelected(BuildContext context, int item) {
+    AccountEditService service = AccountEditService();
+    switch (item) {
+      case 0:
+        accountEdit(account);
+        break;
+      case 1:
+        service.deleteAccount(account);
+        accountDeleted();
+        break;
+    }
   }
 }

@@ -4,7 +4,7 @@ import 'package:finance_app/core/models/type_spending.dart';
 import 'package:uuid/uuid.dart';
 
 class Transaction {
-  String id;
+  final String id;
   double cash;
   DateTime date;
   String? note;

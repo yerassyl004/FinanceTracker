@@ -3,8 +3,14 @@ import 'package:finance_app/core/models/account.dart';
 import 'package:flutter/material.dart';
 
 class AccountsList extends StatelessWidget {
+  final VoidCallback updateList;
+  final Function(Account) pushEditAccount;
   final List<Account> accounts;
-  const AccountsList({super.key, required this.accounts});
+  const AccountsList(
+      {super.key,
+      required this.accounts,
+      required this.updateList,
+      required this.pushEditAccount});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +18,11 @@ class AccountsList extends StatelessWidget {
         padding: const EdgeInsets.only(top: 16),
         itemCount: accounts.length,
         itemBuilder: (context, index) {
-          return AccountWidget(account: accounts[index]);
+          return AccountWidget(
+            account: accounts[index],
+            accountDeleted: updateList,
+            accountEdit: pushEditAccount,
+          );
         });
   }
 }

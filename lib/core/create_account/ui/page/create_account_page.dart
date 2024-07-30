@@ -2,10 +2,13 @@ import 'package:finance_app/core/create_account/service/create_account_service.d
 import 'package:finance_app/core/create_account/ui/widget/balance_field_widget.dart';
 import 'package:finance_app/core/create_account/ui/widget/name_field_widget.dart';
 import 'package:finance_app/core/models/account.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CreateAccountPage extends StatefulWidget {
-  const CreateAccountPage({super.key});
+  Account? account;
+  CreateAccountPage({super.key, this.account});
 
   @override
   State<CreateAccountPage> createState() => _CreateAccountPageState();
@@ -14,7 +17,7 @@ class CreateAccountPage extends StatefulWidget {
 class _CreateAccountPageState extends State<CreateAccountPage> {
   final TextEditingController _balanceController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  int _selectedImageIndex = -1;
+  int _selectedImageIndex = 0;
 
   final List<String> _imageAssets = [
     'card',
@@ -28,13 +31,23 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   void initState() {
     super.initState();
     _balanceController.addListener(_addCurrencySymbol);
+    _balanceController.text = widget.account?.cash.toString() ?? '';
+    _nameController.text = widget.account?.title ?? 'Unititled';
+
+    if (widget.account != null) {
+      _selectedImageIndex = _imageAssets.indexOf(widget.account!.icon);
+      if (_selectedImageIndex == -1) {
+        _selectedImageIndex = 0; // Fallback to default if icon not found
+      }
+    }
   }
 
   void _addCurrencySymbol() {
     if (!_balanceController.text.startsWith('₸')) {
       _balanceController.value = _balanceController.value.copyWith(
         text: '₸${_balanceController.text.replaceAll('₸', '')}',
-        selection: TextSelection.collapsed(offset: _balanceController.text.length + 1),
+        selection:
+            TextSelection.collapsed(offset: _balanceController.text.length + 1),
       );
     }
   }
@@ -55,34 +68,53 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   void _addAccount() {
     try {
       String balanceText = _balanceController.text.replaceAll('₸', '').trim();
-      double cash = double.parse(balanceText);
-      if (_selectedImageIndex == -1) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please select an icon.')),
-        );
-        return;
+      print('Balance text: $balanceText');
+
+      double? cash = double.tryParse(balanceText);
+
+      if (cash == null) {
+        print('Warning: Invalid cash value, defaulting to 0');
+        cash = 0;
       }
+
       if (_nameController.text.trim().isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please enter a name.')),
-        );
-        return;
+        _nameController.text = 'Untitled';
       }
+
       final account = Account(
         cash: cash,
         icon: _imageAssets[_selectedImageIndex],
         title: _nameController.text.trim(),
       );
-      CreateAccountService service = CreateAccountService();
-      service.createAccount(account);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Account created successfully.')),
-      );
+
+      if (widget.account == null) {
+        _createAccount(account);
+      } else {
+        _updateAccount(account);
+      }
+
+      // CreateAccountService service = CreateAccountService();
+      // service.createAccount(account);
+      // Navigator.pop(context, true);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Invalid balance input.')),
-      );
+      print('Error account: ${e.toString()}');
+      Navigator.pop(context, false);
     }
+  }
+
+  void _createAccount(Account account) {
+    CreateAccountService service = CreateAccountService();
+    service.createAccount(account);
+    Navigator.pop(context, true);
+  }
+
+  void _updateAccount(Account account) {
+    widget.account?.cash = account.cash;
+    widget.account?.icon = account.icon;
+    widget.account?.title = account.title;
+
+    CreateAccountService service = CreateAccountService();
+    service.updateAccount(widget.account!);
     Navigator.pop(context, true);
   }
 
@@ -93,38 +125,59 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       color: Colors.white,
       child: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: [
-            const Text(
-              'Add new account',
-              style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
+            Row(
+              children: [
+                const Text(
+                  'Add new account',
+                  style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                const Spacer(),
+                IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(CupertinoIcons.xmark))
+              ],
             ),
             const SizedBox(height: 48),
-            const Center(
-              child: Text(
-                'Current balance',
-                style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
-                textAlign: TextAlign.center,
-              ),
+            Row(
+              children: [
+                const Text(
+                  'Initial amount',
+                  style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: BalanceFieldWidget(controller: _balanceController),
+                ),
+              ],
             ),
             const SizedBox(height: 26),
-            SizedBox(
-              width: 200,
-              height: 48,
-              child: BalanceFieldWidget(controller: _balanceController),
-            ),
-            const SizedBox(height: 26),
-            SizedBox(
-              width: 200,
-              height: 48,
-              child: NameFieldWidget(controller: _nameController),
+            Row(
+              children: [
+                const Text(
+                  'Name',
+                  style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: NameFieldWidget(controller: _nameController),
+                ),
+              ],
             ),
             const SizedBox(height: 26),
             const Text(
@@ -137,7 +190,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             ),
             const SizedBox(height: 16),
             SizedBox(
-              height: 100,
+              height: 80,
+              width: double.infinity,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: _imageAssets.length,
@@ -157,12 +211,14 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: Colors.grey.shade100
-                        ),
-                        child: Image.asset('assets/images/${_imageAssets[index]}.png', width: 60, height: 50)),
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              color: Colors.grey.shade100),
+                          child: Image.asset(
+                              'assets/images/${_imageAssets[index]}.png',
+                              width: 50,
+                              height: 50)),
                     ),
                   );
                 },
@@ -170,14 +226,14 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             ),
             const SizedBox(height: 26),
             SizedBox(
-              width: 250,
+              width: double.infinity,
               height: 48,
               child: FloatingActionButton(
                 onPressed: _addAccount,
                 backgroundColor: Colors.blueAccent,
-                child: const Text(
-                  'Add',
-                  style: TextStyle(
+                child: Text(
+                  widget.account == null ? 'Add' : 'Save',
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,

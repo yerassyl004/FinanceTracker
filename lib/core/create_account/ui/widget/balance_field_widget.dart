@@ -8,6 +8,7 @@ class BalanceFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: Colors.grey.shade100,
@@ -27,7 +28,6 @@ class BalanceFieldWidget extends StatelessWidget {
           fontSize: 18,
         ),
         keyboardType: TextInputType.number,
-        textAlign: TextAlign.center,
         controller: controller,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'^\₸?[\d,]*\.?\d{0,2}')),
