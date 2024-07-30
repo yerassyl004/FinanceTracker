@@ -1,5 +1,7 @@
-import 'package:finance_app/core/models/account.dart';
+import 'package:finance_app/core/accounts_page/service/account_edit_service.dart';
+import 'package:finance_app/core/accounts_page/ui/widget/pop_up_menu_text.dart';
 import 'package:flutter/material.dart';
+import 'package:finance_app/core/models/account.dart';
 
 class AccountWidget extends StatelessWidget {
   final Account account;
@@ -60,12 +62,48 @@ class AccountWidget extends StatelessWidget {
             ],
           ),
           const Spacer(),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.more_horiz),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.more_horiz),
+              ),
+              PopupMenuButton<int>(
+                color: Colors.white,
+                onSelected: (item) => onSelected(context, item),
+                itemBuilder: (context) => [
+                  const PopupMenuItem<int>(
+                    value: 0,
+                    child: PopUpMenuText(title: 'Edit'),
+                  ),
+                  const PopupMenuItem<int>(
+                    value: 1,
+                     child: PopUpMenuText(title: 'Delete'),
+                  ),
+                ],
+                icon: const Icon(Icons.more_horiz, color: Colors.transparent),
+                offset: const Offset(0, 45),
+              ),
+            ],
           ),
         ],
       ),
     );
+  }
+
+  void onSelected(BuildContext context, int item) {
+    AccountEditService service = AccountEditService();
+    switch (item) {
+      case 0:
+        // Perform the edit action
+        print('Edit tapped');
+        break;
+      case 1:
+        // Perform the delete action
+        print('Delete tapped');
+        service.deleteAccount(account);
+        break;
+    }
   }
 }

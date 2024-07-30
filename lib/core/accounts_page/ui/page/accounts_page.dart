@@ -100,7 +100,7 @@ class _AccountsPageState extends State<AccountsPage> {
                 expand: true,
                 context: context,
                 backgroundColor: Colors.transparent,
-                builder: (context) => CreateAccountPage(),
+                builder: (context) => const CreateAccountPage(),
               );
             },
                 backgroundColor: Colors.blueAccent,

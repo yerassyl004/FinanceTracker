@@ -137,7 +137,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             ),
             const SizedBox(height: 16),
             SizedBox(
-              height: 100,
+              height: 80,
+              width: double.infinity,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: _imageAssets.length,
@@ -162,7 +163,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                           borderRadius: BorderRadius.circular(16),
                           color: Colors.grey.shade100
                         ),
-                        child: Image.asset('assets/images/${_imageAssets[index]}.png', width: 60, height: 50)),
+                        child: Image.asset('assets/images/${_imageAssets[index]}.png', width: 50, height: 50)),
                     ),
                   );
                 },
