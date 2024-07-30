@@ -87,13 +87,35 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         title: _nameController.text.trim(),
       );
 
-      CreateAccountService service = CreateAccountService();
-      service.createAccount(account);
-      Navigator.pop(context, true);
+      if (widget.account == null) {
+        _createAccount(account);
+      } else {
+        _updateAccount(account);
+      }
+
+      // CreateAccountService service = CreateAccountService();
+      // service.createAccount(account);
+      // Navigator.pop(context, true);
     } catch (e) {
       print('Error account: ${e.toString()}');
       Navigator.pop(context, false);
     }
+  }
+
+  void _createAccount(Account account) {
+    CreateAccountService service = CreateAccountService();
+    service.createAccount(account);
+    Navigator.pop(context, true);
+  }
+
+  void _updateAccount(Account account) {
+    widget.account?.cash = account.cash;
+    widget.account?.icon = account.icon;
+    widget.account?.title = account.title;
+
+    CreateAccountService service = CreateAccountService();
+    service.updateAccount(widget.account!);
+    Navigator.pop(context, true);
   }
 
   @override

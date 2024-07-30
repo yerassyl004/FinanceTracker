@@ -2,8 +2,8 @@ import 'package:uuid/uuid.dart';
 
 class Account {
   final String id;
-  final String icon;
-  final String title;
+  String icon;
+  String title;
   double cash;
 
   Account({
