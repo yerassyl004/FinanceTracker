@@ -80,11 +80,11 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
 
       CreateAccountService service = CreateAccountService();
       service.createAccount(account);
+      Navigator.pop(context, true);
     } catch (e) {
       print('Error account: ${e.toString()}');
+      Navigator.pop(context, false);
     }
-
-    Navigator.pop(context, true);
   }
 
   @override
@@ -110,7 +110,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 IconButton(
                     onPressed: () {
                       Navigator.pop(context);
-                    }, icon: const Icon(CupertinoIcons.xmark))
+                    },
+                    icon: const Icon(CupertinoIcons.xmark))
               ],
             ),
             const SizedBox(height: 48),

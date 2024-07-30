@@ -59,7 +59,12 @@ class _AccountsPageState extends State<AccountsPage> {
                           if (state is AccountLoading) {
                             return const SizedBox();
                           } else if (state is AccountsLoaded) {
-                            return AccountsList(accounts: state.accounts, updateList: () { _accountsBloc.add(const LoadAccounts()); },);
+                            return AccountsList(
+                              accounts: state.accounts,
+                              updateList: () {
+                                _accountsBloc.add(const LoadAccounts());
+                              },
+                            );
                           } else {
                             return const SizedBox();
                           }
@@ -90,30 +95,34 @@ class _AccountsPageState extends State<AccountsPage> {
             ),
           ),
           Positioned(
-              left: 16,
-              right: 16,
-              bottom: 8,
-              height: 48,
-              child: FloatingActionButton(
-                onPressed: () {
-              showBarModalBottomSheet(
-                expand: true,
-                context: context,
-                backgroundColor: Colors.transparent,
-                builder: (context) => const CreateAccountPage(),
-              );
-            },
-                backgroundColor: Colors.blueAccent,
-                child: const Text(
-                  'Add new account',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+            left: 16,
+            right: 16,
+            bottom: 8,
+            height: 48,
+            child: FloatingActionButton(
+              onPressed: () async {
+                final result = await showBarModalBottomSheet(
+                  expand: true,
+                  context: context,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => const CreateAccountPage(),
+                );
+
+                if (result == true) {
+                  _accountsBloc.add(const LoadAccounts()); // Reload accounts
+                }
+              },
+              backgroundColor: Colors.blueAccent,
+              child: const Text(
+                'Add new account',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
+          ),
         ],
       ),
     );
