@@ -33,6 +33,7 @@ class TransferInfoWidget extends StatelessWidget {
             Image.asset(
               'assets/images/$image.png',
               height: 32,
+              width: 35,
             ),
             const SizedBox(width: 4),
             Text(

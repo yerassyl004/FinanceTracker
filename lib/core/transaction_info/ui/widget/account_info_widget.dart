@@ -25,6 +25,7 @@ class AccountInfoWidget extends StatelessWidget {
               child: Image.asset(
                 'assets/images/${account.icon}.png',
                 height: 40,
+                width: 40,
               ),
             ),
           ),

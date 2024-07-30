@@ -82,6 +82,7 @@ class TransactionWidget extends StatelessWidget {
                               Image.asset(
                                 'assets/images/$distanationIcon.png',
                               height: 25,
+                              width: 25,
                               ),
                               const SizedBox(width: 5),
                               Text(

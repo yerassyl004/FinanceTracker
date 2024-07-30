@@ -92,7 +92,8 @@ class HeaderDetailWidget extends StatelessWidget {
             icon != null
                 ? Image.asset(
                     'assets/images/$icon.png',
-                    height: 55,
+                    height: 50,
+                    width: 50,
                   )
                 : const SizedBox(),
             const SizedBox(width: 16),
