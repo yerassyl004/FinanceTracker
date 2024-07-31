@@ -10,7 +10,9 @@ import 'package:intl/intl.dart';
 
 class HeaderDetailWidget extends StatelessWidget {
   final Transaction transaction;
-  const HeaderDetailWidget({super.key, required this.transaction});
+  final VoidCallback updateList;
+  const HeaderDetailWidget(
+      {super.key, required this.transaction, required this.updateList});
 
   void _confirmDelete(BuildContext context, TransactionInfoService service) {
     if (Platform.isIOS) {
@@ -19,12 +21,11 @@ class HeaderDetailWidget extends StatelessWidget {
         builder: (BuildContext context) {
           return CupertinoAlertDialog(
             title: const Text('Confirm Delete'),
-            content: const Text('Are you sure you want to delete this transaction?'),
+            content:
+                const Text('Are you sure you want to delete this transaction?'),
             actions: <Widget>[
               CupertinoDialogAction(
-                textStyle: const TextStyle(
-                  color: Colors.blueAccent
-                ),
+                textStyle: const TextStyle(color: Colors.blueAccent),
                 onPressed: () {
                   Navigator.of(context).pop(); // Close the dialog
                 },
@@ -35,7 +36,8 @@ class HeaderDetailWidget extends StatelessWidget {
                 onPressed: () {
                   service.deleteTransaction(transaction);
                   Navigator.of(context).pop(); // Close the dialog
-                  Navigator.of(context).pop(true); // Pop the page and return true
+                  Navigator.of(context)
+                      .pop(true); // Pop the page and return true
                 },
                 child: const Text('Delete'),
               ),
@@ -49,7 +51,8 @@ class HeaderDetailWidget extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Confirm Delete'),
-            content: const Text('Are you sure you want to delete this transaction?'),
+            content:
+                const Text('Are you sure you want to delete this transaction?'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -61,7 +64,8 @@ class HeaderDetailWidget extends StatelessWidget {
                 onPressed: () {
                   service.deleteTransaction(transaction);
                   Navigator.of(context).pop(); // Close the dialog
-                  Navigator.of(context).pop(true); // Pop the page and return true
+                  Navigator.of(context)
+                      .pop(true); // Pop the page and return true
                 },
                 child: const Text('Delete'),
               ),
@@ -126,12 +130,15 @@ class HeaderDetailWidget extends StatelessWidget {
               icon: const Icon(CupertinoIcons.trash),
             ),
             IconButton(
-              onPressed: () {
-                Navigator.push(
+              onPressed: () async {
+                Navigator.pop(context);
+                final result = await Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => AddTransactionPage(transaction: transaction)),
+                  MaterialPageRoute(builder: (context) => AddTransactionPage(transaction: transaction)),
                 );
+                if (result == true) {
+                  updateList();
+                }
               },
               icon: const Icon(Icons.edit),
             ),

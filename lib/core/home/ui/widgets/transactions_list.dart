@@ -6,11 +6,13 @@ import 'package:intl/intl.dart'; // Add this for date formatting
 class TransactionsList extends StatelessWidget {
   final List<Transaction> transactions;
   final ScrollController scrollController;
+  final VoidCallback updateList;
 
   const TransactionsList({
     super.key,
     required this.transactions,
     required this.scrollController,
+    required this.updateList
   });
 
   @override
@@ -62,7 +64,7 @@ class TransactionsList extends StatelessWidget {
           ),
         );
       }
-      items.add(TransactionWidget(transaction: transaction));
+      items.add(TransactionWidget(transaction: transaction, updateList: updateList));
     }
 
     return ListView.builder(

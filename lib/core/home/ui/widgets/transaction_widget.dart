@@ -7,9 +7,11 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class TransactionWidget extends StatelessWidget {
   final Transaction transaction;
+  final VoidCallback updateList;
   const TransactionWidget({
     super.key,
-    required this.transaction
+    required this.transaction,
+    required this.updateList
   });
 
   void _handleTransactionTap(BuildContext context, Transaction transaction) {
@@ -17,7 +19,7 @@ class TransactionWidget extends StatelessWidget {
       expand: false,
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (context) => TansactionPage(transaction: transaction),
+      builder: (context) => TansactionPage(transaction: transaction, updateList: updateList),
     );
   }
 

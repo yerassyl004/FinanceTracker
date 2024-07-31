@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 
 class TansactionPage extends StatelessWidget {
   final Transaction transaction;
-  TansactionPage({super.key, required this.transaction});
+  final VoidCallback updateList;
+  TansactionPage({super.key, required this.transaction, required this.updateList});
 
   final TextEditingController _controller = TextEditingController();
 
@@ -27,7 +28,7 @@ class TansactionPage extends StatelessWidget {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      HeaderDetailWidget(transaction: transaction),
+                      HeaderDetailWidget(transaction: transaction, updateList: updateList),
                       const SizedBox(height: 16),
                       AccountInfoWidget(account: transaction.account),
                       transaction.typeSpending == TypeSpending.transfer ?

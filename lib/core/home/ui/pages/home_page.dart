@@ -69,6 +69,16 @@ class _HomePageState extends State<HomePage>
     _transactionBloc.add(LoadTransactionItems(month: newDate));
   }
 
+  void _updateList() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => AddTransactionPage()),
+    );
+    if (result == true) {
+      _transactionBloc.add(LoadTransactionItems(month: selectedMonth));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,9 +115,11 @@ class _HomePageState extends State<HomePage>
                           );
                         } else {
                           return TransactionsList(
-                            transactions: state.transaction,
-                            scrollController: _scrollController,
-                          );
+                              transactions: state.transaction,
+                              scrollController: _scrollController,
+                              updateList: () {
+                                _transactionBloc.add(LoadTransactionItems(month: selectedMonth));
+                              });
                         }
                       } else {
                         return const Center(
@@ -147,20 +159,9 @@ class _HomePageState extends State<HomePage>
             child: SlideTransition(
               position: _fabAnimation,
               child: FloatingActionButton(
-                backgroundColor: Colors.grey.shade300,
-                onPressed: () async {
-                  final result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AddTransactionPage()),
-                  );
-                  if (result == true) {
-                    _transactionBloc
-                        .add(LoadTransactionItems(month: selectedMonth));
-                  }
-                },
-                child: const Icon(CupertinoIcons.add),
-              ),
+                  backgroundColor: Colors.grey.shade300,
+                  onPressed: _updateList,
+                  child: const Icon(CupertinoIcons.add)),
             ),
           ),
         ],

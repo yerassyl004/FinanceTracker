@@ -112,7 +112,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
         widget.selectedType == TypeSpending.transfer ? receiverAccount : null;
 
     transactionsService.updateTransactions(widget.transaction!);
-    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.pop(context, true);
   }
 
   void _transactionService(TypeSpending typeSpending, double cash) {

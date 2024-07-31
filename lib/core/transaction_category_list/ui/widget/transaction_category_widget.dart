@@ -22,7 +22,7 @@ class TransactionCategoryWidget extends StatelessWidget {
       builder: (BuildContext context) {
         return ClipRRect(
           borderRadius: const BorderRadius.vertical(top: Radius.circular(20.0)),
-          child: TansactionPage(transaction: transaction),
+          child: TansactionPage(transaction: transaction, updateList: () {  },),
         );
       },
     );
