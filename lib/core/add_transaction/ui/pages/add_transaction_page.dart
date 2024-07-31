@@ -102,7 +102,6 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   void _updateTransaction(double cash) {
     final transactionsService = TransactionSave();
     widget.transaction?.cash = cash;
-    widget.transaction?.date = DateTime.now();
     widget.transaction?.note = _notesController.text;
     widget.transaction?.account = selectedAccount!;
     widget.transaction?.category =
