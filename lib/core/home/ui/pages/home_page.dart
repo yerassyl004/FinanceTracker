@@ -118,7 +118,8 @@ class _HomePageState extends State<HomePage>
                               transactions: state.transaction,
                               scrollController: _scrollController,
                               updateList: () {
-                                _transactionBloc.add(LoadTransactionItems(month: selectedMonth));
+                                _transactionBloc.add(
+                                    LoadTransactionItems(month: selectedMonth));
                               });
                         }
                       } else {

@@ -6,7 +6,8 @@ import 'package:intl/intl.dart';
 
 class TransactionCategoryList extends StatelessWidget {
   final List<Transaction> transactions;
-  const TransactionCategoryList({super.key, required this.transactions});
+  final VoidCallback updateList;
+  const TransactionCategoryList({super.key, required this.transactions, required this.updateList});
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +58,7 @@ class TransactionCategoryList extends StatelessWidget {
           ),
         );
       }
-      items.add(TransactionCategoryWidget(transaction: transaction));
+      items.add(TransactionCategoryWidget(transaction: transaction, updateList: updateList));
     }
 
     return ListView.builder(

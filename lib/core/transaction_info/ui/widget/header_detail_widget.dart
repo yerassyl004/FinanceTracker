@@ -38,6 +38,7 @@ class HeaderDetailWidget extends StatelessWidget {
                   Navigator.of(context).pop(); // Close the dialog
                   Navigator.of(context)
                       .pop(true); // Pop the page and return true
+                  updateList();
                 },
                 child: const Text('Delete'),
               ),

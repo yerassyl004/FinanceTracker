@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 
 class TransactionCategoryWidget extends StatelessWidget {
   final Transaction transaction;
-  const TransactionCategoryWidget({super.key, required this.transaction});
+  final VoidCallback updateList;
+  const TransactionCategoryWidget(
+      {super.key, required this.transaction, required this.updateList});
 
   void _handleTransactionTap(BuildContext context, Transaction transaction) {
     showModalBottomSheet(
@@ -22,7 +24,10 @@ class TransactionCategoryWidget extends StatelessWidget {
       builder: (BuildContext context) {
         return ClipRRect(
           borderRadius: const BorderRadius.vertical(top: Radius.circular(20.0)),
-          child: TansactionPage(transaction: transaction, updateList: () {  },),
+          child: TansactionPage(
+            transaction: transaction,
+            updateList: updateList,
+          ),
         );
       },
     );
@@ -38,7 +43,7 @@ class TransactionCategoryWidget extends StatelessWidget {
     String? distanationIcon = transaction.destination?.icon;
     String cash = transaction.cash.toString();
     TypeSpending typeSpending = transaction.typeSpending;
- 
+
     return GestureDetector(
       onTap: () => _handleTransactionTap(context, transaction),
       child: Padding(
@@ -47,69 +52,66 @@ class TransactionCategoryWidget extends StatelessWidget {
           color: Colors.transparent,
           child: Column(
             children: [
-              Row(
-                children: [
-                  Image.asset(
-                    'assets/images/${categoryIcon ?? 'transfer_icon'}.png',
-                    height: 40,
-                  ),
-                  const SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        categoryTitle ?? 'Transfer',
-                        style: const TextStyle(
+              Row(children: [
+                Image.asset(
+                  'assets/images/${categoryIcon ?? 'transfer_icon'}.png',
+                  height: 40,
+                ),
+                const SizedBox(width: 8),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      categoryTitle ?? 'Transfer',
+                      style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
-                          fontWeight: FontWeight.w500
+                          fontWeight: FontWeight.w500),
+                    ),
+                    Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/$accountIcon.png',
+                          width: 25,
                         ),
-                      ),
-                      Row(
-                        children: [
-                          Image.asset(
-                            'assets/images/$accountIcon.png',
-                            width: 25,
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            accountTitle,
-                            style: const TextStyle(
+                        const SizedBox(width: 5),
+                        Text(
+                          accountTitle,
+                          style: const TextStyle(
                               color: Colors.grey,
                               fontSize: 14,
-                              fontWeight: FontWeight.w600
-                            ),
-                          ),
-                          typeSpending == TypeSpending.transfer ?
-                          Row(
-                            children: [
-                              const Icon(Icons.arrow_right, color: Colors.grey,),
-                              Image.asset(
-                                'assets/images/$distanationIcon.png',
-                              height: 25,
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                distanationTitle ?? '',
-                                style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600
-                            ),
-                              ),
-                            ]
-                          ) : 
-                          const SizedBox(),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  CashTransactionWidget(typeSpending: typeSpending, cash: cash, font: 16)
-                ]
-              ),
+                              fontWeight: FontWeight.w600),
+                        ),
+                        typeSpending == TypeSpending.transfer
+                            ? Row(children: [
+                                const Icon(
+                                  Icons.arrow_right,
+                                  color: Colors.grey,
+                                ),
+                                Image.asset(
+                                  'assets/images/$distanationIcon.png',
+                                  height: 25,
+                                ),
+                                const SizedBox(width: 5),
+                                Text(
+                                  distanationTitle ?? '',
+                                  style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ])
+                            : const SizedBox(),
+                      ],
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                CashTransactionWidget(
+                    typeSpending: typeSpending, cash: cash, font: 16)
+              ]),
               const SizedBox(height: 8),
               const Padding(
                 padding: EdgeInsets.only(left: 50),

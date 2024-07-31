@@ -67,7 +67,9 @@ class _TransactionsCategoryState extends State<TransactionsCategory> {
                   return Center(child: Text('Error: ${state.message}'));
                 } else if (state is TransactionCategoryLoaded) {
                   return TransactionCategoryList(
-                      transactions: state.transaction);
+                      transactions: state.transaction, updateList: () { 
+                        categoryBloc.add(LoadTransactionsCategory(category: widget.category));
+                       },);
                 } else {
                   return const SizedBox();
                 }
