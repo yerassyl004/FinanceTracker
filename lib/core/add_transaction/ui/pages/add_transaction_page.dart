@@ -14,6 +14,7 @@ import 'package:finance_app/core/models/modalType.dart';
 import 'package:finance_app/core/models/transaction.dart';
 import 'package:finance_app/core/models/type_spending.dart';
 
+// ignore: must_be_immutable
 class AddTransactionPage extends StatefulWidget {
   Transaction? transaction;
   AddTransactionPage({super.key, this.transaction});
