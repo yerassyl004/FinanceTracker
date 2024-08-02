@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:finance_app/core/accounts_modal/ui/pages/accounts_modal.dart';
 import 'package:finance_app/core/add_transaction/service/transaction_save.dart';
 import 'package:finance_app/core/add_transaction/service/transactions_service.dart';
@@ -10,11 +13,7 @@ import 'package:finance_app/core/models/category.dart';
 import 'package:finance_app/core/models/modalType.dart';
 import 'package:finance_app/core/models/transaction.dart';
 import 'package:finance_app/core/models/type_spending.dart';
-import 'package:intl/intl.dart';
-import 'package:flutter/material.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-// ignore: must_be_immutable
 class AddTransactionPage extends StatefulWidget {
   Transaction? transaction;
   AddTransactionPage({super.key, this.transaction});
@@ -31,11 +30,15 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   Category? selectedCategory;
   Account? selectedAccount;
   Account? receiverAccount;
+  final FocusNode _amountFocusNode = FocusNode();
+  final FocusNode _notesFocusNode = FocusNode();
 
   @override
   void dispose() {
     _amountController.dispose();
     _notesController.dispose();
+    _amountFocusNode.dispose();
+    _notesFocusNode.dispose();
     super.dispose();
   }
 
@@ -120,10 +123,13 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
       case TypeSpending.transfer:
         transactionsService.transferTransaction(
             selectedAccount!, receiverAccount!, cash);
+        break;
       case TypeSpending.expense:
         transactionsService.expenseTransaction(selectedAccount!, cash);
+        break;
       case TypeSpending.income:
         transactionsService.incomeTransaction(selectedAccount!, cash);
+        break;
     }
   }
 
@@ -198,7 +204,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.transaction);
+    // print(widget.transaction);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -210,145 +216,159 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
       ),
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      TypesSpendingWidget(
-                        title: _setTypeSpending(TypeSpending.transfer),
-                        isSelected:
-                            widget.selectedType == TypeSpending.transfer,
-                        onTap: () => _typeSpendingChange(TypeSpending.transfer),
+                      const SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TypesSpendingWidget(
+                            title: _setTypeSpending(TypeSpending.transfer),
+                            isSelected:
+                                widget.selectedType == TypeSpending.transfer,
+                            onTap: () =>
+                                _typeSpendingChange(TypeSpending.transfer),
+                          ),
+                          Container(
+                            width: 1,
+                            height: 20,
+                            color: Colors.grey,
+                            margin: const EdgeInsets.symmetric(horizontal: 16.0),
+                          ),
+                          TypesSpendingWidget(
+                            title: _setTypeSpending(TypeSpending.expense),
+                            isSelected:
+                                widget.selectedType == TypeSpending.expense,
+                            onTap: () =>
+                                _typeSpendingChange(TypeSpending.expense),
+                          ),
+                          Container(
+                            width: 1,
+                            height: 20,
+                            color: Colors.grey,
+                            margin: const EdgeInsets.symmetric(horizontal: 16.0),
+                          ),
+                          TypesSpendingWidget(
+                            title: _setTypeSpending(TypeSpending.income),
+                            isSelected: widget.selectedType == TypeSpending.income,
+                            onTap: () => _typeSpendingChange(TypeSpending.income),
+                          ),
+                        ],
                       ),
-                      Container(
-                        width: 1,
-                        height: 20,
-                        color: Colors.grey,
-                        margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                      ),
-                      TypesSpendingWidget(
-                        title: _setTypeSpending(TypeSpending.expense),
-                        isSelected: widget.selectedType == TypeSpending.expense,
-                        onTap: () => _typeSpendingChange(TypeSpending.expense),
-                      ),
-                      Container(
-                        width: 1,
-                        height: 20,
-                        color: Colors.grey,
-                        margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                      ),
-                      TypesSpendingWidget(
-                        title: _setTypeSpending(TypeSpending.income),
-                        isSelected: widget.selectedType == TypeSpending.income,
-                        onTap: () => _typeSpendingChange(TypeSpending.income),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 32),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                        child: TransferInfoWidget(
-                          image: selectedAccount?.icon ?? 'wallet_icon',
-                          title: selectedAccount?.title ?? 'Account',
-                          onTap: () =>
-                              _selectTransferInfo(Modaltype.selectedAccount),
-                          isSelected: selectedAccount != null,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      widget.selectedType == TypeSpending.transfer
-                          ? Expanded(
-                              child: TransferInfoWidget(
-                                image: receiverAccount?.icon ?? 'wallet_icon',
-                                title: receiverAccount?.title ?? 'Account',
-                                onTap: () => _selectTransferInfo(
-                                    Modaltype.receiverAccount),
-                                isSelected: receiverAccount != null,
-                              ),
-                            )
-                          : Expanded(
-                              child: TransferInfoWidget(
-                                image:
-                                    selectedCategory?.icon ?? 'category_icon',
-                                title: selectedCategory?.title ?? 'Category',
-                                onTap: () =>
-                                    _selectTransferInfo(Modaltype.category),
-                                isSelected: selectedCategory != null,
-                              ),
+                      const SizedBox(height: 32),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: TransferInfoWidget(
+                              image: selectedAccount?.icon ?? 'wallet_icon',
+                              title: selectedAccount?.title ?? 'Account',
+                              onTap: () =>
+                                  _selectTransferInfo(Modaltype.selectedAccount),
+                              isSelected: selectedAccount != null,
                             ),
+                          ),
+                          const SizedBox(width: 8),
+                          widget.selectedType == TypeSpending.transfer
+                              ? Expanded(
+                                  child: TransferInfoWidget(
+                                    image: receiverAccount?.icon ?? 'wallet_icon',
+                                    title: receiverAccount?.title ?? 'Account',
+                                    onTap: () => _selectTransferInfo(
+                                        Modaltype.receiverAccount),
+                                    isSelected: receiverAccount != null,
+                                  ),
+                                )
+                              : Expanded(
+                                  child: TransferInfoWidget(
+                                    image:
+                                        selectedCategory?.icon ?? 'category_icon',
+                                    title: selectedCategory?.title ?? 'Category',
+                                    onTap: () =>
+                                        _selectTransferInfo(Modaltype.category),
+                                    isSelected: selectedCategory != null,
+                                  ),
+                                ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      InputTextfieldWidget(
+                        hintText: '0',
+                        inputType: TextInputType.number,
+                        maxLine: 1,
+                        minLine: 1,
+                        controller: _amountController,
+                        // focusNode: _amountFocusNode,
+                      ),
+                      const SizedBox(height: 12),
+                      InputTextfieldWidget(
+                        hintText: 'Add notes',
+                        inputType: TextInputType.text,
+                        maxLine: 3,
+                        minLine: 2,
+                        controller: _notesController,
+                        // focusNode: _notesFocusNode,
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            DateFormat('MMM d, EEEE').format(DateTime.now()),
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w400),
+                          ),
+                          Container(
+                            width: 1,
+                            height: 20,
+                            color: Colors.grey,
+                            margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                          ),
+                          Text(
+                            DateFormat('h:mm a').format(DateTime.now()),
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 62)
                     ],
-                  ),
-                  const SizedBox(height: 16),
-                  InputTextfieldWidget(
-                    hintText: '0',
-                    inputType: TextInputType.number,
-                    maxLine: 1,
-                    minLine: 1,
-                    controller: _amountController,
-                  ),
-                  const SizedBox(height: 12),
-                  InputTextfieldWidget(
-                    hintText: 'Add notes',
-                    inputType: TextInputType.text,
-                    maxLine: 3,
-                    minLine: 2,
-                    controller: _notesController,
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        DateFormat('MMM d, EEEE').format(DateTime.now()),
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w400),
-                      ),
-                      Container(
-                        width: 1,
-                        height: 20,
-                        color: Colors.grey,
-                        margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                      ),
-                      Text(
-                        DateFormat('h:mm a').format(DateTime.now()),
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              left: 16,
-              right: 16,
-              bottom: 8,
-              height: 48,
-              child: FloatingActionButton(
-                onPressed: _saveTransaction,
-                backgroundColor: Colors.blueAccent,
-                child: const Text(
-                  'Save',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-            ),
-          ],
+            );
+          },
         ),
       ),
+      floatingActionButton: SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 0),
+          child: FloatingActionButton.extended(
+            onPressed: _saveTransaction,
+            backgroundColor: Colors.blueAccent,
+            label: const Text(
+              'Save',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
