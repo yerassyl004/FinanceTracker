@@ -36,7 +36,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
 
     if (widget.account != null) {
       _selectedImageIndex =
-          _imageAssets.indexOf(widget.account!.icon) ?? 0;
+          _imageAssets.indexOf(widget.account!.icon);
     }
   }
 
