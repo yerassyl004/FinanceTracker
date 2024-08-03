@@ -9,9 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransactionsCategory extends StatefulWidget {
+  final DateTime dateTime;
   final Category category;
 
-  const TransactionsCategory({super.key, required this.category});
+  const TransactionsCategory({super.key, required this.category, required this.dateTime});
 
   @override
   _TransactionsCategoryState createState() => _TransactionsCategoryState();
@@ -50,7 +51,7 @@ class _TransactionsCategoryState extends State<TransactionsCategory> {
               } else if (state is TransactionCategoryLoaded) {
                 return TransactionCategoryHeader(
                     category: widget.category,
-                    totalCash: service.getTotalCash(state.transaction), date: service.getDate(state.transaction));
+                    totalCash: service.getTotalCash(state.transaction, widget.dateTime), date: service.getDate(state.transaction));
               } else {
                 return const SizedBox();
               }

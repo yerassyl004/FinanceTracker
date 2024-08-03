@@ -32,10 +32,12 @@ class TransactionCategoryService {
     return filteredTransactions;
   }
 
-  double getTotalCash(List<Transaction> transactions) {
+  double getTotalCash(List<Transaction> transactions, DateTime months) {
     var count = 0.0;
     for (var transaction in transactions) {
-      count += transaction.cash;
+      if (transaction.date.month == months.month) {
+        count += transaction.cash;
+      }
     }
     return count;
   }

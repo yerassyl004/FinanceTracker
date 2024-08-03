@@ -145,7 +145,7 @@ class _AnalysisPageState extends State<AnalysisPage> with SingleTickerProviderSt
                   ),
                 ),
                 TransactionAnalysList(
-                  incomeAnalysisBloc: _incomeAnalysisBloc
+                  incomeAnalysisBloc: _incomeAnalysisBloc, dateTime: selectedMonth,
                 ),
               ],
             ),

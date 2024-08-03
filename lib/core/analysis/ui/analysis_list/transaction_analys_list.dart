@@ -6,10 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransactionAnalysList extends StatelessWidget {
   final IncomeAnalysisBloc incomeAnalysisBloc;
+  final DateTime dateTime;
 
   const TransactionAnalysList({
     super.key,
     required this.incomeAnalysisBloc,
+    required this.dateTime
   });
 
   @override
@@ -27,6 +29,7 @@ class TransactionAnalysList extends StatelessWidget {
                 (context, index) {
                   return TransactionAnalysWidget(
                     analysis: state.analysisList[index],
+                    dateTime: dateTime,
                   );
                 },
                 childCount: state.analysisList.length,

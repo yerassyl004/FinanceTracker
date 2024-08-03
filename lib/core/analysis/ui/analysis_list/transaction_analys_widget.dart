@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 class TransactionAnalysWidget extends StatelessWidget {
   final Analysis analysis;
-  const TransactionAnalysWidget({super.key, required this.analysis});
+  final DateTime dateTime;
+  const TransactionAnalysWidget({super.key, required this.analysis, required this.dateTime});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class TransactionAnalysWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => TransactionsCategory(category: analysis.category)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => TransactionsCategory(category: analysis.category, dateTime: dateTime)));
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, bottom: 4),
