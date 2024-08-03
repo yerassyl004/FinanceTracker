@@ -10,8 +10,9 @@ abstract class TransactionCategoryEvent extends Equatable {
 
 class LoadTransactionsCategory extends TransactionCategoryEvent {
   final Category category;
+  final DateTime selectedMonth;
 
-  const LoadTransactionsCategory({required this.category});
+  const LoadTransactionsCategory({required this.category, required this.selectedMonth});
 
   @override
   List<Object> get props => [category];

@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TransactionCategoryService {
-  Future<List<Transaction>> loadTransactions(Category category) async {
+  Future<List<Transaction>> loadTransactions(Category category, DateTime dateTime) async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> transactionList =
         prefs.getStringList('transactions') ?? [];
@@ -20,7 +20,7 @@ class TransactionCategoryService {
           }
         })
         .where((transaction) {
-          if (transaction != null) {
+          if (transaction != null && transaction.date.month == dateTime.month) {
             return transaction.category?.title == category.title;
           }
           return false;

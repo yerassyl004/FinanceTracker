@@ -26,7 +26,7 @@ class _TransactionsCategoryState extends State<TransactionsCategory> {
   void initState() {
     super.initState();
     categoryBloc = TransactionCategoryBloc(service: service);
-    categoryBloc.add(LoadTransactionsCategory(category: widget.category));
+    categoryBloc.add(LoadTransactionsCategory(category: widget.category, selectedMonth: widget.dateTime));
   }
 
   @override
@@ -69,7 +69,7 @@ class _TransactionsCategoryState extends State<TransactionsCategory> {
                 } else if (state is TransactionCategoryLoaded) {
                   return TransactionCategoryList(
                       transactions: state.transaction, updateList: () { 
-                        categoryBloc.add(LoadTransactionsCategory(category: widget.category));
+                        categoryBloc.add(LoadTransactionsCategory(category: widget.category, selectedMonth: widget.dateTime));
                        },);
                 } else {
                   return const SizedBox();

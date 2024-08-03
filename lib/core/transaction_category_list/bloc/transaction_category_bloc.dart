@@ -13,7 +13,7 @@ class TransactionCategoryBloc extends Bloc<TransactionCategoryEvent, Transaction
     LoadTransactionsCategory event, Emitter <TransactionCategoryState> emit) async {
       emit(TransactionCategoryLoading());
       try {
-        final transactions = await service.loadTransactions(event.category);
+        final transactions = await service.loadTransactions(event.category, event.selectedMonth);
         emit(TransactionCategoryLoaded(transaction: transactions));
       } catch (e) {
         emit(TransactionCategoryError(message: e.toString()));
