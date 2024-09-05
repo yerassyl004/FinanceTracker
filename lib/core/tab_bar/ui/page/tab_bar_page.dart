@@ -1,5 +1,6 @@
 import 'package:finance_app/core/accounts_page/ui/page/accounts_page.dart';
 import 'package:finance_app/core/analysis/ui/pages/analysis_page.dart';
+import 'package:finance_app/core/create_categories/ui/pages/create_categories_page.dart';
 import 'package:finance_app/core/home/ui/pages/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class _TabBarPageState extends State<TabBarPage> {
     HomePage(),
     AnalysisPage(),
     AccountsPage(),
+    CreateCategoriesPage()
   ];
 
   void _onItemTapped(int index) {
@@ -32,6 +34,7 @@ class _TabBarPageState extends State<TabBarPage> {
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.grey.shade100,
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.checklist),
@@ -44,6 +47,10 @@ class _TabBarPageState extends State<TabBarPage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.account_balance),
             label: 'Accounts',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.category),
+            label: 'Categories',
           ),
         ],
         currentIndex: _selectedIndex,
