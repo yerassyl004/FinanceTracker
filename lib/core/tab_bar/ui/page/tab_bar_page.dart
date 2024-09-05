@@ -1,6 +1,6 @@
 import 'package:finance_app/core/accounts_page/ui/page/accounts_page.dart';
 import 'package:finance_app/core/analysis/ui/pages/analysis_page.dart';
-import 'package:finance_app/core/create_categories/ui/pages/create_categories_page.dart';
+import 'package:finance_app/core/categories_page/ui/pages/categories_page.dart';
 import 'package:finance_app/core/home/ui/pages/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class _TabBarPageState extends State<TabBarPage> {
     HomePage(),
     AnalysisPage(),
     AccountsPage(),
-    CreateCategoriesPage()
+    CategoriesPage()
   ];
 
   void _onItemTapped(int index) {
