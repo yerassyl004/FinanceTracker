@@ -1,6 +1,7 @@
 import 'package:finance_app/core/accounts_page/ui/widget/accounts_header.dart';
 import 'package:finance_app/core/categories/service/category_service.dart';
 import 'package:finance_app/core/categories_page/ui/widgets/categories_list.dart';
+import 'package:finance_app/core/create_category/ui/page/create_category_page.dart';
 import 'package:finance_app/core/home/bloc/transaction_bloc.dart';
 import 'package:finance_app/core/home/bloc/transaction_event.dart';
 import 'package:finance_app/core/home/bloc/transaction_state.dart';
@@ -8,6 +9,7 @@ import 'package:finance_app/core/home/service/count_cash_service.dart';
 import 'package:finance_app/core/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({super.key});
@@ -35,7 +37,18 @@ class _CategoriesPageState extends State<CategoriesPage> {
     _transactionBloc.add(LoadTransactionItems(month: newDate));
   }
 
-  Future<void> _pushCreateCategory(Category? account) async {}
+  Future<void> _pushCreateCategory(Category? category) async {
+    final result = await showBarModalBottomSheet(
+      expand: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => CreateCategoryPage(category: category),
+    );
+
+    if (result == true) {
+      // _accountsBloc.add(const LoadAccounts()); // Reload accounts
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +93,26 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 },
               ),
             ),
+            Positioned(
+            left: 16,
+            right: 16,
+            bottom: 8,
+            height: 48,
+            child: FloatingActionButton(
+              onPressed: () {
+                _pushCreateCategory(null);
+              },
+              backgroundColor: Colors.blueAccent,
+              child: const Text(
+                'Add new account',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
           ],
         ));
   }
