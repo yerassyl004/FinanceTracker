@@ -2,7 +2,7 @@ import 'package:uuid/uuid.dart';
 
 class Category {
   final String id;
-  CategoryType type;
+  // CategoryType type;
   String icon;
   String title;
 
@@ -10,7 +10,6 @@ class Category {
     required this.title,
     required this.icon,
     String? id,
-    required this.type
   }) : id = id ?? Uuid().v4();
 
   Map<String, dynamic> toJson() {
@@ -18,13 +17,13 @@ class Category {
       'id': id,
       'title': title,
       'icon': icon,
-      'type': type,
+      // 'type': type,
     };
   }
 
   factory Category.fromJson(Map<String, dynamic> json) {
     return Category(
-      type: json['type'],
+      // type: json['type'],
       id: json['id'],
       title: json['title'],
       icon: json['icon'],

@@ -75,7 +75,6 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
       final category = Category(
         icon: _imageAssets[_selectedImageIndex],
         title: _nameController.text.trim(),
-        type: CategoryType.expense,
       );
 
       if (widget.category == null) {
