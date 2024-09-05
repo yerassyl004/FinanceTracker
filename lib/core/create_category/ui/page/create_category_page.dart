@@ -1,6 +1,6 @@
-import 'package:finance_app/core/create_account/ui/widget/balance_field_widget.dart';
 import 'package:finance_app/core/create_account/ui/widget/name_field_widget.dart';
 import 'package:finance_app/core/create_category/service/create_category_service.dart';
+import 'package:finance_app/core/create_category/ui/widgets/category_type_widget.dart';
 import 'package:finance_app/core/models/category.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,13 +18,18 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
   final TextEditingController _nameController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   int _selectedImageIndex = 0;
+  CategoryType selectedType = CategoryType.expense;
 
   final List<String> _imageAssets = [
-    'card',
-    'wallet_icon',
-    'saving_icon',
-    'visa_icon',
-    'master_card_icon'
+    'foods_icon',
+    'car_icon',
+    'clothes_icon',
+    'shopping_icon',
+    'home_icon',
+    'bills_icon',
+    'education_icon',
+    'beauty_icon',
+    'health_icon'
   ];
 
   @override
@@ -32,10 +37,8 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
     super.initState();
     _balanceController.addListener(_addCurrencySymbol);
     _nameController.text = widget.category?.title ?? 'Untitled';
-
     if (widget.category != null) {
-      _selectedImageIndex =
-          _imageAssets.indexOf(widget.category!.icon);
+      _selectedImageIndex = _imageAssets.indexOf(widget.category!.icon);
     }
   }
 
@@ -65,14 +68,13 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
 
   void _addAccount() {
     try {
-
       if (_nameController.text.trim().isEmpty) {
         _nameController.text = 'Untitled';
       }
 
       final category = Category(
         icon: _imageAssets[_selectedImageIndex],
-        title: _nameController.text.trim(), 
+        title: _nameController.text.trim(),
         type: CategoryType.expense,
       );
 
@@ -100,6 +102,19 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
     CreateCategoryService service = CreateCategoryService();
     service.updatedCategory(widget.category!);
     Navigator.pop(context, true);
+  }
+
+  void _categorySelected(CategoryType type) {
+    switch (type) {
+      case CategoryType.expense:
+        setState(() {
+          selectedType = CategoryType.expense;
+        });
+      case CategoryType.income:
+        setState(() {
+          selectedType = CategoryType.income;
+        });
+    }
   }
 
   @override
@@ -143,30 +158,45 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
                     const SizedBox(height: 48),
                     Row(
                       children: [
-                        const Text(
-                          'Initial amount',
-                          style: TextStyle(
+                      const Text(
+                        'Type',
+                        style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ),
-                          textAlign: TextAlign.center,
+                            color: Colors.black),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(width: 28),
+                      SizedBox(
+                        width: 180,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CategoryTypeWidget(
+                                title: "Income",
+                                isSelected: selectedType == CategoryType.income,
+                                onTap: () {
+                                  _categorySelected(CategoryType.income);
+                                }),
+                            CategoryTypeWidget(
+                                title: "Expense",
+                                isSelected: selectedType == CategoryType.expense,
+                                onTap: () {
+                                  _categorySelected(CategoryType.expense);
+                                })
+                          ],
                         ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: BalanceFieldWidget(controller: _balanceController),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ]),
                     const SizedBox(height: 26),
                     Row(
                       children: [
                         const Text(
                           'Name',
                           style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black),
+                              fontSize: 22,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(width: 12),
@@ -186,36 +216,41 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
                     ),
                     const SizedBox(height: 16),
                     SizedBox(
-                      height: 80,
+                      height: 140,
                       width: double.infinity,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
+                      child: GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: _imageAssets.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 5,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
+                          childAspectRatio: 1,
+                        ),
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () => _onImageTap(index),
                             child: Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 8),
-                              padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: _selectedImageIndex == index
                                       ? Colors.blueAccent
                                       : Colors.transparent,
-                                  width: 3,
+                                  width: 2,
                                 ),
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(12),
                               ),
                               child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12),
+                                padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16),
+                                  borderRadius: BorderRadius.circular(12),
                                   color: Colors.grey.shade100,
                                 ),
                                 child: Image.asset(
                                   'assets/images/${_imageAssets[index]}.png',
-                                  width: 50,
-                                  height: 50,
+                                  width: 30,
+                                  height: 30,
                                 ),
                               ),
                             ),

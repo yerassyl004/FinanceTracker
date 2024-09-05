@@ -26,7 +26,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
   @override
   void initState() {
     super.initState();
-    categories = _categoryService.getDefaultIncomeCategories();
+    categories = _categoryService.getDefaultExpenseCategories();
     _transactionBloc = TransactionBloc(cashService: CountCashService());
 
     _transactionBloc.add(LoadTransactionItems(month: DateTime.now()));
