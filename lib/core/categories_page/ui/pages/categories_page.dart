@@ -104,7 +104,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
               },
               backgroundColor: Colors.blueAccent,
               child: const Text(
-                'Add new account',
+                'Add new category',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16,

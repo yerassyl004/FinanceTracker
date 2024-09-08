@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:finance_app/core/models/category.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoryService {
 
@@ -27,5 +30,49 @@ class CategoryService {
       Category(title: 'Refunds', icon: 'refunds_icon'),
       Category(title: 'Lottery', icon: 'lottery_icon')
     ];
+  }
+
+  Future<List<Category>> loadExpenseCategoryData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> categoriesList = prefs.getStringList('expenseCategories') ?? [];
+
+    if (categoriesList.isEmpty) {
+      saveExpenseCategoryData(getDefaultExpenseCategories());
+      return getDefaultExpenseCategories();
+    } else {
+      return categoriesList
+          .map((jsonString) => Category.fromJson(jsonDecode(jsonString)))
+          .toList();
+    }
+  }
+
+  Future<List<Category>> loadIncomeCategoryData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> categoriesList = prefs.getStringList('incomeCategories') ?? [];
+
+    if (categoriesList.isEmpty) {
+      saveIncomeCategoryData(getDefaultIncomeCategories());
+      return getDefaultIncomeCategories();
+    } else {
+      return categoriesList
+          .map((jsonString) => Category.fromJson(jsonDecode(jsonString)))
+          .toList();
+    }
+  }
+
+  Future<void> saveExpenseCategoryData(List<Category> categories) async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> accountsList =
+        categories.map((acc) => jsonEncode(acc.toJson())).toList();
+
+    await prefs.setStringList('expenseCategories', accountsList);
+  }
+
+  Future<void> saveIncomeCategoryData(List<Category> categories) async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> accountsList =
+        categories.map((acc) => jsonEncode(acc.toJson())).toList();
+
+    await prefs.setStringList('incomeCategories', accountsList);
   }
 }

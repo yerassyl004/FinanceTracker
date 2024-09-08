@@ -90,7 +90,11 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
 
   void _createAccount(Category category) {
     CreateCategoryService service = CreateCategoryService();
-    service.createCategory(category);
+    if (selectedType == CategoryType.expense) {
+      service.createExpenseCategory(category);
+    } else {
+      service.createIncomeCategory(category);
+    }
     Navigator.pop(context, true);
   }
 
@@ -99,7 +103,11 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
     widget.category?.title = category.title;
 
     CreateCategoryService service = CreateCategoryService();
-    service.updatedCategory(widget.category!);
+    if (selectedType == CategoryType.expense) {
+      service.updatedCategory(widget.category!);
+    } else {
+      service.updatedIncomeCategory(widget.category!);
+    }
     Navigator.pop(context, true);
   }
 

@@ -10,7 +10,7 @@ class Category {
     required this.title,
     required this.icon,
     String? id,
-  }) : id = id ?? Uuid().v4();
+  }) : id = id ?? const Uuid().v4();
 
   Map<String, dynamic> toJson() {
     return {
