@@ -20,10 +20,15 @@ class _CategoriesPageState extends State<CategoriesPage> {
 
   @override
   void initState() {
-    widget.isExpense ? 
-    categories = _categoryService.getDefaultExpenseCategories() : 
-    categories = _categoryService.getDefaultIncomeCategories();
     super.initState();
+    loadCategory();
+  }
+
+  Future<void> loadCategory() async {
+    widget.isExpense ? 
+    categories = await _categoryService.loadExpenseCategoryData() : 
+    categories = await _categoryService.loadIncomeCategoryData();
+    setState(() {});
   }
 
   @override
