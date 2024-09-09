@@ -7,12 +7,12 @@ class CategoryEditService {
   
   Future<void> deleteAccount(Category account) async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String> accountsList = prefs.getStringList('accounts') ?? [];
+    final List<String> accountsList = prefs.getStringList('expenseCategories') ?? [];
 
     accountsList
         .map((jsonString) => Category.fromJson(jsonDecode(jsonString)))
         .toList();
     accountsList.remove(jsonEncode(account.toJson()));
-    await prefs.setStringList('accounts', accountsList);
+    await prefs.setStringList('expenseCategories', accountsList);
   }
 }

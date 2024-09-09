@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoryService {
 
-  List<Category> getDefaultExpenseCategories() {
+  List<Category> _getDefaultExpenseCategories() {
     return [
       Category(title: 'Food', icon: 'foods_icon'),
       Category(title: 'Transport', icon: 'car_icon'),
@@ -19,7 +19,7 @@ class CategoryService {
     ];
   }
 
-  List<Category> getDefaultIncomeCategories() {
+  List<Category> _getDefaultIncomeCategories() {
     return [
       Category(title: 'Salary', icon: 'salary_icon'),
       Category(title: 'Awards', icon: 'awards_icon'),
@@ -37,8 +37,8 @@ class CategoryService {
     final List<String> categoriesList = prefs.getStringList('expenseCategories') ?? [];
 
     if (categoriesList.isEmpty) {
-      saveExpenseCategoryData(getDefaultExpenseCategories());
-      return getDefaultExpenseCategories();
+      saveExpenseCategoryData(_getDefaultExpenseCategories());
+      return _getDefaultExpenseCategories();
     } else {
       return categoriesList
           .map((jsonString) => Category.fromJson(jsonDecode(jsonString)))
@@ -51,8 +51,8 @@ class CategoryService {
     final List<String> categoriesList = prefs.getStringList('incomeCategories') ?? [];
 
     if (categoriesList.isEmpty) {
-      saveIncomeCategoryData(getDefaultIncomeCategories());
-      return getDefaultIncomeCategories();
+      saveIncomeCategoryData(_getDefaultIncomeCategories());
+      return _getDefaultIncomeCategories();
     } else {
       return categoriesList
           .map((jsonString) => Category.fromJson(jsonDecode(jsonString)))
