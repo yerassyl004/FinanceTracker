@@ -18,9 +18,10 @@ class CategoriesError extends CategoryState {
 }
 
 class CategoriesLoaded extends CategoryState {
-  final List<Category> categories;
-  const CategoriesLoaded({required this.categories});
+  final List<Category> expenseCategories;
+  final List<Category> incomeCategories;
+  const CategoriesLoaded({required this.expenseCategories, required this.incomeCategories});
 
   @override
-  List<Object?> get props => [categories];
+  List<Object?> get props => [expenseCategories, incomeCategories];
 }

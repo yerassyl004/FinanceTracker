@@ -2,13 +2,16 @@ import 'package:uuid/uuid.dart';
 
 class Category {
   final String id;
-  // CategoryType type;
+  CategoryType type;
   String icon;
   String title;
+  // bool isExpense;
 
   Category({
     required this.title,
     required this.icon,
+    // required this.isExpense,
+    required this.type,
     String? id,
   }) : id = id ?? const Uuid().v4();
 
@@ -17,16 +20,18 @@ class Category {
       'id': id,
       'title': title,
       'icon': icon,
-      // 'type': type,
+      // 'isExpense': isExpense
+      'type': type.index,
     };
   }
 
   factory Category.fromJson(Map<String, dynamic> json) {
     return Category(
-      // type: json['type'],
+      type: CategoryType.values[json['type']],
       id: json['id'],
       title: json['title'],
       icon: json['icon'],
+      // isExpense: json['isExpense']
     );
   }
 }
