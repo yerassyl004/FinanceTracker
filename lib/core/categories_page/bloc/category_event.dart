@@ -13,3 +13,10 @@ class LoadExpenseCategoryData extends CategoryEvent {
   @override
   List<Object?> get props => [];
 }
+
+class LoadIncomeCategoryData extends CategoryEvent {
+  const LoadIncomeCategoryData();
+
+  @override
+  List<Object?> get props => [];
+}

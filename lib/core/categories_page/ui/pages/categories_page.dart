@@ -34,6 +34,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
     _transactionBloc = TransactionBloc(cashService: CountCashService());
     _categoryBloc = CategoryBloc(categoryService: CategoryService());
     _categoryBloc.add(const LoadExpenseCategoryData());
+    // _categoryBloc.add(const LoadIncomeCategoryData());
     _transactionBloc.add(LoadTransactionItems(month: DateTime.now()));
   }
 
@@ -75,22 +76,22 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   ),
                   Expanded(
                       child: BlocBuilder(
-                        bloc: _categoryBloc,
-                        builder: (context, state) {
-                        if (state is CategoriesLoading) {
-                          return const SizedBox();
-                        } else if (state is CategoriesError) {
-                          return const SizedBox();
-                        } else if (state is CategoriesLoaded) {
-                          return CategoriesList(
-                          categories: state.categories,
-                          pushEditCategory: _pushCreateCategory,
-                          updateList: () {});
-                        } else {
-                          return const SizedBox();
-                        }
-                      })
-                  )
+                          bloc: _categoryBloc,
+                          builder: (context, state) {
+                            if (state is CategoriesLoading) {
+                              return const SizedBox();
+                            } else if (state is CategoriesError) {
+                              return const SizedBox();
+                            } else if (state is CategoriesLoaded) {
+                              return CategoriesList(
+                                  categories: state.categories,
+                                  pushEditCategory: _pushCreateCategory,
+                                  updateList: () {});
+                            } else {
+                              return const SizedBox();
+                            }
+                          })),
+                          const SizedBox(height: 56)
                 ],
               ),
             ),
@@ -117,25 +118,25 @@ class _CategoriesPageState extends State<CategoriesPage> {
               ),
             ),
             Positioned(
-            left: 16,
-            right: 16,
-            bottom: 8,
-            height: 48,
-            child: FloatingActionButton(
-              onPressed: () {
-                _pushCreateCategory(null);
-              },
-              backgroundColor: Colors.blueAccent,
-              child: const Text(
-                'Add new category',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+              left: 16,
+              right: 16,
+              bottom: 8,
+              height: 48,
+              child: FloatingActionButton(
+                onPressed: () {
+                  _pushCreateCategory(null);
+                },
+                backgroundColor: Colors.blueAccent,
+                child: const Text(
+                  'Add new category',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          ),
           ],
         ));
   }
