@@ -10,28 +10,29 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
   CategoryBloc({required this.categoryService}) : super(CategoriesInitial()) {
     on<LoadExpenseCategoryData>(_onLoadExpenseCategories);
-    on<LoadIncomeCategoryData>(_onLoadIncomeCategories);
+    // on<LoadIncomeCategoryData>(_onLoadIncomeCategories);
   }
 
   Future<void> _onLoadExpenseCategories(
     LoadExpenseCategoryData event, Emitter<CategoryState> state) async {
       emit(CategoriesLoading());
       try {
-        final categories = await categoryService.loadExpenseCategoryData();
-        emit(CategoriesLoaded(categories: categories));
+        final expenseCategories = await categoryService.loadExpenseCategoryData();
+        final incomeCategories = await categoryService.loadIncomeCategoryData();
+        emit(CategoriesLoaded(expenseCategories: expenseCategories, incomeCategories: incomeCategories));
       } catch (e) {
         emit(CategoriesError(e.toString()));
       }
   }
 
-  Future<void> _onLoadIncomeCategories(
-    LoadIncomeCategoryData event, Emitter<CategoryState> state) async {
-      emit(CategoriesLoading());
-      try {
-        final categories = await categoryService.loadIncomeCategoryData();
-        emit(CategoriesLoaded(categories: categories));
-      } catch (e) {
-        emit(CategoriesError(e.toString()));
-      }
-  }
+  // Future<void> _onLoadIncomeCategories(
+  //   LoadIncomeCategoryData event, Emitter<CategoryState> state) async {
+  //     emit(CategoriesLoading());
+  //     try {
+  //       final categories = await categoryService.loadIncomeCategoryData();
+  //       emit(CategoriesLoaded(categories: categories));
+  //     } catch (e) {
+  //       emit(CategoriesError(e.toString()));
+  //     }
+  // }
 }

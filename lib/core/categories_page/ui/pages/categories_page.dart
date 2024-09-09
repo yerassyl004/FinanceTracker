@@ -84,7 +84,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                               return const SizedBox();
                             } else if (state is CategoriesLoaded) {
                               return CategoriesList(
-                                  categories: state.categories,
+                                  expenseCategories: state.expenseCategories,
+                                  incomeCategories: state.incomeCategories,
                                   pushEditCategory: _pushCreateCategory,
                                   updateList: () {});
                             } else {
