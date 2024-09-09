@@ -6,19 +6,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CreateCategoryService {
   Future<void> createExpenseCategory(Category category) async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String> categoryList = prefs.getStringList('expenseCategories') ?? [];
+    final List<String> categoryList = prefs.getStringList('expenseCategory') ?? [];
 
     categoryList
         .map((jsonString) => Category.fromJson(jsonDecode(jsonString)))
         .toList();
     categoryList.add(jsonEncode(category.toJson()));
-    await prefs.setStringList('expenseCategories', categoryList);
+    await prefs.setStringList('expenseCategory', categoryList);
   }
 
   void updatedCategory(Category category) async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> categoryList =
-        prefs.getStringList('expenseCategories') ?? [];
+        prefs.getStringList('expenseCategory') ?? [];
 
     var categories = categoryList.map((jsonString) {
       return Category.fromJson(jsonDecode(jsonString));
@@ -35,25 +35,25 @@ class CreateCategoryService {
       return jsonEncode(acc.toJson());
     }).toList();
 
-    await prefs.setStringList('expenseCategories', updatedCategoryList);
+    await prefs.setStringList('expenseCategory', updatedCategoryList);
   }
 
 
   Future<void> createIncomeCategory(Category category) async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String> categoryList = prefs.getStringList('incomeCategories') ?? [];
+    final List<String> categoryList = prefs.getStringList('incomeCategory') ?? [];
 
     categoryList
         .map((jsonString) => Category.fromJson(jsonDecode(jsonString)))
         .toList();
     categoryList.add(jsonEncode(category.toJson()));
-    await prefs.setStringList('incomeCategories', categoryList);
+    await prefs.setStringList('incomeCategory', categoryList);
   }
 
   void updatedIncomeCategory(Category category) async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> categoryList =
-        prefs.getStringList('incomeCategories') ?? [];
+        prefs.getStringList('incomeCategory') ?? [];
 
     var categories = categoryList.map((jsonString) {
       return Category.fromJson(jsonDecode(jsonString));
@@ -70,6 +70,6 @@ class CreateCategoryService {
       return jsonEncode(acc.toJson());
     }).toList();
 
-    await prefs.setStringList('incomeCategories', updatedCategoryList);
+    await prefs.setStringList('incomeCategory', updatedCategoryList);
   }
 }

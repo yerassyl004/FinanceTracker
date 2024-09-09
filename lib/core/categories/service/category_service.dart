@@ -7,34 +7,34 @@ class CategoryService {
 
   List<Category> _getDefaultExpenseCategories() {
     return [
-      Category(title: 'Food', icon: 'foods_icon'),
-      Category(title: 'Transport', icon: 'car_icon'),
-      Category(title: 'Clothes', icon: 'clothes_icon'),
-      Category(title: 'Shopping', icon: 'shopping_icon'),
-      Category(title: 'Home', icon: 'home_icon'),
-      Category(title: 'Health', icon: 'health_icon'),
-      Category(title: 'Bills', icon: 'bills_icon'),
-      Category(title: 'Education', icon: 'education_icon'),
-      Category(title: 'Beauty', icon: 'beauty_icon'),
+      Category(title: 'Food', icon: 'foods_icon', type: CategoryType.expense),
+      Category(title: 'Transport', icon: 'car_icon', type: CategoryType.expense),
+      Category(title: 'Clothes', icon: 'clothes_icon', type: CategoryType.expense),
+      Category(title: 'Shopping', icon: 'shopping_icon', type: CategoryType.expense),
+      Category(title: 'Home', icon: 'home_icon', type: CategoryType.expense),
+      Category(title: 'Health', icon: 'health_icon', type: CategoryType.expense),
+      Category(title: 'Bills', icon: 'bills_icon', type: CategoryType.expense),
+      Category(title: 'Education', icon: 'education_icon', type: CategoryType.expense),
+      Category(title: 'Beauty', icon: 'beauty_icon', type: CategoryType.expense),
     ];
   }
 
   List<Category> _getDefaultIncomeCategories() {
     return [
-      Category(title: 'Salary', icon: 'salary_icon'),
-      Category(title: 'Awards', icon: 'awards_icon'),
-      Category(title: 'Rental', icon: 'rental_icon'),
-      Category(title: 'Sale', icon: 'sale_icon'),
-      Category(title: 'Grants', icon: 'grants_icon'),
-      Category(title: 'Coupons', icon: 'coupons_icon'),
-      Category(title: 'Refunds', icon: 'refunds_icon'),
-      Category(title: 'Lottery', icon: 'lottery_icon')
+      Category(title: 'Salary', icon: 'salary_icon', type: CategoryType.income),
+      Category(title: 'Awards', icon: 'awards_icon', type: CategoryType.income),
+      Category(title: 'Rental', icon: 'rental_icon', type: CategoryType.income),
+      Category(title: 'Sale', icon: 'sale_icon', type: CategoryType.income),
+      Category(title: 'Grants', icon: 'grants_icon', type: CategoryType.income),
+      Category(title: 'Coupons', icon: 'coupons_icon', type: CategoryType.income),
+      Category(title: 'Refunds', icon: 'refunds_icon', type: CategoryType.income),
+      Category(title: 'Lottery', icon: 'lottery_icon', type: CategoryType.income)
     ];
   }
 
   Future<List<Category>> loadExpenseCategoryData() async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String> categoriesList = prefs.getStringList('expenseCategories') ?? [];
+    final List<String> categoriesList = prefs.getStringList('expenseCategory') ?? [];
 
     if (categoriesList.isEmpty) {
       saveExpenseCategoryData(_getDefaultExpenseCategories());
@@ -48,7 +48,7 @@ class CategoryService {
 
   Future<List<Category>> loadIncomeCategoryData() async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String> categoriesList = prefs.getStringList('incomeCategories') ?? [];
+    final List<String> categoriesList = prefs.getStringList('incomeCategory') ?? [];
 
     if (categoriesList.isEmpty) {
       saveIncomeCategoryData(_getDefaultIncomeCategories());
@@ -65,7 +65,7 @@ class CategoryService {
     final List<String> accountsList =
         categories.map((acc) => jsonEncode(acc.toJson())).toList();
 
-    await prefs.setStringList('expenseCategories', accountsList);
+    await prefs.setStringList('expenseCategory', accountsList);
   }
 
   Future<void> saveIncomeCategoryData(List<Category> categories) async {
@@ -73,6 +73,6 @@ class CategoryService {
     final List<String> accountsList =
         categories.map((acc) => jsonEncode(acc.toJson())).toList();
 
-    await prefs.setStringList('incomeCategories', accountsList);
+    await prefs.setStringList('incomeCategory', accountsList);
   }
 }
