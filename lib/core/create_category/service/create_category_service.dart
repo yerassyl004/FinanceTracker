@@ -83,7 +83,7 @@ class CreateCategoryService {
     'clothes_icon',
     'shopping_icon',
     'home_icon',
-    'health_icon'
+    'health_icon',
     'bills_icon',
     'education_icon',
     'beauty_icon',
@@ -95,7 +95,7 @@ class CreateCategoryService {
     'rental_icon',
     'sale_icon',
     'grants_icon',
-    'coupons_icon'
+    'coupons_icon',
     'refunds_icon',
     'lottery_icon',
   ];

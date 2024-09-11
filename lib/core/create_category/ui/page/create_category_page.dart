@@ -31,12 +31,14 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
     _balanceController.addListener(_addCurrencySymbol);
     _nameController.text = widget.category?.title ?? 'Untitled';
     if (widget.category != null) {
+      selectedType = widget.category!.type;
+      _imageAssets = service.getCategoryImages(selectedType);
       _selectedImageIndex = _imageAssets.indexOf(widget.category!.icon);
-      selectedType == widget.category!.type;
     } else {
       selectedType = CategoryType.expense;
+      _imageAssets = service.getCategoryImages(selectedType);
     }
-    _imageAssets = service.getCategoryImages(selectedType);
+    
     debugPrint(selectedType.name);
   }
 
@@ -114,6 +116,7 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
       setState(() {
         selectedType = type;
       });
+      _imageAssets = service.getCategoryImages(selectedType);
       debugPrint(selectedType.name);
   }
 
