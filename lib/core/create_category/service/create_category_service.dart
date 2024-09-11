@@ -11,7 +11,9 @@ class CreateCategoryService {
     categoryList
         .map((jsonString) => Category.fromJson(jsonDecode(jsonString)))
         .toList();
-    categoryList.add(jsonEncode(category.toJson()));
+    if (categoryList.length <= 12){
+      categoryList.add(jsonEncode(category.toJson()));
+    }
     await prefs.setStringList('expenseCategory', categoryList);
   }
 
@@ -38,7 +40,6 @@ class CreateCategoryService {
     await prefs.setStringList('expenseCategory', updatedCategoryList);
   }
 
-
   Future<void> createIncomeCategory(Category category) async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> categoryList = prefs.getStringList('incomeCategory') ?? [];
@@ -46,7 +47,9 @@ class CreateCategoryService {
     categoryList
         .map((jsonString) => Category.fromJson(jsonDecode(jsonString)))
         .toList();
-    categoryList.add(jsonEncode(category.toJson()));
+    if (categoryList.length <= 12){
+      categoryList.add(jsonEncode(category.toJson()));
+    }    
     await prefs.setStringList('incomeCategory', categoryList);
   }
 
@@ -71,5 +74,31 @@ class CreateCategoryService {
     }).toList();
 
     await prefs.setStringList('incomeCategory', updatedCategoryList);
+  }
+
+  List<String> getCategoryImages(CategoryType type) {
+    final List<String> imageExpenseAssets = [
+    'foods_icon',
+    'car_icon',
+    'clothes_icon',
+    'shopping_icon',
+    'home_icon',
+    'health_icon'
+    'bills_icon',
+    'education_icon',
+    'beauty_icon',
+  ];
+
+  final List<String> imageIncomeAssets = [
+    'salary_icon',
+    'awards_icon',
+    'rental_icon',
+    'sale_icon',
+    'grants_icon',
+    'coupons_icon'
+    'refunds_icon',
+    'lottery_icon',
+  ];
+    return type == CategoryType.expense ? imageExpenseAssets : imageIncomeAssets;
   }
 }

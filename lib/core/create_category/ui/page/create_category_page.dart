@@ -18,21 +18,12 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
   final TextEditingController _balanceController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  final CreateCategoryService service = CreateCategoryService();
   int _selectedImageIndex = 0;
   late CategoryType selectedType;
   
 
-  final List<String> _imageAssets = [
-    'foods_icon',
-    'car_icon',
-    'clothes_icon',
-    'shopping_icon',
-    'home_icon',
-    'bills_icon',
-    'education_icon',
-    'beauty_icon',
-    'health_icon'
-  ];
+  late List<String> _imageAssets;
 
   @override
   void initState() {
@@ -41,10 +32,11 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
     _nameController.text = widget.category?.title ?? 'Untitled';
     if (widget.category != null) {
       _selectedImageIndex = _imageAssets.indexOf(widget.category!.icon);
-      selectedType = widget.category!.type;
+      selectedType == widget.category!.type;
     } else {
       selectedType = CategoryType.expense;
     }
+    _imageAssets = service.getCategoryImages(selectedType);
     debugPrint(selectedType.name);
   }
 
@@ -122,7 +114,7 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
       setState(() {
         selectedType = type;
       });
-    debugPrint(selectedType.name);
+      debugPrint(selectedType.name);
   }
 
   @override
