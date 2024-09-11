@@ -9,11 +9,11 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   final CategoryService categoryService;
 
   CategoryBloc({required this.categoryService}) : super(CategoriesInitial()) {
-    on<LoadExpenseCategoryData>(_onLoadExpenseCategories);
+    on<LoadCategoryData>(_onLoadExpenseCategories);
   }
 
   Future<void> _onLoadExpenseCategories(
-    LoadExpenseCategoryData event, Emitter<CategoryState> state) async {
+    LoadCategoryData event, Emitter<CategoryState> state) async {
       emit(CategoriesLoading());
       try {
         final expenseCategories = await categoryService.loadExpenseCategoryData();

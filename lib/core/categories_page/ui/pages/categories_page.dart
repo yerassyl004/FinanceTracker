@@ -33,7 +33,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
     loadCategory();
     _transactionBloc = TransactionBloc(cashService: CountCashService());
     _categoryBloc = CategoryBloc(categoryService: CategoryService());
-    _categoryBloc.add(const LoadExpenseCategoryData());
+    _categoryBloc.add(const LoadCategoryData());
     // _categoryBloc.add(const LoadIncomeCategoryData());
     _transactionBloc.add(LoadTransactionItems(month: DateTime.now()));
   }
@@ -57,7 +57,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
     );
 
     if (result == true) {
-      // _accountsBloc.add(const LoadAccounts()); // Reload accounts
+      _categoryBloc.add(const LoadCategoryData()); // Reload catgories
     }
   }
 
@@ -87,7 +87,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                   expenseCategories: state.expenseCategories,
                                   incomeCategories: state.incomeCategories,
                                   pushEditCategory: _pushCreateCategory,
-                                  updateList: () {});
+                                  updateList: () {
+                                    _categoryBloc.add(const LoadCategoryData());
+                                  });
                             } else {
                               return const SizedBox();
                             }
