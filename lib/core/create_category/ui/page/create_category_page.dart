@@ -5,9 +5,10 @@ import 'package:finance_app/core/models/category.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CreateCategoryPage extends StatefulWidget {
   final Category? category;
-  const CreateCategoryPage({super.key, this.category});
+  CreateCategoryPage({super.key, this.category});
 
   @override
   State<CreateCategoryPage> createState() => _CreateCategoryPageState();
@@ -17,20 +18,12 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
   final TextEditingController _balanceController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  final CreateCategoryService service = CreateCategoryService();
   int _selectedImageIndex = 0;
-  CategoryType selectedType = CategoryType.expense;
+  late CategoryType selectedType;
+  
 
-  final List<String> _imageAssets = [
-    'foods_icon',
-    'car_icon',
-    'clothes_icon',
-    'shopping_icon',
-    'home_icon',
-    'bills_icon',
-    'education_icon',
-    'beauty_icon',
-    'health_icon'
-  ];
+  late List<String> _imageAssets;
 
   @override
   void initState() {
@@ -38,8 +31,15 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
     _balanceController.addListener(_addCurrencySymbol);
     _nameController.text = widget.category?.title ?? 'Untitled';
     if (widget.category != null) {
+      selectedType = widget.category!.type;
+      _imageAssets = service.getCategoryImages(selectedType);
       _selectedImageIndex = _imageAssets.indexOf(widget.category!.icon);
+    } else {
+      selectedType = CategoryType.expense;
+      _imageAssets = service.getCategoryImages(selectedType);
     }
+    
+    debugPrint(selectedType.name);
   }
 
   void _addCurrencySymbol() {
@@ -84,7 +84,7 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
         _updateAccount(category);
       }
     } catch (e) {
-      print('Error creating account: ${e.toString()}');
+      debugPrint('Error creating account: ${e.toString()}');
       Navigator.pop(context, false);
     }
   }
@@ -113,16 +113,11 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
   }
 
   void _categorySelected(CategoryType type) {
-    switch (type) {
-      case CategoryType.expense:
-        setState(() {
-          selectedType = CategoryType.expense;
-        });
-      case CategoryType.income:
-        setState(() {
-          selectedType = CategoryType.income;
-        });
-    }
+      setState(() {
+        selectedType = type;
+      });
+      _imageAssets = service.getCategoryImages(selectedType);
+      debugPrint(selectedType.name);
   }
 
   @override
