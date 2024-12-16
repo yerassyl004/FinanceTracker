@@ -99,7 +99,7 @@ class NewHomePage extends StatelessWidget {
                     child: FloatingActionButton(
                       backgroundColor: Colors.grey.shade300,
                       onPressed: () async {
-                        final result = Navigator.pushNamed(
+                        final result = await Navigator.pushNamed(
                             context, Routes.createTransactionPage,
                             arguments: CreateTransactionsArgument(
                               null),
