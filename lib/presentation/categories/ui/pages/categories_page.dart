@@ -1,34 +1,21 @@
-import 'package:finance_app/presentation/categories/service/category_service.dart';
 import 'package:finance_app/presentation/categories/ui/widget/category_grid_item.dart';
 import 'package:finance_app/data/models/category.dart';
+import 'package:finance_app/presentation/create_transaction/bloc/create_transaction_bloc.dart';
 import 'package:flutter/material.dart';
 
-class CategoriesPage extends StatefulWidget {
+class CategoriesPage extends StatelessWidget {
+  final CreateTransactionData data;
   final bool isExpense;
   final Function(Category) onCategorySelected;
   const CategoriesPage(
-      {super.key, required this.onCategorySelected, required this.isExpense});
+      {super.key, required this.onCategorySelected, required this.isExpense, required this.data});
 
-  @override
-  State<CategoriesPage> createState() => _CategoriesPageState();
-}
-
-class _CategoriesPageState extends State<CategoriesPage> {
-  List<Category> categories = [];
-
-  final CategoryService _categoryService = CategoryService();
-
-  @override
-  void initState() {
-    super.initState();
-    loadCategory();
-  }
-
-  Future<void> loadCategory() async {
-    widget.isExpense ? 
-    categories = await _categoryService.loadExpenseCategoryData() : 
-    categories = await _categoryService.loadIncomeCategoryData();
-    setState(() {});
+  List<Category> getList() {
+    if (isExpense) {
+      return data.expenseCategories ?? [];
+    } else {
+      return data.incomeCategories ?? [];
+    }
   }
 
   @override
@@ -53,10 +40,10 @@ class _CategoriesPageState extends State<CategoriesPage> {
               Wrap(
                 spacing: 16,
                 runSpacing: 16,
-                children: categories.map((category) {
+                children: getList().map((category) {
                   return GestureDetector(
                     onTap: () {
-                      widget.onCategorySelected(category);
+                      onCategorySelected(category);
                     },
                     child: SizedBox(
                       width: (MediaQuery.of(context).size.width - 64) / 3,

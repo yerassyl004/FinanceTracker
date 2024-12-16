@@ -9,4 +9,6 @@ class CreateTransactionState with _$CreateTransactionState {
       EditTransactionState;
 
   const factory CreateTransactionState.loading(CreateTransactionData data) = LoadingTransactionState;
+
+  const factory CreateTransactionState.success(CreateTransactionData data) = SuccessTransactionState;
 }

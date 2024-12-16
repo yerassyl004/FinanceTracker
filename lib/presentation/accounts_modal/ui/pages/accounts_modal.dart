@@ -1,25 +1,30 @@
 import 'package:finance_app/presentation/accounts_modal/ui/widgets/account_item_widget.dart';
 import 'package:finance_app/data/models/account.dart';
+import 'package:finance_app/presentation/create_transaction/bloc/create_transaction_bloc.dart';
+import 'package:finance_app/presentation/resourses/color_manager.dart';
 import 'package:flutter/material.dart';
 
 class AddAccountsPage extends StatelessWidget {
-  final Function(Account) onTapAccount;
-  final List<Account> accountList;
+  final CreateTransactionData data;
+  final Function(Account) onTap;
+  final bool fromAccount;
 
   const AddAccountsPage({
+    this.fromAccount = false,
     super.key,
-    required this.onTapAccount,
-    required this.accountList,
+    required this.onTap,
+    required this.data,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
+    return Container(
+      color: ColorManager.white,
+      child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
@@ -31,16 +36,25 @@ class AddAccountsPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: accountList.length,
-                  itemBuilder: (context, index) {
-                    final account = accountList[index];
-                    return GestureDetector(
-                      onTap: () => onTapAccount(account),
-                      child: AccountItemWidget(account: account),
-                    );
-                  },
+              Flexible(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: MediaQuery.of(context).size.height * 0.8,
+                  ),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: data.accounts!.length,
+                    itemBuilder: (context, index) {
+                      final account = data.accounts![index];
+                      return InkWell(
+                        onTap: () {
+                          onTap(account);
+                          Navigator.pop(context);
+                        },
+                        child: AccountItemWidget(account: account),
+                      );
+                    },
+                  ),
                 ),
               ),
             ],

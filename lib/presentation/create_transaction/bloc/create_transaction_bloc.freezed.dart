@@ -17,9 +17,12 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$CreateTransactionData {
   TypeSpending get selectedType => throw _privateConstructorUsedError;
+  Category? get category => throw _privateConstructorUsedError;
+  Account? get fromAccount => throw _privateConstructorUsedError;
+  Account? get toAccount => throw _privateConstructorUsedError;
   Transaction? get transaction => throw _privateConstructorUsedError;
-  List<Account>? get account => throw _privateConstructorUsedError;
-  List<Account>? get destinationAccount => throw _privateConstructorUsedError;
+  List<Account>? get accounts => throw _privateConstructorUsedError;
+  List<Account>? get destinationAccounts => throw _privateConstructorUsedError;
   List<Category>? get expenseCategories => throw _privateConstructorUsedError;
   List<Category>? get incomeCategories => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
@@ -27,18 +30,24 @@ mixin _$CreateTransactionData {
   TResult when<TResult extends Object?>(
     TResult Function(
             TypeSpending selectedType,
+            Category? category,
+            Account? fromAccount,
+            Account? toAccount,
             Transaction? transaction,
-            List<Account>? account,
-            List<Account>? destinationAccount,
+            List<Account>? accounts,
+            List<Account>? destinationAccounts,
             List<Category>? expenseCategories,
             List<Category>? incomeCategories,
             String? errorMessage)
         $default, {
     required TResult Function(
             TypeSpending selectedType,
+            Category? category,
+            Account? fromAccount,
+            Account? toAccount,
             Transaction? transaction,
-            List<Account>? account,
-            List<Account>? destinationAccount,
+            List<Account>? accounts,
+            List<Account>? destinationAccounts,
             List<Category>? expenseCategories,
             List<Category>? incomeCategories,
             String? errorMessage)
@@ -49,18 +58,24 @@ mixin _$CreateTransactionData {
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
             TypeSpending selectedType,
+            Category? category,
+            Account? fromAccount,
+            Account? toAccount,
             Transaction? transaction,
-            List<Account>? account,
-            List<Account>? destinationAccount,
+            List<Account>? accounts,
+            List<Account>? destinationAccounts,
             List<Category>? expenseCategories,
             List<Category>? incomeCategories,
             String? errorMessage)?
         $default, {
     TResult? Function(
             TypeSpending selectedType,
+            Category? category,
+            Account? fromAccount,
+            Account? toAccount,
             Transaction? transaction,
-            List<Account>? account,
-            List<Account>? destinationAccount,
+            List<Account>? accounts,
+            List<Account>? destinationAccounts,
             List<Category>? expenseCategories,
             List<Category>? incomeCategories,
             String? errorMessage)?
@@ -71,18 +86,24 @@ mixin _$CreateTransactionData {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
             TypeSpending selectedType,
+            Category? category,
+            Account? fromAccount,
+            Account? toAccount,
             Transaction? transaction,
-            List<Account>? account,
-            List<Account>? destinationAccount,
+            List<Account>? accounts,
+            List<Account>? destinationAccounts,
             List<Category>? expenseCategories,
             List<Category>? incomeCategories,
             String? errorMessage)?
         $default, {
     TResult Function(
             TypeSpending selectedType,
+            Category? category,
+            Account? fromAccount,
+            Account? toAccount,
             Transaction? transaction,
-            List<Account>? account,
-            List<Account>? destinationAccount,
+            List<Account>? accounts,
+            List<Account>? destinationAccounts,
             List<Category>? expenseCategories,
             List<Category>? incomeCategories,
             String? errorMessage)?
@@ -125,9 +146,12 @@ abstract class $CreateTransactionDataCopyWith<$Res> {
   @useResult
   $Res call(
       {TypeSpending selectedType,
+      Category? category,
+      Account? fromAccount,
+      Account? toAccount,
       Transaction? transaction,
-      List<Account>? account,
-      List<Account>? destinationAccount,
+      List<Account>? accounts,
+      List<Account>? destinationAccounts,
       List<Category>? expenseCategories,
       List<Category>? incomeCategories,
       String? errorMessage});
@@ -150,9 +174,12 @@ class _$CreateTransactionDataCopyWithImpl<$Res,
   @override
   $Res call({
     Object? selectedType = null,
+    Object? category = freezed,
+    Object? fromAccount = freezed,
+    Object? toAccount = freezed,
     Object? transaction = freezed,
-    Object? account = freezed,
-    Object? destinationAccount = freezed,
+    Object? accounts = freezed,
+    Object? destinationAccounts = freezed,
     Object? expenseCategories = freezed,
     Object? incomeCategories = freezed,
     Object? errorMessage = freezed,
@@ -162,17 +189,29 @@ class _$CreateTransactionDataCopyWithImpl<$Res,
           ? _value.selectedType
           : selectedType // ignore: cast_nullable_to_non_nullable
               as TypeSpending,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as Category?,
+      fromAccount: freezed == fromAccount
+          ? _value.fromAccount
+          : fromAccount // ignore: cast_nullable_to_non_nullable
+              as Account?,
+      toAccount: freezed == toAccount
+          ? _value.toAccount
+          : toAccount // ignore: cast_nullable_to_non_nullable
+              as Account?,
       transaction: freezed == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
               as Transaction?,
-      account: freezed == account
-          ? _value.account
-          : account // ignore: cast_nullable_to_non_nullable
+      accounts: freezed == accounts
+          ? _value.accounts
+          : accounts // ignore: cast_nullable_to_non_nullable
               as List<Account>?,
-      destinationAccount: freezed == destinationAccount
-          ? _value.destinationAccount
-          : destinationAccount // ignore: cast_nullable_to_non_nullable
+      destinationAccounts: freezed == destinationAccounts
+          ? _value.destinationAccounts
+          : destinationAccounts // ignore: cast_nullable_to_non_nullable
               as List<Account>?,
       expenseCategories: freezed == expenseCategories
           ? _value.expenseCategories
@@ -201,9 +240,12 @@ abstract class _$$CreateTransactionDataImplCopyWith<$Res>
   @useResult
   $Res call(
       {TypeSpending selectedType,
+      Category? category,
+      Account? fromAccount,
+      Account? toAccount,
       Transaction? transaction,
-      List<Account>? account,
-      List<Account>? destinationAccount,
+      List<Account>? accounts,
+      List<Account>? destinationAccounts,
       List<Category>? expenseCategories,
       List<Category>? incomeCategories,
       String? errorMessage});
@@ -224,9 +266,12 @@ class __$$CreateTransactionDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? selectedType = null,
+    Object? category = freezed,
+    Object? fromAccount = freezed,
+    Object? toAccount = freezed,
     Object? transaction = freezed,
-    Object? account = freezed,
-    Object? destinationAccount = freezed,
+    Object? accounts = freezed,
+    Object? destinationAccounts = freezed,
     Object? expenseCategories = freezed,
     Object? incomeCategories = freezed,
     Object? errorMessage = freezed,
@@ -236,17 +281,29 @@ class __$$CreateTransactionDataImplCopyWithImpl<$Res>
           ? _value.selectedType
           : selectedType // ignore: cast_nullable_to_non_nullable
               as TypeSpending,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as Category?,
+      fromAccount: freezed == fromAccount
+          ? _value.fromAccount
+          : fromAccount // ignore: cast_nullable_to_non_nullable
+              as Account?,
+      toAccount: freezed == toAccount
+          ? _value.toAccount
+          : toAccount // ignore: cast_nullable_to_non_nullable
+              as Account?,
       transaction: freezed == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
               as Transaction?,
-      account: freezed == account
-          ? _value._account
-          : account // ignore: cast_nullable_to_non_nullable
+      accounts: freezed == accounts
+          ? _value._accounts
+          : accounts // ignore: cast_nullable_to_non_nullable
               as List<Account>?,
-      destinationAccount: freezed == destinationAccount
-          ? _value._destinationAccount
-          : destinationAccount // ignore: cast_nullable_to_non_nullable
+      destinationAccounts: freezed == destinationAccounts
+          ? _value._destinationAccounts
+          : destinationAccounts // ignore: cast_nullable_to_non_nullable
               as List<Account>?,
       expenseCategories: freezed == expenseCategories
           ? _value._expenseCategories
@@ -269,14 +326,17 @@ class __$$CreateTransactionDataImplCopyWithImpl<$Res>
 class _$CreateTransactionDataImpl extends _CreateTransactionData {
   const _$CreateTransactionDataImpl(
       {this.selectedType = TypeSpending.expense,
+      this.category = null,
+      this.fromAccount = null,
+      this.toAccount = null,
       this.transaction = null,
-      final List<Account>? account = const [],
-      final List<Account>? destinationAccount = const [],
+      final List<Account>? accounts = const [],
+      final List<Account>? destinationAccounts = const [],
       final List<Category>? expenseCategories = const [],
       final List<Category>? incomeCategories = const [],
       this.errorMessage})
-      : _account = account,
-        _destinationAccount = destinationAccount,
+      : _accounts = accounts,
+        _destinationAccounts = destinationAccounts,
         _expenseCategories = expenseCategories,
         _incomeCategories = incomeCategories,
         super._();
@@ -286,26 +346,35 @@ class _$CreateTransactionDataImpl extends _CreateTransactionData {
   final TypeSpending selectedType;
   @override
   @JsonKey()
-  final Transaction? transaction;
-  final List<Account>? _account;
+  final Category? category;
   @override
   @JsonKey()
-  List<Account>? get account {
-    final value = _account;
+  final Account? fromAccount;
+  @override
+  @JsonKey()
+  final Account? toAccount;
+  @override
+  @JsonKey()
+  final Transaction? transaction;
+  final List<Account>? _accounts;
+  @override
+  @JsonKey()
+  List<Account>? get accounts {
+    final value = _accounts;
     if (value == null) return null;
-    if (_account is EqualUnmodifiableListView) return _account;
+    if (_accounts is EqualUnmodifiableListView) return _accounts;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
 
-  final List<Account>? _destinationAccount;
+  final List<Account>? _destinationAccounts;
   @override
   @JsonKey()
-  List<Account>? get destinationAccount {
-    final value = _destinationAccount;
+  List<Account>? get destinationAccounts {
+    final value = _destinationAccounts;
     if (value == null) return null;
-    if (_destinationAccount is EqualUnmodifiableListView)
-      return _destinationAccount;
+    if (_destinationAccounts is EqualUnmodifiableListView)
+      return _destinationAccounts;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
@@ -339,7 +408,7 @@ class _$CreateTransactionDataImpl extends _CreateTransactionData {
 
   @override
   String toString() {
-    return 'CreateTransactionData(selectedType: $selectedType, transaction: $transaction, account: $account, destinationAccount: $destinationAccount, expenseCategories: $expenseCategories, incomeCategories: $incomeCategories, errorMessage: $errorMessage)';
+    return 'CreateTransactionData(selectedType: $selectedType, category: $category, fromAccount: $fromAccount, toAccount: $toAccount, transaction: $transaction, accounts: $accounts, destinationAccounts: $destinationAccounts, expenseCategories: $expenseCategories, incomeCategories: $incomeCategories, errorMessage: $errorMessage)';
   }
 
   @override
@@ -349,11 +418,17 @@ class _$CreateTransactionDataImpl extends _CreateTransactionData {
             other is _$CreateTransactionDataImpl &&
             (identical(other.selectedType, selectedType) ||
                 other.selectedType == selectedType) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
+            (identical(other.fromAccount, fromAccount) ||
+                other.fromAccount == fromAccount) &&
+            (identical(other.toAccount, toAccount) ||
+                other.toAccount == toAccount) &&
             (identical(other.transaction, transaction) ||
                 other.transaction == transaction) &&
-            const DeepCollectionEquality().equals(other._account, _account) &&
+            const DeepCollectionEquality().equals(other._accounts, _accounts) &&
             const DeepCollectionEquality()
-                .equals(other._destinationAccount, _destinationAccount) &&
+                .equals(other._destinationAccounts, _destinationAccounts) &&
             const DeepCollectionEquality()
                 .equals(other._expenseCategories, _expenseCategories) &&
             const DeepCollectionEquality()
@@ -366,9 +441,12 @@ class _$CreateTransactionDataImpl extends _CreateTransactionData {
   int get hashCode => Object.hash(
       runtimeType,
       selectedType,
+      category,
+      fromAccount,
+      toAccount,
       transaction,
-      const DeepCollectionEquality().hash(_account),
-      const DeepCollectionEquality().hash(_destinationAccount),
+      const DeepCollectionEquality().hash(_accounts),
+      const DeepCollectionEquality().hash(_destinationAccounts),
       const DeepCollectionEquality().hash(_expenseCategories),
       const DeepCollectionEquality().hash(_incomeCategories),
       errorMessage);
@@ -387,25 +465,40 @@ class _$CreateTransactionDataImpl extends _CreateTransactionData {
   TResult when<TResult extends Object?>(
     TResult Function(
             TypeSpending selectedType,
+            Category? category,
+            Account? fromAccount,
+            Account? toAccount,
             Transaction? transaction,
-            List<Account>? account,
-            List<Account>? destinationAccount,
+            List<Account>? accounts,
+            List<Account>? destinationAccounts,
             List<Category>? expenseCategories,
             List<Category>? incomeCategories,
             String? errorMessage)
         $default, {
     required TResult Function(
             TypeSpending selectedType,
+            Category? category,
+            Account? fromAccount,
+            Account? toAccount,
             Transaction? transaction,
-            List<Account>? account,
-            List<Account>? destinationAccount,
+            List<Account>? accounts,
+            List<Account>? destinationAccounts,
             List<Category>? expenseCategories,
             List<Category>? incomeCategories,
             String? errorMessage)
         init,
   }) {
-    return $default(selectedType, transaction, account, destinationAccount,
-        expenseCategories, incomeCategories, errorMessage);
+    return $default(
+        selectedType,
+        category,
+        fromAccount,
+        toAccount,
+        transaction,
+        accounts,
+        destinationAccounts,
+        expenseCategories,
+        incomeCategories,
+        errorMessage);
   }
 
   @override
@@ -413,25 +506,40 @@ class _$CreateTransactionDataImpl extends _CreateTransactionData {
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
             TypeSpending selectedType,
+            Category? category,
+            Account? fromAccount,
+            Account? toAccount,
             Transaction? transaction,
-            List<Account>? account,
-            List<Account>? destinationAccount,
+            List<Account>? accounts,
+            List<Account>? destinationAccounts,
             List<Category>? expenseCategories,
             List<Category>? incomeCategories,
             String? errorMessage)?
         $default, {
     TResult? Function(
             TypeSpending selectedType,
+            Category? category,
+            Account? fromAccount,
+            Account? toAccount,
             Transaction? transaction,
-            List<Account>? account,
-            List<Account>? destinationAccount,
+            List<Account>? accounts,
+            List<Account>? destinationAccounts,
             List<Category>? expenseCategories,
             List<Category>? incomeCategories,
             String? errorMessage)?
         init,
   }) {
-    return $default?.call(selectedType, transaction, account,
-        destinationAccount, expenseCategories, incomeCategories, errorMessage);
+    return $default?.call(
+        selectedType,
+        category,
+        fromAccount,
+        toAccount,
+        transaction,
+        accounts,
+        destinationAccounts,
+        expenseCategories,
+        incomeCategories,
+        errorMessage);
   }
 
   @override
@@ -439,18 +547,24 @@ class _$CreateTransactionDataImpl extends _CreateTransactionData {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
             TypeSpending selectedType,
+            Category? category,
+            Account? fromAccount,
+            Account? toAccount,
             Transaction? transaction,
-            List<Account>? account,
-            List<Account>? destinationAccount,
+            List<Account>? accounts,
+            List<Account>? destinationAccounts,
             List<Category>? expenseCategories,
             List<Category>? incomeCategories,
             String? errorMessage)?
         $default, {
     TResult Function(
             TypeSpending selectedType,
+            Category? category,
+            Account? fromAccount,
+            Account? toAccount,
             Transaction? transaction,
-            List<Account>? account,
-            List<Account>? destinationAccount,
+            List<Account>? accounts,
+            List<Account>? destinationAccounts,
             List<Category>? expenseCategories,
             List<Category>? incomeCategories,
             String? errorMessage)?
@@ -458,8 +572,17 @@ class _$CreateTransactionDataImpl extends _CreateTransactionData {
     required TResult orElse(),
   }) {
     if ($default != null) {
-      return $default(selectedType, transaction, account, destinationAccount,
-          expenseCategories, incomeCategories, errorMessage);
+      return $default(
+          selectedType,
+          category,
+          fromAccount,
+          toAccount,
+          transaction,
+          accounts,
+          destinationAccounts,
+          expenseCategories,
+          incomeCategories,
+          errorMessage);
     }
     return orElse();
   }
@@ -499,9 +622,12 @@ class _$CreateTransactionDataImpl extends _CreateTransactionData {
 abstract class _CreateTransactionData extends CreateTransactionData {
   const factory _CreateTransactionData(
       {final TypeSpending selectedType,
+      final Category? category,
+      final Account? fromAccount,
+      final Account? toAccount,
       final Transaction? transaction,
-      final List<Account>? account,
-      final List<Account>? destinationAccount,
+      final List<Account>? accounts,
+      final List<Account>? destinationAccounts,
       final List<Category>? expenseCategories,
       final List<Category>? incomeCategories,
       final String? errorMessage}) = _$CreateTransactionDataImpl;
@@ -510,11 +636,17 @@ abstract class _CreateTransactionData extends CreateTransactionData {
   @override
   TypeSpending get selectedType;
   @override
+  Category? get category;
+  @override
+  Account? get fromAccount;
+  @override
+  Account? get toAccount;
+  @override
   Transaction? get transaction;
   @override
-  List<Account>? get account;
+  List<Account>? get accounts;
   @override
-  List<Account>? get destinationAccount;
+  List<Account>? get destinationAccounts;
   @override
   List<Category>? get expenseCategories;
   @override
@@ -540,9 +672,12 @@ abstract class _$$InitTransactionDataImplCopyWith<$Res>
   @useResult
   $Res call(
       {TypeSpending selectedType,
+      Category? category,
+      Account? fromAccount,
+      Account? toAccount,
       Transaction? transaction,
-      List<Account>? account,
-      List<Account>? destinationAccount,
+      List<Account>? accounts,
+      List<Account>? destinationAccounts,
       List<Category>? expenseCategories,
       List<Category>? incomeCategories,
       String? errorMessage});
@@ -562,9 +697,12 @@ class __$$InitTransactionDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? selectedType = null,
+    Object? category = freezed,
+    Object? fromAccount = freezed,
+    Object? toAccount = freezed,
     Object? transaction = freezed,
-    Object? account = freezed,
-    Object? destinationAccount = freezed,
+    Object? accounts = freezed,
+    Object? destinationAccounts = freezed,
     Object? expenseCategories = freezed,
     Object? incomeCategories = freezed,
     Object? errorMessage = freezed,
@@ -574,17 +712,29 @@ class __$$InitTransactionDataImplCopyWithImpl<$Res>
           ? _value.selectedType
           : selectedType // ignore: cast_nullable_to_non_nullable
               as TypeSpending,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as Category?,
+      fromAccount: freezed == fromAccount
+          ? _value.fromAccount
+          : fromAccount // ignore: cast_nullable_to_non_nullable
+              as Account?,
+      toAccount: freezed == toAccount
+          ? _value.toAccount
+          : toAccount // ignore: cast_nullable_to_non_nullable
+              as Account?,
       transaction: freezed == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
               as Transaction?,
-      account: freezed == account
-          ? _value._account
-          : account // ignore: cast_nullable_to_non_nullable
+      accounts: freezed == accounts
+          ? _value._accounts
+          : accounts // ignore: cast_nullable_to_non_nullable
               as List<Account>?,
-      destinationAccount: freezed == destinationAccount
-          ? _value._destinationAccount
-          : destinationAccount // ignore: cast_nullable_to_non_nullable
+      destinationAccounts: freezed == destinationAccounts
+          ? _value._destinationAccounts
+          : destinationAccounts // ignore: cast_nullable_to_non_nullable
               as List<Account>?,
       expenseCategories: freezed == expenseCategories
           ? _value._expenseCategories
@@ -607,14 +757,17 @@ class __$$InitTransactionDataImplCopyWithImpl<$Res>
 class _$InitTransactionDataImpl extends _InitTransactionData {
   const _$InitTransactionDataImpl(
       {this.selectedType = TypeSpending.expense,
+      this.category = null,
+      this.fromAccount = null,
+      this.toAccount = null,
       this.transaction = null,
-      final List<Account>? account = const [],
-      final List<Account>? destinationAccount = const [],
+      final List<Account>? accounts = const [],
+      final List<Account>? destinationAccounts = const [],
       final List<Category>? expenseCategories = const [],
       final List<Category>? incomeCategories = const [],
       this.errorMessage})
-      : _account = account,
-        _destinationAccount = destinationAccount,
+      : _accounts = accounts,
+        _destinationAccounts = destinationAccounts,
         _expenseCategories = expenseCategories,
         _incomeCategories = incomeCategories,
         super._();
@@ -624,26 +777,35 @@ class _$InitTransactionDataImpl extends _InitTransactionData {
   final TypeSpending selectedType;
   @override
   @JsonKey()
-  final Transaction? transaction;
-  final List<Account>? _account;
+  final Category? category;
   @override
   @JsonKey()
-  List<Account>? get account {
-    final value = _account;
+  final Account? fromAccount;
+  @override
+  @JsonKey()
+  final Account? toAccount;
+  @override
+  @JsonKey()
+  final Transaction? transaction;
+  final List<Account>? _accounts;
+  @override
+  @JsonKey()
+  List<Account>? get accounts {
+    final value = _accounts;
     if (value == null) return null;
-    if (_account is EqualUnmodifiableListView) return _account;
+    if (_accounts is EqualUnmodifiableListView) return _accounts;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
 
-  final List<Account>? _destinationAccount;
+  final List<Account>? _destinationAccounts;
   @override
   @JsonKey()
-  List<Account>? get destinationAccount {
-    final value = _destinationAccount;
+  List<Account>? get destinationAccounts {
+    final value = _destinationAccounts;
     if (value == null) return null;
-    if (_destinationAccount is EqualUnmodifiableListView)
-      return _destinationAccount;
+    if (_destinationAccounts is EqualUnmodifiableListView)
+      return _destinationAccounts;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
@@ -677,7 +839,7 @@ class _$InitTransactionDataImpl extends _InitTransactionData {
 
   @override
   String toString() {
-    return 'CreateTransactionData.init(selectedType: $selectedType, transaction: $transaction, account: $account, destinationAccount: $destinationAccount, expenseCategories: $expenseCategories, incomeCategories: $incomeCategories, errorMessage: $errorMessage)';
+    return 'CreateTransactionData.init(selectedType: $selectedType, category: $category, fromAccount: $fromAccount, toAccount: $toAccount, transaction: $transaction, accounts: $accounts, destinationAccounts: $destinationAccounts, expenseCategories: $expenseCategories, incomeCategories: $incomeCategories, errorMessage: $errorMessage)';
   }
 
   @override
@@ -687,11 +849,17 @@ class _$InitTransactionDataImpl extends _InitTransactionData {
             other is _$InitTransactionDataImpl &&
             (identical(other.selectedType, selectedType) ||
                 other.selectedType == selectedType) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
+            (identical(other.fromAccount, fromAccount) ||
+                other.fromAccount == fromAccount) &&
+            (identical(other.toAccount, toAccount) ||
+                other.toAccount == toAccount) &&
             (identical(other.transaction, transaction) ||
                 other.transaction == transaction) &&
-            const DeepCollectionEquality().equals(other._account, _account) &&
+            const DeepCollectionEquality().equals(other._accounts, _accounts) &&
             const DeepCollectionEquality()
-                .equals(other._destinationAccount, _destinationAccount) &&
+                .equals(other._destinationAccounts, _destinationAccounts) &&
             const DeepCollectionEquality()
                 .equals(other._expenseCategories, _expenseCategories) &&
             const DeepCollectionEquality()
@@ -704,9 +872,12 @@ class _$InitTransactionDataImpl extends _InitTransactionData {
   int get hashCode => Object.hash(
       runtimeType,
       selectedType,
+      category,
+      fromAccount,
+      toAccount,
       transaction,
-      const DeepCollectionEquality().hash(_account),
-      const DeepCollectionEquality().hash(_destinationAccount),
+      const DeepCollectionEquality().hash(_accounts),
+      const DeepCollectionEquality().hash(_destinationAccounts),
       const DeepCollectionEquality().hash(_expenseCategories),
       const DeepCollectionEquality().hash(_incomeCategories),
       errorMessage);
@@ -725,25 +896,40 @@ class _$InitTransactionDataImpl extends _InitTransactionData {
   TResult when<TResult extends Object?>(
     TResult Function(
             TypeSpending selectedType,
+            Category? category,
+            Account? fromAccount,
+            Account? toAccount,
             Transaction? transaction,
-            List<Account>? account,
-            List<Account>? destinationAccount,
+            List<Account>? accounts,
+            List<Account>? destinationAccounts,
             List<Category>? expenseCategories,
             List<Category>? incomeCategories,
             String? errorMessage)
         $default, {
     required TResult Function(
             TypeSpending selectedType,
+            Category? category,
+            Account? fromAccount,
+            Account? toAccount,
             Transaction? transaction,
-            List<Account>? account,
-            List<Account>? destinationAccount,
+            List<Account>? accounts,
+            List<Account>? destinationAccounts,
             List<Category>? expenseCategories,
             List<Category>? incomeCategories,
             String? errorMessage)
         init,
   }) {
-    return init(selectedType, transaction, account, destinationAccount,
-        expenseCategories, incomeCategories, errorMessage);
+    return init(
+        selectedType,
+        category,
+        fromAccount,
+        toAccount,
+        transaction,
+        accounts,
+        destinationAccounts,
+        expenseCategories,
+        incomeCategories,
+        errorMessage);
   }
 
   @override
@@ -751,25 +937,40 @@ class _$InitTransactionDataImpl extends _InitTransactionData {
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
             TypeSpending selectedType,
+            Category? category,
+            Account? fromAccount,
+            Account? toAccount,
             Transaction? transaction,
-            List<Account>? account,
-            List<Account>? destinationAccount,
+            List<Account>? accounts,
+            List<Account>? destinationAccounts,
             List<Category>? expenseCategories,
             List<Category>? incomeCategories,
             String? errorMessage)?
         $default, {
     TResult? Function(
             TypeSpending selectedType,
+            Category? category,
+            Account? fromAccount,
+            Account? toAccount,
             Transaction? transaction,
-            List<Account>? account,
-            List<Account>? destinationAccount,
+            List<Account>? accounts,
+            List<Account>? destinationAccounts,
             List<Category>? expenseCategories,
             List<Category>? incomeCategories,
             String? errorMessage)?
         init,
   }) {
-    return init?.call(selectedType, transaction, account, destinationAccount,
-        expenseCategories, incomeCategories, errorMessage);
+    return init?.call(
+        selectedType,
+        category,
+        fromAccount,
+        toAccount,
+        transaction,
+        accounts,
+        destinationAccounts,
+        expenseCategories,
+        incomeCategories,
+        errorMessage);
   }
 
   @override
@@ -777,18 +978,24 @@ class _$InitTransactionDataImpl extends _InitTransactionData {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
             TypeSpending selectedType,
+            Category? category,
+            Account? fromAccount,
+            Account? toAccount,
             Transaction? transaction,
-            List<Account>? account,
-            List<Account>? destinationAccount,
+            List<Account>? accounts,
+            List<Account>? destinationAccounts,
             List<Category>? expenseCategories,
             List<Category>? incomeCategories,
             String? errorMessage)?
         $default, {
     TResult Function(
             TypeSpending selectedType,
+            Category? category,
+            Account? fromAccount,
+            Account? toAccount,
             Transaction? transaction,
-            List<Account>? account,
-            List<Account>? destinationAccount,
+            List<Account>? accounts,
+            List<Account>? destinationAccounts,
             List<Category>? expenseCategories,
             List<Category>? incomeCategories,
             String? errorMessage)?
@@ -796,8 +1003,17 @@ class _$InitTransactionDataImpl extends _InitTransactionData {
     required TResult orElse(),
   }) {
     if (init != null) {
-      return init(selectedType, transaction, account, destinationAccount,
-          expenseCategories, incomeCategories, errorMessage);
+      return init(
+          selectedType,
+          category,
+          fromAccount,
+          toAccount,
+          transaction,
+          accounts,
+          destinationAccounts,
+          expenseCategories,
+          incomeCategories,
+          errorMessage);
     }
     return orElse();
   }
@@ -837,9 +1053,12 @@ class _$InitTransactionDataImpl extends _InitTransactionData {
 abstract class _InitTransactionData extends CreateTransactionData {
   const factory _InitTransactionData(
       {final TypeSpending selectedType,
+      final Category? category,
+      final Account? fromAccount,
+      final Account? toAccount,
       final Transaction? transaction,
-      final List<Account>? account,
-      final List<Account>? destinationAccount,
+      final List<Account>? accounts,
+      final List<Account>? destinationAccounts,
       final List<Category>? expenseCategories,
       final List<Category>? incomeCategories,
       final String? errorMessage}) = _$InitTransactionDataImpl;
@@ -848,11 +1067,17 @@ abstract class _InitTransactionData extends CreateTransactionData {
   @override
   TypeSpending get selectedType;
   @override
+  Category? get category;
+  @override
+  Account? get fromAccount;
+  @override
+  Account? get toAccount;
+  @override
   Transaction? get transaction;
   @override
-  List<Account>? get account;
+  List<Account>? get accounts;
   @override
-  List<Account>? get destinationAccount;
+  List<Account>? get destinationAccounts;
   @override
   List<Category>? get expenseCategories;
   @override
@@ -2050,6 +2275,7 @@ mixin _$CreateTransactionState {
     required TResult Function(CreateTransactionData data, String? error)
         editing,
     required TResult Function(CreateTransactionData data) loading,
+    required TResult Function(CreateTransactionData data) success,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -2057,6 +2283,7 @@ mixin _$CreateTransactionState {
     TResult? Function(CreateTransactionData data, String? error)? initial,
     TResult? Function(CreateTransactionData data, String? error)? editing,
     TResult? Function(CreateTransactionData data)? loading,
+    TResult? Function(CreateTransactionData data)? success,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -2064,6 +2291,7 @@ mixin _$CreateTransactionState {
     TResult Function(CreateTransactionData data, String? error)? initial,
     TResult Function(CreateTransactionData data, String? error)? editing,
     TResult Function(CreateTransactionData data)? loading,
+    TResult Function(CreateTransactionData data)? success,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -2072,6 +2300,7 @@ mixin _$CreateTransactionState {
     required TResult Function(InitialTransactionState value) initial,
     required TResult Function(EditTransactionState value) editing,
     required TResult Function(LoadingTransactionState value) loading,
+    required TResult Function(SuccessTransactionState value) success,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -2079,6 +2308,7 @@ mixin _$CreateTransactionState {
     TResult? Function(InitialTransactionState value)? initial,
     TResult? Function(EditTransactionState value)? editing,
     TResult? Function(LoadingTransactionState value)? loading,
+    TResult? Function(SuccessTransactionState value)? success,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -2086,6 +2316,7 @@ mixin _$CreateTransactionState {
     TResult Function(InitialTransactionState value)? initial,
     TResult Function(EditTransactionState value)? editing,
     TResult Function(LoadingTransactionState value)? loading,
+    TResult Function(SuccessTransactionState value)? success,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -2236,6 +2467,7 @@ class _$InitialTransactionStateImpl implements InitialTransactionState {
     required TResult Function(CreateTransactionData data, String? error)
         editing,
     required TResult Function(CreateTransactionData data) loading,
+    required TResult Function(CreateTransactionData data) success,
   }) {
     return initial(data, error);
   }
@@ -2246,6 +2478,7 @@ class _$InitialTransactionStateImpl implements InitialTransactionState {
     TResult? Function(CreateTransactionData data, String? error)? initial,
     TResult? Function(CreateTransactionData data, String? error)? editing,
     TResult? Function(CreateTransactionData data)? loading,
+    TResult? Function(CreateTransactionData data)? success,
   }) {
     return initial?.call(data, error);
   }
@@ -2256,6 +2489,7 @@ class _$InitialTransactionStateImpl implements InitialTransactionState {
     TResult Function(CreateTransactionData data, String? error)? initial,
     TResult Function(CreateTransactionData data, String? error)? editing,
     TResult Function(CreateTransactionData data)? loading,
+    TResult Function(CreateTransactionData data)? success,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -2270,6 +2504,7 @@ class _$InitialTransactionStateImpl implements InitialTransactionState {
     required TResult Function(InitialTransactionState value) initial,
     required TResult Function(EditTransactionState value) editing,
     required TResult Function(LoadingTransactionState value) loading,
+    required TResult Function(SuccessTransactionState value) success,
   }) {
     return initial(this);
   }
@@ -2280,6 +2515,7 @@ class _$InitialTransactionStateImpl implements InitialTransactionState {
     TResult? Function(InitialTransactionState value)? initial,
     TResult? Function(EditTransactionState value)? editing,
     TResult? Function(LoadingTransactionState value)? loading,
+    TResult? Function(SuccessTransactionState value)? success,
   }) {
     return initial?.call(this);
   }
@@ -2290,6 +2526,7 @@ class _$InitialTransactionStateImpl implements InitialTransactionState {
     TResult Function(InitialTransactionState value)? initial,
     TResult Function(EditTransactionState value)? editing,
     TResult Function(LoadingTransactionState value)? loading,
+    TResult Function(SuccessTransactionState value)? success,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -2405,6 +2642,7 @@ class _$EditTransactionStateImpl implements EditTransactionState {
     required TResult Function(CreateTransactionData data, String? error)
         editing,
     required TResult Function(CreateTransactionData data) loading,
+    required TResult Function(CreateTransactionData data) success,
   }) {
     return editing(data, error);
   }
@@ -2415,6 +2653,7 @@ class _$EditTransactionStateImpl implements EditTransactionState {
     TResult? Function(CreateTransactionData data, String? error)? initial,
     TResult? Function(CreateTransactionData data, String? error)? editing,
     TResult? Function(CreateTransactionData data)? loading,
+    TResult? Function(CreateTransactionData data)? success,
   }) {
     return editing?.call(data, error);
   }
@@ -2425,6 +2664,7 @@ class _$EditTransactionStateImpl implements EditTransactionState {
     TResult Function(CreateTransactionData data, String? error)? initial,
     TResult Function(CreateTransactionData data, String? error)? editing,
     TResult Function(CreateTransactionData data)? loading,
+    TResult Function(CreateTransactionData data)? success,
     required TResult orElse(),
   }) {
     if (editing != null) {
@@ -2439,6 +2679,7 @@ class _$EditTransactionStateImpl implements EditTransactionState {
     required TResult Function(InitialTransactionState value) initial,
     required TResult Function(EditTransactionState value) editing,
     required TResult Function(LoadingTransactionState value) loading,
+    required TResult Function(SuccessTransactionState value) success,
   }) {
     return editing(this);
   }
@@ -2449,6 +2690,7 @@ class _$EditTransactionStateImpl implements EditTransactionState {
     TResult? Function(InitialTransactionState value)? initial,
     TResult? Function(EditTransactionState value)? editing,
     TResult? Function(LoadingTransactionState value)? loading,
+    TResult? Function(SuccessTransactionState value)? success,
   }) {
     return editing?.call(this);
   }
@@ -2459,6 +2701,7 @@ class _$EditTransactionStateImpl implements EditTransactionState {
     TResult Function(InitialTransactionState value)? initial,
     TResult Function(EditTransactionState value)? editing,
     TResult Function(LoadingTransactionState value)? loading,
+    TResult Function(SuccessTransactionState value)? success,
     required TResult orElse(),
   }) {
     if (editing != null) {
@@ -2566,6 +2809,7 @@ class _$LoadingTransactionStateImpl implements LoadingTransactionState {
     required TResult Function(CreateTransactionData data, String? error)
         editing,
     required TResult Function(CreateTransactionData data) loading,
+    required TResult Function(CreateTransactionData data) success,
   }) {
     return loading(data);
   }
@@ -2576,6 +2820,7 @@ class _$LoadingTransactionStateImpl implements LoadingTransactionState {
     TResult? Function(CreateTransactionData data, String? error)? initial,
     TResult? Function(CreateTransactionData data, String? error)? editing,
     TResult? Function(CreateTransactionData data)? loading,
+    TResult? Function(CreateTransactionData data)? success,
   }) {
     return loading?.call(data);
   }
@@ -2586,6 +2831,7 @@ class _$LoadingTransactionStateImpl implements LoadingTransactionState {
     TResult Function(CreateTransactionData data, String? error)? initial,
     TResult Function(CreateTransactionData data, String? error)? editing,
     TResult Function(CreateTransactionData data)? loading,
+    TResult Function(CreateTransactionData data)? success,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -2600,6 +2846,7 @@ class _$LoadingTransactionStateImpl implements LoadingTransactionState {
     required TResult Function(InitialTransactionState value) initial,
     required TResult Function(EditTransactionState value) editing,
     required TResult Function(LoadingTransactionState value) loading,
+    required TResult Function(SuccessTransactionState value) success,
   }) {
     return loading(this);
   }
@@ -2610,6 +2857,7 @@ class _$LoadingTransactionStateImpl implements LoadingTransactionState {
     TResult? Function(InitialTransactionState value)? initial,
     TResult? Function(EditTransactionState value)? editing,
     TResult? Function(LoadingTransactionState value)? loading,
+    TResult? Function(SuccessTransactionState value)? success,
   }) {
     return loading?.call(this);
   }
@@ -2620,6 +2868,7 @@ class _$LoadingTransactionStateImpl implements LoadingTransactionState {
     TResult Function(InitialTransactionState value)? initial,
     TResult Function(EditTransactionState value)? editing,
     TResult Function(LoadingTransactionState value)? loading,
+    TResult Function(SuccessTransactionState value)? success,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -2641,5 +2890,171 @@ abstract class LoadingTransactionState implements CreateTransactionState {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LoadingTransactionStateImplCopyWith<_$LoadingTransactionStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$SuccessTransactionStateImplCopyWith<$Res>
+    implements $CreateTransactionStateCopyWith<$Res> {
+  factory _$$SuccessTransactionStateImplCopyWith(
+          _$SuccessTransactionStateImpl value,
+          $Res Function(_$SuccessTransactionStateImpl) then) =
+      __$$SuccessTransactionStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({CreateTransactionData data});
+
+  @override
+  $CreateTransactionDataCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class __$$SuccessTransactionStateImplCopyWithImpl<$Res>
+    extends _$CreateTransactionStateCopyWithImpl<$Res,
+        _$SuccessTransactionStateImpl>
+    implements _$$SuccessTransactionStateImplCopyWith<$Res> {
+  __$$SuccessTransactionStateImplCopyWithImpl(
+      _$SuccessTransactionStateImpl _value,
+      $Res Function(_$SuccessTransactionStateImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CreateTransactionState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+  }) {
+    return _then(_$SuccessTransactionStateImpl(
+      null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as CreateTransactionData,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SuccessTransactionStateImpl implements SuccessTransactionState {
+  const _$SuccessTransactionStateImpl(this.data);
+
+  @override
+  final CreateTransactionData data;
+
+  @override
+  String toString() {
+    return 'CreateTransactionState.success(data: $data)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SuccessTransactionStateImpl &&
+            (identical(other.data, data) || other.data == data));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, data);
+
+  /// Create a copy of CreateTransactionState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SuccessTransactionStateImplCopyWith<_$SuccessTransactionStateImpl>
+      get copyWith => __$$SuccessTransactionStateImplCopyWithImpl<
+          _$SuccessTransactionStateImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CreateTransactionData data, String? error)
+        initial,
+    required TResult Function(CreateTransactionData data, String? error)
+        editing,
+    required TResult Function(CreateTransactionData data) loading,
+    required TResult Function(CreateTransactionData data) success,
+  }) {
+    return success(data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CreateTransactionData data, String? error)? initial,
+    TResult? Function(CreateTransactionData data, String? error)? editing,
+    TResult? Function(CreateTransactionData data)? loading,
+    TResult? Function(CreateTransactionData data)? success,
+  }) {
+    return success?.call(data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CreateTransactionData data, String? error)? initial,
+    TResult Function(CreateTransactionData data, String? error)? editing,
+    TResult Function(CreateTransactionData data)? loading,
+    TResult Function(CreateTransactionData data)? success,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(data);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(InitialTransactionState value) initial,
+    required TResult Function(EditTransactionState value) editing,
+    required TResult Function(LoadingTransactionState value) loading,
+    required TResult Function(SuccessTransactionState value) success,
+  }) {
+    return success(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(InitialTransactionState value)? initial,
+    TResult? Function(EditTransactionState value)? editing,
+    TResult? Function(LoadingTransactionState value)? loading,
+    TResult? Function(SuccessTransactionState value)? success,
+  }) {
+    return success?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(InitialTransactionState value)? initial,
+    TResult Function(EditTransactionState value)? editing,
+    TResult Function(LoadingTransactionState value)? loading,
+    TResult Function(SuccessTransactionState value)? success,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SuccessTransactionState implements CreateTransactionState {
+  const factory SuccessTransactionState(final CreateTransactionData data) =
+      _$SuccessTransactionStateImpl;
+
+  @override
+  CreateTransactionData get data;
+
+  /// Create a copy of CreateTransactionState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SuccessTransactionStateImplCopyWith<_$SuccessTransactionStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

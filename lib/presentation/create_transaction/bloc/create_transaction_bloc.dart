@@ -16,9 +16,12 @@ class CreateTransactionData with _$CreateTransactionData {
 
   const factory CreateTransactionData({
     @Default(TypeSpending.expense) TypeSpending selectedType,
+    @Default(null) Category? category,
+    @Default(null) Account? fromAccount,
+    @Default(null) Account? toAccount,
     @Default(null) Transaction? transaction,
-    @Default([]) List<Account>? account,
-    @Default([]) List<Account>? destinationAccount,
+    @Default([]) List<Account>? accounts,
+    @Default([]) List<Account>? destinationAccounts,
     @Default([]) List<Category>? expenseCategories,
     @Default([]) List<Category>? incomeCategories,
     String? errorMessage,
@@ -26,9 +29,12 @@ class CreateTransactionData with _$CreateTransactionData {
 
   const factory CreateTransactionData.init({
     @Default(TypeSpending.expense) TypeSpending selectedType,
+    @Default(null) Category? category,
+    @Default(null) Account? fromAccount,
+    @Default(null) Account? toAccount,
     @Default(null) Transaction? transaction,
-    @Default([]) List<Account>? account,
-    @Default([]) List<Account>? destinationAccount,
+    @Default([]) List<Account>? accounts,
+    @Default([]) List<Account>? destinationAccounts,
     @Default([]) List<Category>? expenseCategories,
     @Default([]) List<Category>? incomeCategories,
     String? errorMessage,
@@ -49,7 +55,7 @@ class CreateTransactionBloc
     on<ShowCategoryListEvent>(_showCategoryList);
     on<SaveTransactionEvent>(_save);
 
-    add(InitialTransactionEvent(data: CreateTransactionData.init()));
+    // add(InitialTransactionEvent(data: CreateTransactionData.init()));
   }
 
   Future<void> _init(InitialTransactionEvent event,
@@ -61,20 +67,18 @@ class CreateTransactionBloc
     final incomeCategoryList = await repository.loadIncomeCategoryData();
 
     final newData = event.data.copyWith(
-        account: accountList,
+        accounts: accountList,
         expenseCategories: expenseCategoryList,
         incomeCategories: incomeCategoryList,
         transaction: transaction,
         selectedType: transaction?.typeSpending ?? TypeSpending.expense);
-    add(
-      CreateTransactionEvent.edit(
-          data: newData)
-    );
+    add(CreateTransactionEvent.edit(data: newData));
   }
 
   Future<void> _edit(
       EditTransactionEvent event, Emitter<CreateTransactionState> emit) async {
     print('edit');
+    print('title ${event.data.category?.title}');
     emit(CreateTransactionState.editing(event.data));
   }
 
@@ -90,11 +94,14 @@ class CreateTransactionBloc
 
   Future<void> _save(
       SaveTransactionEvent event, Emitter<CreateTransactionState> emit) async {
-    // try {
-    //   // await repository.sa(event.data.transaction!);
-    //   emit(const CreateTransactionState.success());
-    // } catch (e) {
-    //   emit(CreateTransactionState.editing(event.data.copyWith(errorMessage: e.toString())));
-    // }
+    if (event.data.transaction?.account != null &&
+        (event.data.transaction?.category != null ||
+            event.data.transaction?.destination != null)) {
+      repository.saveTransaction(event.data.transaction!);
+      emit(CreateTransactionState.success(event.data));
+    } else {
+      emit(CreateTransactionState.editing(
+          event.data.copyWith(errorMessage: 'Empty')));
+    }
   }
 }

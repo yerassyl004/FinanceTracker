@@ -167,19 +167,18 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   }
 
   Widget modalType(Modaltype type) {
-    switch (type) {
-      case Modaltype.selectedAccount:
-        return AddAccountsPage(onTapAccount: _setAccountData, accountList: [],);
-      case Modaltype.category:
-        if (widget.selectedType == TypeSpending.income) {
-          return CategoriesPage(
-              onCategorySelected: _setCategoryData, isExpense: false);
-        }
-        return CategoriesPage(
-            onCategorySelected: _setCategoryData, isExpense: true);
-      case Modaltype.receiverAccount:
-        return AddAccountsPage(onTapAccount: _setReceiverAccountData, accountList: [],);
-    }
+    // switch (type) {
+    //   case Modaltype.selectedAccount:
+    //     return AddAccountsPage(onTapAccount: _setAccountData, accountList: [],);
+    //   case Modaltype.category:
+    //     if (widget.selectedType == TypeSpending.income) {
+          return SizedBox();
+    //     }
+    //     return CategoriesPage(
+    //         onCategorySelected: _setCategoryData, isExpense: true);
+    //   case Modaltype.receiverAccount:
+    //     return AddAccountsPage(onTapAccount: _setReceiverAccountData, accountList: [],);
+    // }
   }
 
   void _setCategoryData(Category category) {

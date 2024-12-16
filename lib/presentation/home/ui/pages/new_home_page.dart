@@ -18,6 +18,7 @@ class NewHomePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => di.getHomeBloc(repository: HomeRepository()),
       child: Scaffold(
+
         body: BlocConsumer<TransactionBloc, TransactionState>(
             listener: (context, state) {},
             builder: (context, state) {
@@ -98,7 +99,7 @@ class NewHomePage extends StatelessWidget {
                     child: FloatingActionButton(
                       backgroundColor: Colors.grey.shade300,
                       onPressed: () async {
-                        final result = await Navigator.pushNamed(
+                        final result = Navigator.pushNamed(
                             context, Routes.createTransactionPage,
                             arguments: CreateTransactionsArgument(
                               null),
