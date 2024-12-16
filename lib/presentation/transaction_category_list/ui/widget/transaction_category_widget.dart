@@ -36,9 +36,9 @@ class TransactionCategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? categoryIcon = transaction.category?.icon;
-    String accountIcon = transaction.account.icon;
+    String? accountIcon = transaction.account?.icon;
     String? categoryTitle = transaction.category?.title;
-    String accountTitle = transaction.account.title;
+    String? accountTitle = transaction.account?.title;
     String? distanationTitle = transaction.destination?.title;
     String? distanationIcon = transaction.destination?.icon;
     String cash = transaction.cash.toString();
@@ -78,7 +78,7 @@ class TransactionCategoryWidget extends StatelessWidget {
                         ),
                         const SizedBox(width: 5),
                         Text(
-                          accountTitle,
+                          accountTitle ?? '',
                           style: const TextStyle(
                               color: Colors.grey,
                               fontSize: 14,

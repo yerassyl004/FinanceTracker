@@ -40,7 +40,6 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
 
   Future<void> _onUpdateTransactions(
       UpdateTransactionItems event, Emitter<TransactionState> emit) async {
-    final HomeRepository repository = HomeRepository();
     emit(const TransactionState.loading());
     try {
       final transactions = await repository.loadTransactions(event.month);

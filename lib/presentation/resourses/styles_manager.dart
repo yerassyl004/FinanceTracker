@@ -1,6 +1,16 @@
+import 'package:finance_app/presentation/resourses/color_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'font_manager.dart';
+
+class TextTheme {
+  static TextStyle body15Medium(BuildContext context) => TextStyle(
+     color: ColorManager.black,
+      fontSize: 15.sp,
+      fontWeight: FontWeight.w500,
+  );
+}
 
 TextStyle _getTextStyle(
     double fontSize, String fontFamily, FontWeight fontWeight, Color color) {

@@ -1,4 +1,5 @@
 import 'package:finance_app/app/di.dart';
+import 'package:finance_app/presentation/create_transaction/ui/pages/new_create_transactions_page.dart';
 import 'package:finance_app/presentation/home/bloc/transaction_bloc.dart';
 import 'package:finance_app/presentation/home/di.dart';
 import 'package:finance_app/presentation/home/repositories/count_cash_service.dart';
@@ -98,9 +99,10 @@ class NewHomePage extends StatelessWidget {
                       backgroundColor: Colors.grey.shade300,
                       onPressed: () async {
                         final result = await Navigator.pushNamed(
-                          context,
-                          Routes.addTransaction,
-                        );
+                            context, Routes.createTransactionPage,
+                            arguments: CreateTransactionsArgument(
+                              null),
+                            );
                         if (result == true) {
                           state.maybeWhen(
                             loaded: (data) {

@@ -1,68 +1,51 @@
-import 'package:finance_app/presentation/accounts_modal/service/account_service.dart';
 import 'package:finance_app/presentation/accounts_modal/ui/widgets/account_item_widget.dart';
 import 'package:finance_app/data/models/account.dart';
 import 'package:flutter/material.dart';
 
-class AddAccountsPage extends StatefulWidget {
+class AddAccountsPage extends StatelessWidget {
   final Function(Account) onTapAccount;
-  const AddAccountsPage({super.key, required this.onTapAccount});
+  final List<Account> accountList;
 
-  @override
-  _AccountsPageState createState() => _AccountsPageState();
-}
-
-class _AccountsPageState extends State<AddAccountsPage> {
-  List<Account> account = [];
-
-  final AccountService _accountService = AccountService();
-
-  @override
-  void initState() {
-    super.initState();
-    _loadAccountData();
-  }
-
-  Future<void> _loadAccountData() async {
-    account = await _accountService.loadAccountData();
-    setState(() {});
-  }
+  const AddAccountsPage({
+    super.key,
+    required this.onTapAccount,
+    required this.accountList,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.all(16.0),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Select an account',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 24,
-                    color: Colors.black,
-                  ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Select an account',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 24,
+                  color: Colors.black,
                 ),
-                const SizedBox(height: 16),
-                ...account.map((account) => GestureDetector(
-                      onTap: () {
-                        widget.onTapAccount(account);
-                      },
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: accountList.length,
+                  itemBuilder: (context, index) {
+                    final account = accountList[index];
+                    return GestureDetector(
+                      onTap: () => onTapAccount(account),
                       child: AccountItemWidget(account: account),
-                    )),
-                const SizedBox(height: 16),
-                // Center(
-                //   child: AddAccountButton(
-                //     onTap: () {
-                //       // Your onTap function here
-                //     },
-                //   ),
-                // ),
-              ],
-            ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
+        ),
       ),
     );
   }

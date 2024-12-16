@@ -30,7 +30,7 @@ class TansactionPage extends StatelessWidget {
                     children: [
                       HeaderDetailWidget(transaction: transaction, updateList: updateList),
                       const SizedBox(height: 16),
-                      AccountInfoWidget(account: transaction.account),
+                      AccountInfoWidget(account: transaction.account!),
                       transaction.typeSpending == TypeSpending.transfer ?
                      DestinationWidget(destination: transaction.destination) :
                       const SizedBox(),

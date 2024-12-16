@@ -1,4 +1,4 @@
-import 'package:finance_app/presentation/add_transaction/ui/pages/add_transaction_page.dart';
+import 'package:finance_app/presentation/create_transaction/ui/pages/add_transaction_page.dart';
 import 'package:finance_app/presentation/analysis/bloc/analysis_bloc.dart';
 import 'package:finance_app/presentation/analysis/bloc/analysis_event.dart';
 import 'package:finance_app/presentation/analysis/bloc/analysis_state.dart';

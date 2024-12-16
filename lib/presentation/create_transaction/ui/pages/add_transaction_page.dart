@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:finance_app/presentation/accounts_modal/ui/pages/accounts_modal.dart';
-import 'package:finance_app/presentation/add_transaction/service/transaction_save.dart';
-import 'package:finance_app/presentation/add_transaction/service/transactions_service.dart';
-import 'package:finance_app/presentation/add_transaction/ui/widget/input_textField_widget.dart';
-import 'package:finance_app/presentation/add_transaction/ui/widget/transfer_info_widget.dart';
-import 'package:finance_app/presentation/add_transaction/ui/widget/types_spending_widget.dart';
+import 'package:finance_app/presentation/create_transaction/service/transaction_save.dart';
+import 'package:finance_app/presentation/create_transaction/service/transactions_service.dart';
+import 'package:finance_app/presentation/create_transaction/ui/widget/input_textField_widget.dart';
+import 'package:finance_app/presentation/create_transaction/ui/widget/transfer_info_widget.dart';
+import 'package:finance_app/presentation/create_transaction/ui/widget/types_spending_widget.dart';
 import 'package:finance_app/presentation/categories/ui/pages/categories_page.dart';
 import 'package:finance_app/data/models/account.dart';
 import 'package:finance_app/data/models/category.dart';
@@ -169,7 +169,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   Widget modalType(Modaltype type) {
     switch (type) {
       case Modaltype.selectedAccount:
-        return AddAccountsPage(onTapAccount: _setAccountData);
+        return AddAccountsPage(onTapAccount: _setAccountData, accountList: [],);
       case Modaltype.category:
         if (widget.selectedType == TypeSpending.income) {
           return CategoriesPage(
@@ -178,7 +178,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
         return CategoriesPage(
             onCategorySelected: _setCategoryData, isExpense: true);
       case Modaltype.receiverAccount:
-        return AddAccountsPage(onTapAccount: _setReceiverAccountData);
+        return AddAccountsPage(onTapAccount: _setReceiverAccountData, accountList: [],);
     }
   }
 

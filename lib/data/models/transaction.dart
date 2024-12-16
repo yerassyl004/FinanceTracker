@@ -8,7 +8,7 @@ class Transaction {
   double cash;
   DateTime date;
   String? note;
-  Account account;
+  Account? account;
   Category? category;
   TypeSpending typeSpending;
   Account? destination;
@@ -18,7 +18,7 @@ class Transaction {
     required this.cash,
     required this.date,
     required this.note,
-    required this.account,
+    this.account,
     this.category,
     required this.typeSpending,
     this.destination,
@@ -43,7 +43,7 @@ class Transaction {
       'cash': cash,
       'date': date.toIso8601String(),
       'note': note,
-      'account': account.toJson(),
+      'account': account?.toJson(),
       'category': category?.toJson(),
       'typeSpending': typeSpending.index,
       'destination': destination?.toJson(),
