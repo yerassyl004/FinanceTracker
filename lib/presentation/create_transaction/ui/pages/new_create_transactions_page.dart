@@ -101,10 +101,10 @@ class NewCreateTransactionsPage extends StatelessWidget {
                                             horizontal: 16.0),
                                       ),
                                       TypesSpendingWidget(
-                                        title: 'Expense',
-                                        isSelected: data.selectedType ==
-                                            TypeSpending.expense,
-                                        onTap: () => context
+                                          title: 'Expense',
+                                          isSelected: data.selectedType ==
+                                              TypeSpending.expense,
+                                          onTap: () => context
                                               .read<CreateTransactionBloc>()
                                               .add(CreateTransactionEvent.edit(
                                                 data: data.copyWith(
@@ -119,10 +119,10 @@ class NewCreateTransactionsPage extends StatelessWidget {
                                             horizontal: 16.0),
                                       ),
                                       TypesSpendingWidget(
-                                        title: 'Income',
-                                        isSelected: data.selectedType ==
-                                            TypeSpending.income,
-                                        onTap: () => context
+                                          title: 'Income',
+                                          isSelected: data.selectedType ==
+                                              TypeSpending.income,
+                                          onTap: () => context
                                               .read<CreateTransactionBloc>()
                                               .add(CreateTransactionEvent.edit(
                                                 data: data.copyWith(
@@ -141,7 +141,8 @@ class NewCreateTransactionsPage extends StatelessWidget {
                                           image:
                                               data.transaction?.account?.icon ??
                                                   'wallet_icon',
-                                          title: selectedAccount?.title ??
+                                          title: data.transaction?.account
+                                                  ?.title ??
                                               'Account',
                                           onTap: () => showBarModalBottomSheet(
                                             expand: false,
@@ -149,31 +150,41 @@ class NewCreateTransactionsPage extends StatelessWidget {
                                             backgroundColor: Colors.transparent,
                                             builder: (context) =>
                                                 AddAccountsPage(
-                                                    onTapAccount: (account) {
-                                              final newData = data.copyWith(
-                                                  transaction: Transaction(
-                                                      cash: data.transaction
-                                                              ?.cash ??
-                                                          0,
-                                                      date:
-                                                          data.transaction?.date ??
-                                                              DateTime.now(),
-                                                      note: data
-                                                          .transaction?.note,
-                                                      account: account,
-                                                      category: data.transaction
-                                                          ?.category,
-                                                      destination: data
-                                                          .transaction
-                                                          ?.destination,
-                                                      typeSpending:
-                                                          data.selectedType));
-                                              Navigator.pop(context);
-                                              context
-                                                  .read<CreateTransactionBloc>()
-                                                  .add(CreateTransactionEvent
-                                                      .edit(data: newData));
-                                            }, accountList: data.account!),
+                                                    onTapAccount:
+                                                        (account) async {
+                                                      final newData = data.copyWith(
+                                                          transaction: Transaction(
+                                                              cash: data.transaction?.cash ??
+                                                                  0,
+                                                              date: data
+                                                                      .transaction
+                                                                      ?.date ??
+                                                                  DateTime
+                                                                      .now(),
+                                                              note: data
+                                                                  .transaction
+                                                                  ?.note,
+                                                              account: account,
+                                                              category: data
+                                                                  .transaction
+                                                                  ?.category,
+                                                              destination: data
+                                                                  .transaction
+                                                                  ?.destination,
+                                                              typeSpending: data
+                                                                  .selectedType));
+                                                      Navigator.pop(context);
+                                                      print(
+                                                          'account:: ${account.title}');
+                                                      context
+                                                          .read<
+                                                              CreateTransactionBloc>()
+                                                          .add(CreateTransactionEvent
+                                                              .edit(
+                                                                  data:
+                                                                      newData));
+                                                    },
+                                                    accountList: data.account!),
                                           ),
                                           isSelected:
                                               data.transaction?.account != null,
@@ -186,7 +197,8 @@ class NewCreateTransactionsPage extends StatelessWidget {
                                               image: data.transaction
                                                       ?.destination?.icon ??
                                                   'wallet_icon',
-                                              title: receiverAccount?.title ??
+                                              title: data.transaction?.account
+                                                      ?.title ??
                                                   'Account',
                                               onTap: () =>
                                                   showBarModalBottomSheet(
@@ -198,36 +210,41 @@ class NewCreateTransactionsPage extends StatelessWidget {
                                                     AddAccountsPage(
                                                         onTapAccount:
                                                             (account) {
-                                                  final newData = data.copyWith(
-                                                      transaction: Transaction(
-                                                          cash: data.transaction
-                                                                  ?.cash ??
-                                                              0,
-                                                          date: data.transaction
-                                                                  ?.date ??
-                                                              DateTime.now(),
-                                                          note: data.transaction
-                                                              ?.note,
-                                                          account: data
-                                                              .transaction!
-                                                              .account,
-                                                          category: data
-                                                              .transaction
-                                                              ?.category,
-                                                          destination: account,
-                                                          typeSpending: data
-                                                              .selectedType));
-                                                  Navigator.pop(context);
+                                                          final newData = data.copyWith(
+                                                              transaction: Transaction(
+                                                                  cash: data.transaction?.cash ??
+                                                                      0,
+                                                                  date: data
+                                                                          .transaction
+                                                                          ?.date ??
+                                                                      DateTime
+                                                                          .now(),
+                                                                  note: data
+                                                                      .transaction
+                                                                      ?.note,
+                                                                  account: data
+                                                                      .transaction!
+                                                                      .account,
+                                                                  category: data
+                                                                      .transaction
+                                                                      ?.category,
+                                                                  destination:
+                                                                      account,
+                                                                  typeSpending:
+                                                                      data.selectedType));
+                                                          Navigator.pop(
+                                                              context);
 
-                                                  context
-                                                      .read<
-                                                          CreateTransactionBloc>()
-                                                      .add(
-                                                          CreateTransactionEvent
-                                                              .edit(
-                                                                  data:
-                                                                      newData));
-                                                }, accountList: data.account!),
+                                                          context
+                                                              .read<
+                                                                  CreateTransactionBloc>()
+                                                              .add(CreateTransactionEvent
+                                                                  .edit(
+                                                                      data:
+                                                                          newData));
+                                                        },
+                                                        accountList:
+                                                            data.account!),
                                               ),
                                               isSelected: data.transaction
                                                       ?.destination !=
@@ -252,7 +269,9 @@ class NewCreateTransactionsPage extends StatelessWidget {
                                                       (category) {
                                                     final newData = data.copyWith(
                                                         transaction: Transaction(
-                                                            cash: data.transaction?.cash ??
+                                                            cash: data
+                                                                    .transaction
+                                                                    ?.cash ??
                                                                 0,
                                                             date: data
                                                                     .transaction
@@ -262,8 +281,8 @@ class NewCreateTransactionsPage extends StatelessWidget {
                                                                 .transaction
                                                                 ?.note,
                                                             account: data
-                                                                .transaction!
-                                                                .account,
+                                                                .transaction
+                                                                ?.account,
                                                             category: data
                                                                 .transaction
                                                                 ?.category,
@@ -272,12 +291,13 @@ class NewCreateTransactionsPage extends StatelessWidget {
                                                                 ?.destination,
                                                             typeSpending: data
                                                                 .selectedType));
+                                                    print('${category.title}');
                                                     Navigator.pop(context);
                                                     context
                                                         .read<
                                                             CreateTransactionBloc>()
                                                         .add(CreateTransactionEvent
-                                                            .edit(
+                                                            .initial(
                                                                 data: newData));
                                                   },
                                                   isExpense:

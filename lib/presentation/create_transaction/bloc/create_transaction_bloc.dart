@@ -14,15 +14,25 @@ part 'create_transaction_bloc.freezed.dart';
 class CreateTransactionData with _$CreateTransactionData {
   const CreateTransactionData._();
 
+  const factory CreateTransactionData({
+    @Default(TypeSpending.expense) TypeSpending selectedType,
+    @Default(null) Transaction? transaction,
+    @Default([]) List<Account>? account,
+    @Default([]) List<Account>? destinationAccount,
+    @Default([]) List<Category>? expenseCategories,
+    @Default([]) List<Category>? incomeCategories,
+    String? errorMessage,
+  }) = _CreateTransactionData;
+
   const factory CreateTransactionData.init({
     @Default(TypeSpending.expense) TypeSpending selectedType,
     @Default(null) Transaction? transaction,
-    @Default(null) List<Account>? account,
-    @Default(null) List<Account>? destinationAccount,
-    @Default(null) List<Category>? expenseCategories,
-    @Default(null) List<Category>? incomeCategories,
+    @Default([]) List<Account>? account,
+    @Default([]) List<Account>? destinationAccount,
+    @Default([]) List<Category>? expenseCategories,
+    @Default([]) List<Category>? incomeCategories,
     String? errorMessage,
-  }) = _CreateTransactionData;
+  }) = _InitTransactionData;
 }
 
 class CreateTransactionBloc
