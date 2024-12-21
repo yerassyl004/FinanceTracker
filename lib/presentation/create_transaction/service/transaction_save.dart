@@ -11,8 +11,6 @@ class TransactionSave {
 
     transactionList.add(jsonEncode(transaction.toJson()));
     await prefs.setStringList('transactions', transactionList);
-
-    print('Transaction saved: ${transaction.toJson()}');
   }
 
   void updateTransactions(Transaction newTransaction) async {

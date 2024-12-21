@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:finance_app/app/utils/session.dart';
 import 'package:finance_app/data/models/account.dart';
 import 'package:finance_app/data/models/category.dart';
 import 'package:finance_app/data/models/transaction.dart';
+import 'package:finance_app/data/models/type_spending.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateTransactionRepository {
@@ -11,10 +14,25 @@ class CreateTransactionRepository {
     final List<String> transactionList =
         prefs.getStringList('transactions') ?? [];
 
+    switch (transaction.typeSpending) {
+      
+      case TypeSpending.expense:
+        expenseTransaction(transaction.account!, transaction.cash);
+        break;
+      case TypeSpending.income:
+        incomeTransaction(transaction.account!, transaction.cash);
+        break;
+      case TypeSpending.transfer:
+        transferTransaction(transaction.account!, transaction.destination!, transaction.cash);
+        break;
+    }
+
     transactionList.add(jsonEncode(transaction.toJson()));
     await prefs.setStringList('transactions', transactionList);
 
-    print('Transaction saved: ${transaction.toJson()}');
+    debugPrint('Transaction saved: ${transaction.toJson()}');
+
+    Session.instance?.addTransactions(transaction);
   }
 
   void updateTransactions(Transaction newTransaction) async {
@@ -38,6 +56,64 @@ class CreateTransactionRepository {
     }).toList();
 
     await prefs.setStringList('transactions', updatedTransactionList);
+  }
+
+  void expenseTransaction(Account selectedAccount, double cash) async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> accountsList = prefs.getStringList('accounts') ?? [];
+    List<Account> accounts = accountsList.map((jsonString) {
+      return Account.fromJson(jsonDecode(jsonString));
+    }).toList();
+
+    for (var account in accounts) {
+      if (account.id == selectedAccount.id) {
+        account.cash -= cash;
+      }
+    }
+
+    final updatedAccountsList =
+        accounts.map((account) => jsonEncode(account.toJson())).toList();
+    await prefs.setStringList('accounts', updatedAccountsList);
+  }
+
+  void incomeTransaction(Account selectedAccount, double cash) async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> accountsList = prefs.getStringList('accounts') ?? [];
+    List<Account> accounts = accountsList.map((jsonString) {
+      return Account.fromJson(jsonDecode(jsonString));
+    }).toList();
+
+    for (var account in accounts) {
+      if (account.id == selectedAccount.id) {
+        account.cash += cash;
+      }
+    }
+
+    final updatedAccountsList =
+        accounts.map((account) => jsonEncode(account.toJson())).toList();
+    await prefs.setStringList('accounts', updatedAccountsList);
+  }
+
+  void transferTransaction(
+      Account selectedAccount, Account receiverAccount, double cash) async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> accountsList = prefs.getStringList('accounts') ?? [];
+    List<Account> accounts = accountsList.map((jsonString) {
+      return Account.fromJson(jsonDecode(jsonString));
+    }).toList();
+
+    for (var account in accounts) {
+      if (account.title == selectedAccount.title) {
+        account.cash -= cash;
+      }
+      if (account.title == receiverAccount.title) {
+        account.cash += cash;
+      }
+    }
+
+    final updatedAccountsList =
+        accounts.map((account) => jsonEncode(account.toJson())).toList();
+    await prefs.setStringList('accounts', updatedAccountsList);
   }
 
   Future<List<Account>> loadAccountData() async {

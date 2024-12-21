@@ -314,8 +314,9 @@ class NewCreateTransactionView extends StatelessWidget {
                           .add(CreateTransactionEvent.saveTransaction(
                             data: data.copyWith(
                               transaction: Transaction(
+                                id: data.transaction?.id,
                                   cash: double.parse(amountController.text),
-                                  date: DateTime.now(),
+                                  date: data.transaction?.date ?? DateTime.now(),
                                   note: notesController.text,
                                   account: data.fromAccount,
                                   destination: data.toAccount,

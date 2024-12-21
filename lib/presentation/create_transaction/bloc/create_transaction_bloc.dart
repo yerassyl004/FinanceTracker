@@ -56,7 +56,6 @@ class CreateTransactionBloc
 
   Future<void> _init(InitialTransactionEvent event,
       Emitter<CreateTransactionState> emit) async {
-
     final accountList = await repository.loadAccountData();
     final expenseCategoryList = await repository.loadExpenseCategoryData();
     final incomeCategoryList = await repository.loadIncomeCategoryData();
@@ -83,7 +82,11 @@ class CreateTransactionBloc
     if (event.data.transaction?.account != null &&
         (event.data.transaction?.category != null ||
             event.data.transaction?.destination != null)) {
-      repository.saveTransaction(event.data.transaction!);
+      if (transaction == null) {
+        repository.saveTransaction(event.data.transaction!);
+      } else {
+        repository.updateTransactions(event.data.transaction!);
+      }
       emit(CreateTransactionState.success(event.data));
     } else {
       emit(CreateTransactionState.editing(
