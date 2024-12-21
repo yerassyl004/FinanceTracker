@@ -1,4 +1,3 @@
-import 'package:finance_app/presentation/create_transaction/ui/pages/add_transaction_page.dart';
 import 'package:finance_app/presentation/analysis/bloc/analysis_bloc.dart';
 import 'package:finance_app/presentation/analysis/bloc/analysis_event.dart';
 import 'package:finance_app/presentation/analysis/bloc/analysis_state.dart';
@@ -9,6 +8,8 @@ import 'package:finance_app/presentation/analysis/ui/widgets/analys_header_widge
 import 'package:finance_app/presentation/analysis/ui/widgets/multi_segment_circular_percent_indicator.dart';
 import 'package:finance_app/presentation/analysis/ui/analysis_list/transaction_analys_list.dart';
 import 'package:finance_app/data/models/type_spending.dart';
+import 'package:finance_app/presentation/create_transaction/ui/pages/new_create_transactions_page.dart';
+import 'package:finance_app/presentation/resourses/routes_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -21,7 +22,8 @@ class AnalysisPage extends StatefulWidget {
   State<AnalysisPage> createState() => _AnalysisPageState();
 }
 
-class _AnalysisPageState extends State<AnalysisPage> with SingleTickerProviderStateMixin {
+class _AnalysisPageState extends State<AnalysisPage>
+    with SingleTickerProviderStateMixin {
   late AnalysisBloc _analysisBloc;
   late IncomeAnalysisBloc _incomeAnalysisBloc;
   late AnimationController _fabAnimationController;
@@ -47,13 +49,16 @@ class _AnalysisPageState extends State<AnalysisPage> with SingleTickerProviderSt
 
     _scrollController.addListener(_scrollListener);
     _analysisBloc.add(LoadTransactions(selectedMonth, selectedType));
-    _incomeAnalysisBloc.add(LoadIncomeTransactions(selectedMonth, selectedType));
+    _incomeAnalysisBloc
+        .add(LoadIncomeTransactions(selectedMonth, selectedType));
   }
 
   void _scrollListener() {
-    if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+    if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
       _fabAnimationController.forward();
-    } else if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
+    } else if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.forward) {
       _fabAnimationController.reverse();
     }
   }
@@ -72,7 +77,8 @@ class _AnalysisPageState extends State<AnalysisPage> with SingleTickerProviderSt
       selectedMonth = newDate;
     });
     _analysisBloc.add(LoadTransactions(selectedMonth, selectedType));
-    _incomeAnalysisBloc.add(LoadIncomeTransactions(selectedMonth, selectedType));
+    _incomeAnalysisBloc
+        .add(LoadIncomeTransactions(selectedMonth, selectedType));
   }
 
   void _setTypeSpending(TypeSpending typeSpending) {
@@ -80,7 +86,8 @@ class _AnalysisPageState extends State<AnalysisPage> with SingleTickerProviderSt
       selectedType = typeSpending;
     });
     _analysisBloc.add(LoadTransactions(selectedMonth, typeSpending));
-    _incomeAnalysisBloc.add(LoadIncomeTransactions(selectedMonth, typeSpending));
+    _incomeAnalysisBloc
+        .add(LoadIncomeTransactions(selectedMonth, typeSpending));
   }
 
   @override
@@ -103,7 +110,8 @@ class _AnalysisPageState extends State<AnalysisPage> with SingleTickerProviderSt
                       width: double.infinity,
                       height: 320,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 26),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 26),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
                           color: Colors.white,
@@ -116,28 +124,25 @@ class _AnalysisPageState extends State<AnalysisPage> with SingleTickerProviderSt
                             const Text(
                               'Categories',
                               style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500
-                              ),
+                                  fontSize: 20, fontWeight: FontWeight.w500),
                             ),
                             const SizedBox(height: 30),
                             BlocBuilder<AnalysisBloc, AnalysisState>(
-                                bloc: _analysisBloc,
-                                builder: (context, state) {
-                                  if (state is AnalysisLoading) {
-                                    return const SizedBox();
-                                  } else if (state is AnalysisLoaded) {
-                                      return MultiSegmentCircularPercentIndicator(
-                                        segments: state.segments,
-                                      );
-                                  } else if (state is AnalysisError) {
-                                    return Text('Error: ${state.message}');
-                                  } else {
-                                    return const SizedBox();
-                                  }
-                                },
-                              ),
-                            
+                              bloc: _analysisBloc,
+                              builder: (context, state) {
+                                if (state is AnalysisLoading) {
+                                  return const SizedBox();
+                                } else if (state is AnalysisLoaded) {
+                                  return MultiSegmentCircularPercentIndicator(
+                                    segments: state.segments,
+                                  );
+                                } else if (state is AnalysisError) {
+                                  return Text('Error: ${state.message}');
+                                } else {
+                                  return const SizedBox();
+                                }
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -145,7 +150,8 @@ class _AnalysisPageState extends State<AnalysisPage> with SingleTickerProviderSt
                   ),
                 ),
                 TransactionAnalysList(
-                  incomeAnalysisBloc: _incomeAnalysisBloc, dateTime: selectedMonth,
+                  incomeAnalysisBloc: _incomeAnalysisBloc,
+                  dateTime: selectedMonth,
                 ),
               ],
             ),
@@ -167,13 +173,16 @@ class _AnalysisPageState extends State<AnalysisPage> with SingleTickerProviderSt
               child: FloatingActionButton(
                 backgroundColor: Colors.grey.shade300,
                 onPressed: () async {
-                  final result = await Navigator.push(
+                  final result = await Navigator.pushNamed(
                     context,
-                    MaterialPageRoute(builder: (context) => AddTransactionPage()),
+                    Routes.createTransactionPage,
+                    arguments: CreateTransactionsArgument(null),
                   );
                   if (result == true) {
-                    _analysisBloc.add(LoadTransactions(selectedMonth, selectedType));
-                    _incomeAnalysisBloc.add(LoadIncomeTransactions(selectedMonth, selectedType));
+                    _analysisBloc
+                        .add(LoadTransactions(selectedMonth, selectedType));
+                    _incomeAnalysisBloc.add(
+                        LoadIncomeTransactions(selectedMonth, selectedType));
                   }
                 },
                 child: const Icon(CupertinoIcons.add),

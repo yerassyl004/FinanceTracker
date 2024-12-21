@@ -2,7 +2,6 @@ import 'package:finance_app/app/di.dart';
 import 'package:finance_app/presentation/create_transaction/bloc/create_transaction_bloc.dart';
 import 'package:finance_app/presentation/create_transaction/di.dart';
 import 'package:finance_app/presentation/create_transaction/repositories/create_transaction_repository.dart';
-import 'package:finance_app/presentation/create_transaction/ui/pages/add_transaction_page.dart';
 import 'package:finance_app/presentation/create_transaction/ui/pages/new_create_transactions_page.dart';
 import 'package:finance_app/presentation/tab_bar/ui/page/tab_bar_page.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +20,6 @@ class Routes {
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
-      case Routes.addTransaction:
-        return MaterialPageRoute(builder: (_) => AddTransactionPage());
       case Routes.createTransactionPage:
         if (routeSettings.arguments is CreateTransactionsArgument) {
           final args = routeSettings.arguments as CreateTransactionsArgument;

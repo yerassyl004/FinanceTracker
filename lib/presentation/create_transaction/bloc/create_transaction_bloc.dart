@@ -51,16 +51,11 @@ class CreateTransactionBloc
             CreateTransactionData.init())) {
     on<InitialTransactionEvent>(_init);
     on<EditTransactionEvent>(_edit);
-    on<ShowAccountListEvent>(_showAccountList);
-    on<ShowCategoryListEvent>(_showCategoryList);
     on<SaveTransactionEvent>(_save);
-
-    // add(InitialTransactionEvent(data: CreateTransactionData.init()));
   }
 
   Future<void> _init(InitialTransactionEvent event,
       Emitter<CreateTransactionState> emit) async {
-    print('intit');
 
     final accountList = await repository.loadAccountData();
     final expenseCategoryList = await repository.loadExpenseCategoryData();
@@ -68,6 +63,9 @@ class CreateTransactionBloc
 
     final newData = event.data.copyWith(
         accounts: accountList,
+        fromAccount: transaction?.account,
+        toAccount: transaction?.destination,
+        category: transaction?.category,
         expenseCategories: expenseCategoryList,
         incomeCategories: incomeCategoryList,
         transaction: transaction,
@@ -77,19 +75,7 @@ class CreateTransactionBloc
 
   Future<void> _edit(
       EditTransactionEvent event, Emitter<CreateTransactionState> emit) async {
-    print('edit');
-    print('title ${event.data.category?.title}');
     emit(CreateTransactionState.editing(event.data));
-  }
-
-  Future<void> _showAccountList(
-      ShowAccountListEvent event, Emitter<CreateTransactionState> emit) async {
-    // Add logic for showing account list
-  }
-
-  Future<void> _showCategoryList(
-      ShowCategoryListEvent event, Emitter<CreateTransactionState> emit) async {
-    // Add logic for showing category list
   }
 
   Future<void> _save(
