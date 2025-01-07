@@ -11,9 +11,9 @@ import 'package:intl/intl.dart';
 
 class HeaderDetailWidget extends StatelessWidget {
   final Transaction transaction;
-  final VoidCallback updateList;
+  final VoidCallback onDelete;
   const HeaderDetailWidget(
-      {super.key, required this.transaction, required this.updateList});
+      {super.key, required this.transaction, required this.onDelete});
 
   void _confirmDelete(BuildContext context, TransactionInfoService service) {
     if (Platform.isIOS) {
@@ -28,18 +28,17 @@ class HeaderDetailWidget extends StatelessWidget {
               CupertinoDialogAction(
                 textStyle: const TextStyle(color: Colors.blueAccent),
                 onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pop();
                 },
                 child: const Text('Cancel'),
               ),
               CupertinoDialogAction(
                 isDestructiveAction: true,
                 onPressed: () {
-                  service.deleteTransaction(transaction);
-                  Navigator.of(context).pop(); // Close the dialog
+                  onDelete();
+                  Navigator.of(context).pop();
                   Navigator.of(context)
-                      .pop(true); // Pop the page and return true
-                  updateList();
+                      .pop(true);
                 },
                 child: const Text('Delete'),
               ),
@@ -58,16 +57,16 @@ class HeaderDetailWidget extends StatelessWidget {
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pop();
                 },
                 child: const Text('Cancel'),
               ),
               TextButton(
                 onPressed: () {
                   service.deleteTransaction(transaction);
-                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pop();
                   Navigator.of(context)
-                      .pop(true); // Pop the page and return true
+                      .pop(true);
                 },
                 child: const Text('Delete'),
               ),
@@ -133,14 +132,13 @@ class HeaderDetailWidget extends StatelessWidget {
             ),
             IconButton(
               onPressed: () async {
-                Navigator.pop(context);
                 final result = await Navigator.pushNamed(
                   context,
                   Routes.createTransactionPage,
                   arguments: CreateTransactionsArgument(transaction),
                 );
                 if (result == true) {
-                  updateList();
+                  Navigator.pop(context);
                 }
               },
               icon: const Icon(Icons.edit),

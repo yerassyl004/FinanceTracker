@@ -14,13 +14,14 @@ class TransactionWidget extends StatelessWidget {
     required this.updateList
   });
 
-  void _handleTransactionTap(BuildContext context, Transaction transaction) {
-    showBarModalBottomSheet(
+  void _handleTransactionTap(BuildContext context, Transaction transaction) async {
+    await showBarModalBottomSheet(
       expand: false,
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (context) => TansactionPage(transaction: transaction, updateList: updateList),
+      builder: (context) => TansactionPage( args: TansactionInfoArgument(transaction: transaction)),
     );
+    updateList();
   }
 
   @override

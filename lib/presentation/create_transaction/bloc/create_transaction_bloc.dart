@@ -85,7 +85,7 @@ class CreateTransactionBloc
       if (transaction == null) {
         repository.saveTransaction(event.data.transaction!);
       } else {
-        repository.updateTransactions(event.data.transaction!);
+        repository.updateTransactions(event.data.transaction!, transaction!);
       }
       emit(CreateTransactionState.success(event.data));
     } else {

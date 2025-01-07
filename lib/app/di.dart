@@ -2,6 +2,7 @@
 import 'dart:io' as io;
 import 'package:finance_app/presentation/create_transaction/bloc/create_transaction_bloc.dart';
 import 'package:finance_app/presentation/home/bloc/transaction_bloc.dart';
+import 'package:finance_app/presentation/transaction_info/bloc/transaction_info_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 /// one public instance of [DI] used across the app
@@ -17,5 +18,6 @@ class DI {
     ///navigation
     getIt.registerLazySingleton<TransactionBloc>(() => TransactionBloc(repository: getIt()));
     getIt.registerLazySingleton<CreateTransactionBloc>(() => CreateTransactionBloc(repository: getIt()));
+    getIt.registerLazySingleton<TransactionInfoBloc>(() => TransactionInfoBloc(repository: getIt(), transaction: getIt()));
   }
 }
