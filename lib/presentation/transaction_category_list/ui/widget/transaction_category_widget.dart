@@ -25,8 +25,7 @@ class TransactionCategoryWidget extends StatelessWidget {
         return ClipRRect(
           borderRadius: const BorderRadius.vertical(top: Radius.circular(20.0)),
           child: TansactionPage(
-            transaction: transaction,
-            updateList: updateList,
+            args: TansactionInfoArgument(transaction: transaction),
           ),
         );
       },
