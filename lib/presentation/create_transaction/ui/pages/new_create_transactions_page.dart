@@ -94,6 +94,10 @@ class NewCreateTransactionView extends StatelessWidget {
                                             .read<CreateTransactionBloc>()
                                             .add(CreateTransactionEvent.edit(
                                               data: data.copyWith(
+                                                toAccount: null,
+                                                fromAccount: null,
+                                                category: null,
+                                                transaction: data.transaction?.copyWith(0, DateTime.now(), '', TypeSpending.transfer, null, null, null),
                                                   selectedType:
                                                       TypeSpending.transfer),
                                             ))),
@@ -112,6 +116,10 @@ class NewCreateTransactionView extends StatelessWidget {
                                             .read<CreateTransactionBloc>()
                                             .add(CreateTransactionEvent.edit(
                                               data: data.copyWith(
+                                                toAccount: null,
+                                                fromAccount: null,
+                                                category: null,
+                                                transaction: data.transaction?.copyWith(0, DateTime.now(), '', TypeSpending.expense, null, null, null),
                                                   selectedType:
                                                       TypeSpending.expense),
                                             ))),
@@ -130,6 +138,10 @@ class NewCreateTransactionView extends StatelessWidget {
                                             .read<CreateTransactionBloc>()
                                             .add(CreateTransactionEvent.edit(
                                               data: data.copyWith(
+                                                toAccount: null,
+                                                fromAccount: null,
+                                                category: null,
+                                                transaction: data.transaction?.copyWith(0, DateTime.now(), '', TypeSpending.income, null, null, null),
                                                   selectedType:
                                                       TypeSpending.income),
                                             ))),
@@ -212,31 +224,9 @@ class NewCreateTransactionView extends StatelessWidget {
                                                   CategoriesPage(
                                                 onCategorySelected:
                                                     (category) async {
-                                                  final newData = data.copyWith(
-                                                      category: category,
-                                                      transaction: Transaction(
-                                                          cash: data.transaction
-                                                                  ?.cash ??
-                                                              0,
-                                                          date:
-                                                              data.transaction
-                                                                      ?.date ??
-                                                                  DateTime
-                                                                      .now(),
-                                                          note: data
-                                                              .transaction?.note,
-                                                          account: data
-                                                              .transaction
-                                                              ?.account,
-                                                          category: category,
-                                                          destination: data
-                                                              .transaction
-                                                              ?.destination,
-                                                          typeSpending: data
-                                                              .selectedType));
                                                   bloc.add(
                                                       CreateTransactionEvent
-                                                          .edit(data: newData));
+                                                          .edit(data: data.copyWith(category: category)));
                                                   Navigator.pop(context);
                                                 },
                                                 isExpense: data.selectedType ==
@@ -245,7 +235,7 @@ class NewCreateTransactionView extends StatelessWidget {
                                               ),
                                             ),
                                             isSelected:
-                                                data.transaction?.category !=
+                                                data.category !=
                                                     null,
                                           )),
                                   ],
