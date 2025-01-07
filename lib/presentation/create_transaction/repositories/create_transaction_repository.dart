@@ -35,7 +35,7 @@ class CreateTransactionRepository {
     Session.instance?.addTransactions(transaction);
   }
 
-  void updateTransactions(Transaction newTransaction) async {
+  void updateTransactions(Transaction newTransaction, Transaction oldTransaction) async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> transactionList =
         prefs.getStringList('transactions') ?? [];
@@ -43,6 +43,18 @@ class CreateTransactionRepository {
     var transactions = transactionList.map((jsonString) {
       return Transaction.fromJson(jsonDecode(jsonString));
     }).toList();
+
+    switch (newTransaction.typeSpending) {
+      case TypeSpending.expense:
+        expenseTransaction(newTransaction.account!, newTransaction.cash - oldTransaction.cash);
+        break;
+      case TypeSpending.income:
+        incomeTransaction(newTransaction.account!, newTransaction.cash - oldTransaction.cash);
+        break;
+      case TypeSpending.transfer:
+        transferTransaction(newTransaction.account!, newTransaction.destination!, newTransaction.cash - oldTransaction.cash);
+        break;
+    }
 
     for (var i = 0; i < transactions.length; i++) {
       if (transactions[i].id == newTransaction.id) {
