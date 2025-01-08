@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:finance_app/data/models/account.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AccountEditService {
+class AccountsRepository {
   Future<List<Account>> loadAccountData() async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> accountsList = prefs.getStringList('accounts') ?? [];
