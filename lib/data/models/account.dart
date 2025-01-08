@@ -30,4 +30,12 @@ class Account {
       title: json['title'],
     );
   }
+
+  Account copyWith({double? cash, String? icon, String? title}) {
+    return Account(
+        id: id,
+        cash: cash ?? this.cash,
+        icon: icon ?? this.icon,
+        title: title ?? this.title);
+  }
 }

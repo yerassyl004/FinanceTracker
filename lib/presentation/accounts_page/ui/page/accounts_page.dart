@@ -62,7 +62,7 @@ class AccountsPageView extends StatelessWidget {
                                       context: context,
                                       backgroundColor: Colors.transparent,
                                       builder: (context) =>
-                                          CreateAccountPage(account: account),
+                                          CreateAccountPage(args: CreateAccountPageArguments(account: account)),
                                     );
                                     if (result == true) {
                                       context
@@ -86,7 +86,7 @@ class AccountsPageView extends StatelessWidget {
                       expand: true,
                       context: context,
                       backgroundColor: Colors.transparent,
-                      builder: (context) => CreateAccountPage(account: null),
+                      builder: (context) => CreateAccountPage(),
                     );
                     if (result == true) {
                       context.read<AccountsBloc>().add(AccountsEvent.loadAccounts());
