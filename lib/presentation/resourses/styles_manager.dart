@@ -4,11 +4,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'font_manager.dart';
 
-class TextTheme {
+class TextNewStyle {
   static TextStyle body15Medium(BuildContext context) => TextStyle(
      color: ColorManager.black,
       fontSize: 15.sp,
       fontWeight: FontWeight.w500,
+  );
+
+  static TextStyle bold24(BuildContext context) => TextStyle(
+     color: ColorManager.black,
+      fontSize: 24.sp,
+      fontWeight: FontWeight.w700,
   );
 }
 

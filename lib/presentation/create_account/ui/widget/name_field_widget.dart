@@ -1,8 +1,24 @@
 import 'package:flutter/material.dart';
 
-class NameFieldWidget extends StatelessWidget {
-  final TextEditingController controller;
-  const NameFieldWidget({super.key, required this.controller});
+class NameFieldWidget extends StatefulWidget {
+  final Function(String)? onChanged;
+  final TextEditingController? controller;
+  final String? initialValue;
+  const NameFieldWidget({super.key, this.controller, this.onChanged, this.initialValue});
+
+  @override
+  State<NameFieldWidget> createState() => _NameFieldWidgetState();
+}
+
+class _NameFieldWidgetState extends State<NameFieldWidget> {
+  late TextEditingController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = widget.controller != null ? widget.controller! : TextEditingController();
+    controller.text = widget.initialValue ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +30,7 @@ class NameFieldWidget extends StatelessWidget {
       ),
         child: TextField(
           decoration: const InputDecoration(
-            hintText: 'Name',
+            hintText: 'Untitled',
             border: InputBorder.none,
             hintStyle: TextStyle(
               fontWeight: FontWeight.normal,
@@ -22,6 +38,7 @@ class NameFieldWidget extends StatelessWidget {
               color: Colors.grey,
             ),
           ),
+          onChanged: widget.onChanged,
           style: const TextStyle(
             color: Colors.black,
             fontSize: 18,

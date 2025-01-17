@@ -3,6 +3,7 @@ import 'package:finance_app/data/models/account.dart';
 import 'package:finance_app/presentation/create_transaction/bloc/create_transaction_bloc.dart';
 import 'package:finance_app/presentation/resourses/color_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddAccountsPage extends StatelessWidget {
   final CreateTransactionData data;
@@ -35,7 +36,7 @@ class AddAccountsPage extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Flexible(
                 child: ConstrainedBox(
                   constraints: BoxConstraints(

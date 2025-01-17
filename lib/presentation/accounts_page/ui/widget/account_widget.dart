@@ -1,16 +1,15 @@
-import 'package:finance_app/presentation/accounts_page/service/account_edit_service.dart';
 import 'package:finance_app/presentation/accounts_page/ui/widget/pop_up_menu_text.dart';
 import 'package:flutter/material.dart';
 import 'package:finance_app/data/models/account.dart';
 
 class AccountWidget extends StatelessWidget {
   final Account account;
-  final VoidCallback accountDeleted;
+  final Function(Account) accountDelete;
   final Function(Account) accountEdit;
   const AccountWidget(
       {super.key,
       required this.account,
-      required this.accountDeleted,
+      required this.accountDelete,
       required this.accountEdit});
 
   Color getColor() {
@@ -99,14 +98,12 @@ class AccountWidget extends StatelessWidget {
   }
 
   void onSelected(BuildContext context, int item) {
-    AccountEditService service = AccountEditService();
     switch (item) {
       case 0:
         accountEdit(account);
         break;
       case 1:
-        service.deleteAccount(account);
-        accountDeleted();
+        accountDelete(account);
         break;
     }
   }

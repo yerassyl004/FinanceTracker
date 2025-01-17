@@ -31,9 +31,12 @@ class Transaction {
       date: DateTime.parse(json['date']),
       note: json['note'],
       account: Account.fromJson(json['account']),
-      category: json['category'] != null ? Category.fromJson(json['category']) : null,
+      category:
+          json['category'] != null ? Category.fromJson(json['category']) : null,
       typeSpending: TypeSpending.values[json['typeSpending']],
-      destination: json['destination'] != null ? Account.fromJson(json['destination']) : null,
+      destination: json['destination'] != null
+          ? Account.fromJson(json['destination'])
+          : null,
     );
   }
 
@@ -48,5 +51,23 @@ class Transaction {
       'typeSpending': typeSpending.index,
       'destination': destination?.toJson(),
     };
+  }
+
+  Transaction copyWith(
+      double? cash,
+      DateTime? date,
+      String? note,
+      TypeSpending? typeSpending,
+      Account? account,
+      Category? category,
+      Account? destination) {
+    return Transaction(
+        cash: cash ?? this.cash,
+        date: date ?? this.date,
+        note: note ?? this.note,
+        typeSpending: typeSpending ?? this.typeSpending,
+        account: account ?? this.account,
+        category: category ?? this.category,
+        destination: destination ?? this.destination);
   }
 }

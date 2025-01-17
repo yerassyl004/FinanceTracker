@@ -4,7 +4,6 @@ import 'package:finance_app/presentation/home/ui/widgets/cash_transaction_widget
 import 'package:finance_app/data/models/transaction.dart';
 import 'package:finance_app/data/models/type_spending.dart';
 import 'package:finance_app/presentation/resourses/routes_manager.dart';
-import 'package:finance_app/presentation/transaction_info/service/transaction_info_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -15,7 +14,7 @@ class HeaderDetailWidget extends StatelessWidget {
   const HeaderDetailWidget(
       {super.key, required this.transaction, required this.onDelete});
 
-  void _confirmDelete(BuildContext context, TransactionInfoService service) {
+  void _confirmDelete(BuildContext context) {
     if (Platform.isIOS) {
       showCupertinoDialog(
         context: context,
@@ -63,7 +62,7 @@ class HeaderDetailWidget extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  service.deleteTransaction(transaction);
+                  onDelete();
                   Navigator.of(context).pop();
                   Navigator.of(context)
                       .pop(true);
@@ -79,7 +78,6 @@ class HeaderDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TransactionInfoService service = TransactionInfoService();
     String? icon = transaction.typeSpending == TypeSpending.transfer
         ? 'transfer_icon'
         : transaction.category?.icon;
@@ -126,7 +124,7 @@ class HeaderDetailWidget extends StatelessWidget {
             const Spacer(),
             IconButton(
               onPressed: () {
-                _confirmDelete(context, service);
+                _confirmDelete(context);
               },
               icon: const Icon(CupertinoIcons.trash),
             ),
