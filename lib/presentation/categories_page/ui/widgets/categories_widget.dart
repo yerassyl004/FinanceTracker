@@ -1,5 +1,5 @@
 import 'package:finance_app/presentation/accounts_page/ui/widget/pop_up_menu_text.dart';
-import 'package:finance_app/presentation/categories_page/service/category_edit_service.dart';
+import 'package:finance_app/presentation/categories_page/repository/category_repository.dart';
 import 'package:finance_app/data/models/category.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +14,7 @@ class CategoriesWidget extends StatelessWidget {
       required this.categoryDeleted});
 
   void onSelected(BuildContext context, int item) {
-    CategoryEditService service = CategoryEditService();
+    CategoryRepository service = CategoryRepository();
     switch (item) {
       case 0:
         categoryEdit(category);

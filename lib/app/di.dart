@@ -1,7 +1,5 @@
-/// Created by alex@justprodev.com on 14.05.2021.
-import 'dart:io' as io;
-import 'package:finance_app/data/models/account.dart';
 import 'package:finance_app/presentation/accounts_page/bloc/accounts_bloc.dart';
+import 'package:finance_app/presentation/categories_page/bloc/category_bloc.dart';
 import 'package:finance_app/presentation/create_transaction/bloc/create_transaction_bloc.dart';
 import 'package:finance_app/presentation/home/bloc/transaction_bloc.dart';
 import 'package:finance_app/presentation/transaction_info/bloc/transaction_info_bloc.dart';
@@ -22,5 +20,6 @@ class DI {
     getIt.registerLazySingleton<CreateTransactionBloc>(() => CreateTransactionBloc(repository: getIt()));
     getIt.registerLazySingleton<TransactionInfoBloc>(() => TransactionInfoBloc(repository: getIt(), transaction: getIt()));
     getIt.registerLazySingleton<AccountsBloc>(() => AccountsBloc(repository: getIt()));
+    getIt.registerLazySingleton<CategoryBloc>(() => CategoryBloc(repository: getIt()));
   }
 }
