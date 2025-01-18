@@ -1,8 +1,8 @@
-import 'package:finance_app/data/models/account.dart';
-import 'package:finance_app/data/models/category.dart';
-import 'package:finance_app/data/models/transaction.dart';
-import 'package:finance_app/data/models/type_spending.dart';
-import 'package:finance_app/presentation/create_transaction/repositories/create_transaction_repository.dart';
+import 'package:finance_app/domain/models/account.dart';
+import 'package:finance_app/domain/models/category.dart';
+import 'package:finance_app/domain/models/transaction.dart';
+import 'package:finance_app/domain/models/type_spending.dart';
+import 'package:finance_app/data/repository/create_transaction_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

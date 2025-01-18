@@ -7,7 +7,7 @@ import 'package:finance_app/presentation/analysis/ui/analysis_list/bloc/income_a
 import 'package:finance_app/presentation/analysis/ui/widgets/analys_header_widget.dart';
 import 'package:finance_app/presentation/analysis/ui/widgets/multi_segment_circular_percent_indicator.dart';
 import 'package:finance_app/presentation/analysis/ui/analysis_list/transaction_analys_list.dart';
-import 'package:finance_app/data/models/type_spending.dart';
+import 'package:finance_app/domain/models/type_spending.dart';
 import 'package:finance_app/presentation/create_transaction/ui/pages/new_create_transactions_page.dart';
 import 'package:finance_app/presentation/resourses/routes_manager.dart';
 import 'package:flutter/cupertino.dart';

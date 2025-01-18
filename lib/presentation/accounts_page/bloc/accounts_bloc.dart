@@ -1,5 +1,5 @@
-import 'package:finance_app/data/models/account.dart';
-import 'package:finance_app/presentation/accounts_page/repository/accounts_repository.dart';
+import 'package:finance_app/domain/models/account.dart';
+import 'package:finance_app/data/repository/accounts_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

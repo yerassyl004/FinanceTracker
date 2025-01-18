@@ -1,6 +1,6 @@
 import 'package:finance_app/presentation/analysis/ui/widgets/analys_type_spending_widget.dart';
-import 'package:finance_app/presentation/home/repositories/count_cash_service.dart';
-import 'package:finance_app/data/models/type_spending.dart';
+import 'package:finance_app/data/repository/home_reposirory.dart';
+import 'package:finance_app/domain/models/type_spending.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

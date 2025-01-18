@@ -1,7 +1,7 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 
-import 'package:finance_app/data/models/category.dart';
-import 'package:finance_app/presentation/categories_page/repository/category_repository.dart';
+import 'package:finance_app/domain/models/category.dart';
+import 'package:finance_app/data/repository/category_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -44,7 +44,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   Future<void> _onDeleteAccount(
       DeleteCategory event, Emitter<CategoryState> emit) async {
     try {
-      await repository.deleteAccount(event.account);
+      await repository.deleteCategory(event.account);
       add(const CategoryEvent.loadAccounts());
     } catch (e) {
       emit(CategoryState.error('Failed to delete account: ${e.toString()}'));

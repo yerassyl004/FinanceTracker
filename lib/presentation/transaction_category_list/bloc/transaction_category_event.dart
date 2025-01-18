@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:finance_app/data/models/category.dart';
+import 'package:finance_app/domain/models/category.dart';
 
 abstract class TransactionCategoryEvent extends Equatable {
   const TransactionCategoryEvent();

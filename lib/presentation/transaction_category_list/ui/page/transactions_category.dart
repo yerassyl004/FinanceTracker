@@ -1,4 +1,4 @@
-import 'package:finance_app/data/models/category.dart';
+import 'package:finance_app/domain/models/category.dart';
 import 'package:finance_app/presentation/transaction_category_list/bloc/transaction_category_bloc.dart';
 import 'package:finance_app/presentation/transaction_category_list/bloc/transaction_category_event.dart';
 import 'package:finance_app/presentation/transaction_category_list/bloc/transaction_category_state.dart';

@@ -1,5 +1,5 @@
 import 'package:finance_app/presentation/transaction_category_list/ui/page/transactions_category.dart';
-import 'package:finance_app/data/models/analysis.dart';
+import 'package:finance_app/domain/models/analysis.dart';
 import 'package:flutter/material.dart';
 
 class TransactionAnalysWidget extends StatelessWidget {

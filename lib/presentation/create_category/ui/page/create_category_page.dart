@@ -1,7 +1,7 @@
 import 'package:finance_app/presentation/create_account/ui/widget/name_field_widget.dart';
 import 'package:finance_app/presentation/create_category/service/create_category_service.dart';
 import 'package:finance_app/presentation/create_category/ui/widgets/category_type_widget.dart';
-import 'package:finance_app/data/models/category.dart';
+import 'package:finance_app/domain/models/category.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

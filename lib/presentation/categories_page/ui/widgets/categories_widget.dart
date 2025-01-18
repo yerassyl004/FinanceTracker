@@ -1,6 +1,6 @@
 import 'package:finance_app/presentation/accounts_page/ui/widget/pop_up_menu_text.dart';
-import 'package:finance_app/presentation/categories_page/repository/category_repository.dart';
-import 'package:finance_app/data/models/category.dart';
+import 'package:finance_app/data/repository/category_repository.dart';
+import 'package:finance_app/domain/models/category.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesWidget extends StatelessWidget {
@@ -20,7 +20,7 @@ class CategoriesWidget extends StatelessWidget {
         categoryEdit(category);
         break;
       case 1:
-        service.deleteAccount(category);
+        service.deleteCategory(category);
         categoryDeleted();
         break;
     }

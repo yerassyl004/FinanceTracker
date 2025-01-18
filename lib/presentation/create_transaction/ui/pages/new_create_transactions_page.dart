@@ -3,15 +3,15 @@ import 'package:finance_app/presentation/accounts_modal/ui/pages/accounts_modal.
 import 'package:finance_app/presentation/categories/ui/pages/categories_page.dart';
 import 'package:finance_app/presentation/create_transaction/bloc/create_transaction_bloc.dart';
 import 'package:finance_app/presentation/create_transaction/di.dart';
-import 'package:finance_app/presentation/create_transaction/repositories/create_transaction_repository.dart';
+import 'package:finance_app/data/repository/create_transaction_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:finance_app/presentation/create_transaction/ui/widget/input_textField_widget.dart';
 import 'package:finance_app/presentation/create_transaction/ui/widget/transfer_info_widget.dart';
 import 'package:finance_app/presentation/create_transaction/ui/widget/types_spending_widget.dart';
-import 'package:finance_app/data/models/transaction.dart';
-import 'package:finance_app/data/models/type_spending.dart';
+import 'package:finance_app/domain/models/transaction.dart';
+import 'package:finance_app/domain/models/type_spending.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class CreateTransactionsArgument {

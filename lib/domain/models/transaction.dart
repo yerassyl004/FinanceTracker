@@ -1,6 +1,8 @@
-import 'package:finance_app/data/models/account.dart';
-import 'package:finance_app/data/models/category.dart';
-import 'package:finance_app/data/models/type_spending.dart';
+import 'dart:convert';
+
+import 'package:finance_app/domain/models/account.dart';
+import 'package:finance_app/domain/models/category.dart';
+import 'package:finance_app/domain/models/type_spending.dart';
 import 'package:uuid/uuid.dart';
 
 class Transaction {
@@ -30,12 +32,15 @@ class Transaction {
       cash: json['cash'],
       date: DateTime.parse(json['date']),
       note: json['note'],
-      account: Account.fromJson(json['account']),
-      category:
-          json['category'] != null ? Category.fromJson(json['category']) : null,
+      account: json['account'] != null
+          ? Account.fromJson(jsonDecode(json['account']))
+          : null,
+      category: json['category'] != null
+          ? Category.fromJson(jsonDecode(json['category']))
+          : null,
       typeSpending: TypeSpending.values[json['typeSpending']],
       destination: json['destination'] != null
-          ? Account.fromJson(json['destination'])
+          ? Account.fromJson(jsonDecode(json['destination']))
           : null,
     );
   }
@@ -46,10 +51,11 @@ class Transaction {
       'cash': cash,
       'date': date.toIso8601String(),
       'note': note,
-      'account': account?.toJson(),
-      'category': category?.toJson(),
+      'account': account != null ? jsonEncode(account!.toJson()) : null,
+      'category': category != null ? jsonEncode(category!.toJson()) : null,
       'typeSpending': typeSpending.index,
-      'destination': destination?.toJson(),
+      'destination':
+          destination != null ? jsonEncode(destination!.toJson()) : null,
     };
   }
 

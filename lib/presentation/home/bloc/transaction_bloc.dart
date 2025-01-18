@@ -1,5 +1,5 @@
-import 'package:finance_app/presentation/home/repositories/count_cash_service.dart';
-import 'package:finance_app/data/models/transaction.dart';
+import 'package:finance_app/domain/models/transaction.dart';
+import 'package:finance_app/domain/usecases.dart/home_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -17,8 +17,8 @@ class TransactionData with _$TransactionData {
 }
 
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
-  final HomeRepository repository;
-  TransactionBloc({required this.repository}) : super(const TransactionState.initial()) {
+  final HomeUsecase usecase;
+  TransactionBloc({required this.usecase}) : super(const TransactionState.initial()) {
     on<LoadTransactionItems>(_onLoadTransactions);
     on<UpdateTransactionItems>(_onUpdateTransactions);
 
@@ -29,7 +29,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       LoadTransactionItems event, Emitter<TransactionState> emit) async {
     emit(const TransactionState.loading());
     try {
-      final transactions = await repository.loadTransactions(event.month);
+      final transactions = await usecase.execute(event.month);
       emit(TransactionState.loaded(
           data: TransactionData(
               currentMonth: event.month, transactions: transactions)));
@@ -42,7 +42,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       UpdateTransactionItems event, Emitter<TransactionState> emit) async {
     emit(const TransactionState.loading());
     try {
-      final transactions = await repository.loadTransactions(event.month);
+      final transactions = await usecase.execute(event.month);
       emit(TransactionState.loaded(
           data: TransactionData(
               currentMonth: event.month, transactions: transactions)));

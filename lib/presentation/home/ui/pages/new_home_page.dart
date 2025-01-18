@@ -1,8 +1,9 @@
 import 'package:finance_app/app/di.dart';
+import 'package:finance_app/domain/usecases.dart/home_usecase.dart';
 import 'package:finance_app/presentation/create_transaction/ui/pages/new_create_transactions_page.dart';
 import 'package:finance_app/presentation/home/bloc/transaction_bloc.dart';
 import 'package:finance_app/presentation/home/di.dart';
-import 'package:finance_app/presentation/home/repositories/count_cash_service.dart';
+import 'package:finance_app/data/repository/home_reposirory.dart';
 import 'package:finance_app/presentation/home/ui/widgets/header_widget.dart';
 import 'package:finance_app/presentation/home/ui/widgets/transactions_list.dart';
 import 'package:finance_app/presentation/resourses/routes_manager.dart';
@@ -16,7 +17,7 @@ class NewHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.getHomeBloc(repository: HomeRepository()),
+      create: (context) => di.getHomeBloc(usecase: HomeUsecase(HomeRepository())),
       child: Scaffold(
 
         body: BlocConsumer<TransactionBloc, TransactionState>(

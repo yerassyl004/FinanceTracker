@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:finance_app/data/models/category.dart';
-import 'package:finance_app/data/models/transaction.dart';
+import 'package:finance_app/domain/models/category.dart';
+import 'package:finance_app/domain/models/transaction.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,4 +1,4 @@
-import 'package:finance_app/data/models/account.dart';
+import 'package:finance_app/domain/models/account.dart';
 import 'package:finance_app/presentation/transaction_info/ui/widget/account_info_widget.dart';
 import 'package:flutter/cupertino.dart';
 

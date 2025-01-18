@@ -1,5 +1,5 @@
 import 'package:finance_app/presentation/accounts_modal/ui/widgets/account_item_widget.dart';
-import 'package:finance_app/data/models/account.dart';
+import 'package:finance_app/domain/models/account.dart';
 import 'package:finance_app/presentation/create_transaction/bloc/create_transaction_bloc.dart';
 import 'package:finance_app/presentation/resourses/color_manager.dart';
 import 'package:flutter/material.dart';

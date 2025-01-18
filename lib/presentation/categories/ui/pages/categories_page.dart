@@ -1,5 +1,5 @@
 import 'package:finance_app/presentation/categories/ui/widget/category_grid_item.dart';
-import 'package:finance_app/data/models/category.dart';
+import 'package:finance_app/domain/models/category.dart';
 import 'package:finance_app/presentation/create_transaction/bloc/create_transaction_bloc.dart';
 import 'package:flutter/material.dart';
 

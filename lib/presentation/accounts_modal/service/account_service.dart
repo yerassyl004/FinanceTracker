@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:finance_app/data/models/account.dart';
+import 'package:finance_app/domain/models/account.dart';
 
 class AccountService {
   Future<List<Account>> loadAccountData() async {
@@ -23,13 +23,5 @@ class AccountService {
         accounts.map((acc) => jsonEncode(acc.toJson())).toList();
 
     await prefs.setStringList('accounts', accountsList);
-  }
-
-  List<Account> getDefaultAccounts() {
-    return [
-      Account(cash: 10000, icon: 'card', title: 'Card'),
-      Account(cash: 10000, icon: 'cash_icon', title: 'Cash'),
-      Account(cash: 5000, icon: 'saving_icon', title: 'Saving'),
-    ];
   }
 }

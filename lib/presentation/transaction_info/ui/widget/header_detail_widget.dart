@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:finance_app/presentation/create_transaction/ui/pages/new_create_transactions_page.dart';
 import 'package:finance_app/presentation/home/ui/widgets/cash_transaction_widget.dart';
-import 'package:finance_app/data/models/transaction.dart';
-import 'package:finance_app/data/models/type_spending.dart';
+import 'package:finance_app/domain/models/transaction.dart';
+import 'package:finance_app/domain/models/type_spending.dart';
 import 'package:finance_app/presentation/resourses/routes_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

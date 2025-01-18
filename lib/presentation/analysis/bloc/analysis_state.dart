@@ -1,7 +1,7 @@
 // analysis_state.dart
 import 'package:equatable/equatable.dart';
-import 'package:finance_app/data/models/segment.dart';
-import 'package:finance_app/data/models/transaction.dart';
+import 'package:finance_app/domain/models/segment.dart';
+import 'package:finance_app/domain/models/transaction.dart';
 
 abstract class AnalysisState extends Equatable {
   const AnalysisState();

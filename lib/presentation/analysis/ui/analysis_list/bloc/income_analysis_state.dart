@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:finance_app/data/models/analysis.dart';
+import 'package:finance_app/domain/models/analysis.dart';
 
 abstract class IncomeAnalysisState extends Equatable {
   const IncomeAnalysisState();

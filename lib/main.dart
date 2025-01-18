@@ -1,3 +1,4 @@
+import 'package:finance_app/data/data_source/local/database_helper.dart';
 import 'package:finance_app/presentation/resourses/routes_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,7 +6,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'app/utils/screem_size.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await DatabaseHelper.instance.database;
+
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.blue,
     statusBarBrightness: Brightness.dark

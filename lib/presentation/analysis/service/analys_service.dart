@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:finance_app/data/models/analysis.dart';
-import 'package:finance_app/data/models/segment.dart';
-import 'package:finance_app/data/models/transaction.dart';
-import 'package:finance_app/data/models/type_spending.dart';
+import 'package:finance_app/domain/models/analysis.dart';
+import 'package:finance_app/domain/models/segment.dart';
+import 'package:finance_app/domain/models/transaction.dart';
+import 'package:finance_app/domain/models/type_spending.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

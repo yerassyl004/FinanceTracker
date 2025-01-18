@@ -1,4 +1,4 @@
-import 'package:finance_app/data/models/transaction.dart';
+import 'package:finance_app/domain/models/transaction.dart';
 import 'package:finance_app/presentation/transaction_category_list/ui/widget/transaction_category_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

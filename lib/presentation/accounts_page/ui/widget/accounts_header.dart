@@ -1,6 +1,6 @@
-import 'package:finance_app/presentation/home/repositories/count_cash_service.dart';
+import 'package:finance_app/data/repository/home_reposirory.dart';
 import 'package:finance_app/presentation/home/ui/widgets/categories_widgets.dart';
-import 'package:finance_app/data/models/transaction.dart';
+import 'package:finance_app/domain/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

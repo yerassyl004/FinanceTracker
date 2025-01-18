@@ -1,6 +1,6 @@
 import 'package:finance_app/app/di.dart';
-import 'package:finance_app/data/models/transaction.dart';
-import 'package:finance_app/presentation/create_transaction/repositories/create_transaction_repository.dart';
+import 'package:finance_app/domain/models/transaction.dart';
+import 'package:finance_app/data/repository/create_transaction_repository.dart';
 
 import 'bloc/create_transaction_bloc.dart';
 

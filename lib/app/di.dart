@@ -16,7 +16,7 @@ class DI {
   ///initLocators() should be called in main
   void initLocators() {
     ///navigation
-    getIt.registerLazySingleton<TransactionBloc>(() => TransactionBloc(repository: getIt()));
+    getIt.registerLazySingleton<TransactionBloc>(() => TransactionBloc(usecase: getIt()));
     getIt.registerLazySingleton<CreateTransactionBloc>(() => CreateTransactionBloc(repository: getIt()));
     getIt.registerLazySingleton<TransactionInfoBloc>(() => TransactionInfoBloc(repository: getIt(), transaction: getIt()));
     getIt.registerLazySingleton<AccountsBloc>(() => AccountsBloc(repository: getIt()));

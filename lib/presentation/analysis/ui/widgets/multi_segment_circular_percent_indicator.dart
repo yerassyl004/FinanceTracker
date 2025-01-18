@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:ui' as ui;
 
-import 'package:finance_app/data/models/segment.dart';
+import 'package:finance_app/domain/models/segment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

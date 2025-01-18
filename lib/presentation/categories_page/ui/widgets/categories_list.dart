@@ -1,5 +1,5 @@
 import 'package:finance_app/presentation/categories_page/ui/widgets/categories_widget.dart';
-import 'package:finance_app/data/models/category.dart';
+import 'package:finance_app/domain/models/category.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesList extends StatelessWidget {

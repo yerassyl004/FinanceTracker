@@ -1,5 +1,5 @@
-import 'package:finance_app/data/models/transaction.dart';
-import 'package:finance_app/presentation/transaction_info/repository/transaction_info_repository.dart';
+import 'package:finance_app/domain/models/transaction.dart';
+import 'package:finance_app/data/repository/transaction_info_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

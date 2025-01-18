@@ -1,6 +1,6 @@
 import 'package:finance_app/presentation/accounts_page/ui/widget/pop_up_menu_text.dart';
 import 'package:flutter/material.dart';
-import 'package:finance_app/data/models/account.dart';
+import 'package:finance_app/domain/models/account.dart';
 
 class AccountWidget extends StatelessWidget {
   final Account account;

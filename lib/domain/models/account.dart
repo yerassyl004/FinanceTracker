@@ -39,3 +39,11 @@ class Account {
         title: title ?? this.title);
   }
 }
+
+ List<Account> getDefaultAccounts() {
+    return [
+      Account(cash: 10000, icon: 'card', title: 'Card'),
+      Account(cash: 10000, icon: 'cash_icon', title: 'Cash'),
+      Account(cash: 5000, icon: 'saving_icon', title: 'Saving'),
+    ];
+  }

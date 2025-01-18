@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:finance_app/data/models/category.dart';
+import 'package:finance_app/domain/models/category.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateCategoryService {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:finance_app/data/models/category.dart'; // Adjust the import path as needed
+import 'package:finance_app/domain/models/category.dart'; // Adjust the import path as needed
 
 class CategoryGridItem extends StatelessWidget {
   final Category category;
