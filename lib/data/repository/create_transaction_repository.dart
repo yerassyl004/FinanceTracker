@@ -7,14 +7,26 @@ import 'package:finance_app/domain/models/transaction.dart';
 import 'package:finance_app/domain/models/type_spending.dart';
 import 'package:flutter/widgets.dart';
 
-class CreateTransactionRepository {
+abstract class CreateTransactionRepositoryImplementation {
+  Future<void> createTransaction(Transaction transaction);
+  Future<List<Category>> loadExpenseCategoryData();
+  Future<List<Category>> loadIncomeCategoryData();
+  Future<List<Account>> loadAccountData();
+}
+
+class CreateTransactionRepository implements CreateTransactionRepositoryImplementation {
   final TransactionDao _transactionDao = TransactionDao();
   final AccountDao _accountDao = AccountDao();
   final CategoryDao _categoryDao = CategoryDao();
 
   Future<void> saveTransaction(Transaction transaction) async {
-    updateAccount(transaction.account!
-        .copyWith(cash: transaction.account!.cash -= transaction.cash));
+    if (transaction.typeSpending == TypeSpending.transfer) {
+      _accountDao.transferMoney(transaction.account!.id, transaction.destination!.id, transaction.cash);
+    } else if (transaction.typeSpending == TypeSpending.expense) {
+      _accountDao.updateAccount(transaction.account!.copyWith(cash: transaction.account!.cash - transaction.cash));
+    } else {
+      _accountDao.updateAccount(transaction.account!.copyWith(cash: transaction.account!.cash + transaction.cash));
+    }
     await _transactionDao.insertTransaction(transaction);
 
     debugPrint('Transaction saved: ${transaction.toJson()}');
@@ -62,13 +74,27 @@ class CreateTransactionRepository {
 
   Future<void> transferTransaction(
       Account selectedAccount, Account receiverAccount, double cash) async {
-    final senderAcc =
+    if (cash <= 0) {
+      throw ArgumentError("Cash to transfer must be greater than 0.");
+    }
+    if (selectedAccount.cash < cash) {
+      throw Exception("Insufficient balance in the sender's account.");
+    }
+
+    // Deduct cash from sender's account
+    final updatedSenderAccount =
         selectedAccount.copyWith(cash: selectedAccount.cash - cash);
-    final receiverAcc =
+
+    // Add cash to receiver's account
+    final updatedReceiverAccount =
         receiverAccount.copyWith(cash: receiverAccount.cash + cash);
 
-    await _accountDao.updateAccount(senderAcc);
-    await _accountDao.updateAccount(receiverAcc);
+    // Update both accounts in the database
+    await _accountDao.updateAccount(updatedSenderAccount);
+    await _accountDao.updateAccount(updatedReceiverAccount);
+
+    debugPrint(
+        'Transfer successful: $cash from ${selectedAccount.id} to ${receiverAccount.id}');
   }
 
   Future<List<Account>> loadAccountData() async {
@@ -80,7 +106,6 @@ class CreateTransactionRepository {
   }
 
   Future<List<Category>> loadExpenseCategoryData() async {
-    saveCategoryData(getDefaultExpenseCategories());
     final categoriesList =
         await _categoryDao.loadCategories(CategoryType.expense.value);
 
@@ -93,7 +118,6 @@ class CreateTransactionRepository {
   }
 
   Future<List<Category>> loadIncomeCategoryData() async {
-    saveCategoryData(getDefaultIncomeCategories());
     final categoriesList =
         await _categoryDao.loadCategories(CategoryType.income.value);
 
@@ -107,5 +131,19 @@ class CreateTransactionRepository {
 
   Future<void> saveCategoryData(List<Category> categories) async {
     await _categoryDao.insertCategories(categories);
+  }
+  
+  @override
+  Future<void> createTransaction(Transaction transaction) async {
+    if (transaction.typeSpending == TypeSpending.transfer) {
+      _accountDao.transferMoney(transaction.account!.id, transaction.destination!.id, transaction.cash);
+    } else if (transaction.typeSpending == TypeSpending.expense) {
+      _accountDao.updateAccount(transaction.account!.copyWith(cash: transaction.account!.cash - transaction.cash));
+    } else {
+      _accountDao.updateAccount(transaction.account!.copyWith(cash: transaction.account!.cash + transaction.cash));
+    }
+    await _transactionDao.insertTransaction(transaction);
+
+    debugPrint('Transaction saved: ${transaction.toJson()}');
   }
 }
