@@ -1,7 +1,6 @@
 import 'package:finance_app/app/di.dart';
 import 'package:finance_app/presentation/categories_page/bloc/category_bloc.dart';
 import 'package:finance_app/presentation/categories_page/di.dart';
-import 'package:finance_app/data/repository/category_repository.dart';
 import 'package:finance_app/presentation/categories_page/ui/widgets/categories_list.dart';
 import 'package:finance_app/presentation/create_category/ui/page/create_category_page.dart';
 import 'package:finance_app/presentation/resourses/styles_manager.dart';
@@ -17,7 +16,7 @@ class CategoriesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (context) =>
-            di.getCategoryBloc(repository: CategoryRepository())
+            di.getCategoryBloc()
               ..add(CategoryEvent.loadAccounts()),
         child: CategoriesPageView());
   }

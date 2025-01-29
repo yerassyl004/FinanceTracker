@@ -1,5 +1,10 @@
+// ignore_for_file: void_checks
+
+import 'dart:ffi';
+
 import 'package:finance_app/domain/models/account.dart';
-import 'package:finance_app/data/repository/accounts_repository.dart';
+import 'package:finance_app/domain/usecases.dart/delete_account_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/load_account_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -20,24 +25,37 @@ class AccountsState with _$AccountsState {
 }
 
 class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
-  final AccountsRepository repository;
+  // final AccountsRepository repository;
+  final LoadAccountUseCase loadAccountUseCase;
+  final DeleteAccountUsecase deleteAccountUseCase;
 
-  AccountsBloc({required this.repository}) : super(const AccountsState.initial()) {
+  AccountsBloc(this.loadAccountUseCase, this.deleteAccountUseCase)
+      : super(const AccountsState.initial()) {
     on<LoadAccounts>(_onLoadAccounts);
     on<DeleteAccounts>(_delete);
   }
 
-  Future<void> _delete(DeleteAccounts event, Emitter<AccountsState> emit) async {
-    repository.deleteAccount(event.account);
-    add(AccountsEvent.loadAccounts());
+  Future<void> _delete(
+      DeleteAccounts event, Emitter<AccountsState> emit) async {
+    final result = await deleteAccountUseCase.execute(event.account.id);
+    result.fold((failure) {
+      emit(AccountsState.error(failure.message));
+    }, (deleted) {
+      add(AccountsEvent.loadAccounts());
+    });
   }
 
   Future<void> _onLoadAccounts(
       LoadAccounts event, Emitter<AccountsState> emit) async {
     emit(const AccountsState.loading());
+
     try {
-      final accounts = await repository.loadAccountData();
-      emit(AccountsState.loaded(accounts));
+      final accounts = await loadAccountUseCase.execute(Void);
+      accounts.fold((failure) {
+        emit(AccountsState.error(failure.message));
+      }, (accounts) {
+        emit(AccountsState.loaded(accounts));
+      });
     } catch (e) {
       emit(AccountsState.error(e.toString()));
     }
