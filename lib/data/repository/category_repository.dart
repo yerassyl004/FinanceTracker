@@ -9,7 +9,6 @@ class CategoryRepository {
   }
 
   Future<List<Category>> loadExpenseCategoryData() async {
-    saveCategoryData(getDefaultExpenseCategories());
     final categoriesList = await _categoryDao.loadCategories(CategoryType.expense.value);
 
     if (categoriesList.isEmpty) {
@@ -21,7 +20,6 @@ class CategoryRepository {
   }
 
   Future<List<Category>> loadIncomeCategoryData() async {
-    saveCategoryData(getDefaultIncomeCategories());
     final categoriesList=  await _categoryDao.loadCategories(CategoryType.income.value);
 
     if (categoriesList.isEmpty) {
