@@ -1,5 +1,5 @@
 import 'package:finance_app/domain/models/transaction.dart';
-import 'package:finance_app/domain/usecases.dart/home_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/load_transactions_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -17,8 +17,8 @@ class TransactionData with _$TransactionData {
 }
 
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
-  final HomeUsecase usecase;
-  TransactionBloc({required this.usecase}) : super(const TransactionState.initial()) {
+  final LoadTransactionsUsecase loadAccountUseCase;
+  TransactionBloc(this.loadAccountUseCase) : super(const TransactionState.initial()) {
     on<LoadTransactionItems>(_onLoadTransactions);
     on<UpdateTransactionItems>(_onUpdateTransactions);
 
@@ -29,10 +29,21 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       LoadTransactionItems event, Emitter<TransactionState> emit) async {
     emit(const TransactionState.loading());
     try {
-      final transactions = await usecase.execute(event.month);
-      emit(TransactionState.loaded(
-          data: TransactionData(
-              currentMonth: event.month, transactions: transactions)));
+      final result = await loadAccountUseCase.execute(event.month);
+
+      result.fold(
+        (failure) {
+          emit(TransactionState.error(failure.toString()));
+        },
+        (transactions) {
+          emit(TransactionState.loaded(
+            data: TransactionData(
+              currentMonth: event.month,
+              transactions: transactions,
+            ),
+          ));
+        },
+      );
     } catch (e) {
       emit(TransactionState.error(e.toString()));
     }
@@ -40,12 +51,22 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
 
   Future<void> _onUpdateTransactions(
       UpdateTransactionItems event, Emitter<TransactionState> emit) async {
-    emit(const TransactionState.loading());
     try {
-      final transactions = await usecase.execute(event.month);
-      emit(TransactionState.loaded(
-          data: TransactionData(
-              currentMonth: event.month, transactions: transactions)));
+      final result = await loadAccountUseCase.execute(event.month);
+
+      result.fold(
+        (failure) {
+          emit(TransactionState.error(failure.toString()));
+        },
+        (transactions) {
+          emit(TransactionState.loaded(
+            data: TransactionData(
+              currentMonth: event.month,
+              transactions: transactions,
+            ),
+          ));
+        },
+      );
     } catch (e) {
       emit(TransactionState.error(e.toString()));
     }

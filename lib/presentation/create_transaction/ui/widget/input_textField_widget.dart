@@ -6,13 +6,15 @@ class InputTextfieldWidget extends StatelessWidget {
   final int minLine;
   final TextInputType inputType;
   final TextEditingController controller;
+  final Function(String)? onChanged;
   const InputTextfieldWidget(
       {super.key,
       required this.hintText,
       required this.inputType,
       required this.maxLine,
       required this.minLine,
-      required this.controller
+      required this.controller,
+      this.onChanged,
       });
 
   @override

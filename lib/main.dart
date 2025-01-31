@@ -1,3 +1,4 @@
+import 'package:finance_app/app/di.dart';
 import 'package:finance_app/data/data_source/local/database_helper.dart';
 import 'package:finance_app/presentation/resourses/routes_manager.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,8 @@ import 'app/utils/screem_size.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DatabaseHelper.instance.database;
+
+  di.initLocators();
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.blue,

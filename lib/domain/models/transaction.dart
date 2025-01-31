@@ -59,15 +59,16 @@ class Transaction {
     };
   }
 
-  Transaction copyWith(
+  Transaction copyWith({
       double? cash,
       DateTime? date,
       String? note,
       TypeSpending? typeSpending,
       Account? account,
       Category? category,
-      Account? destination) {
+      Account? destination}) {
     return Transaction(
+        id: id,
         cash: cash ?? this.cash,
         date: date ?? this.date,
         note: note ?? this.note,
@@ -75,5 +76,16 @@ class Transaction {
         account: account ?? this.account,
         category: category ?? this.category,
         destination: destination ?? this.destination);
+  }
+
+  Transaction clear() {
+    return Transaction(
+        cash: 0,
+        date: DateTime.now(),
+        note: '',
+        typeSpending: typeSpending,
+        account: null,
+        category: null,
+        destination: null);
   }
 }
