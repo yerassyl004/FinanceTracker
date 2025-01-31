@@ -54,6 +54,9 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
       accounts.fold((failure) {
         emit(AccountsState.error(failure.message));
       }, (accounts) {
+        if (accounts.isEmpty) {
+
+        }
         emit(AccountsState.loaded(accounts));
       });
     } catch (e) {

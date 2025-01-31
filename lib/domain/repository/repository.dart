@@ -5,6 +5,8 @@ import 'package:finance_app/domain/models/category.dart';
 import 'package:finance_app/domain/models/transaction.dart';
 
 abstract class Repository{
+  Future<Either<Failure, bool>> updateTransaction(Transaction transaction);
+  Future<Either<Failure, bool>> createTransaction(Transaction transaction);
   Future<Either<Failure, String>> saveCategoryData(List<Category> categories);
   Future<Either<Failure, String>> deleteCategoryData(String categoryId);
   Future<Either<Failure, List<Category>>> loadCategoryData(CategoryType type);

@@ -21,13 +21,16 @@ class RepositoryImpl extends Repository {
   Future<Either<Failure, List<Account>>> loadAccountData() async {
     final accounts = await _accountDao.getAccounts();
     if (accounts.isEmpty) {
-      return Left(Failure(-1, 'Empty account data'));
+      final defaultAccount = getDefaultAccounts();
+      await _accountDao.insertAccounts(defaultAccount);
+      return Right(defaultAccount);
     }
     return Right(accounts);
   }
 
   @override
-  Future<Either<Failure, String>> saveAccountData(List<Account> accounts) async {
+  Future<Either<Failure, String>> saveAccountData(
+      List<Account> accounts) async {
     try {
       await _accountDao.insertAccounts(accounts);
       return Right('Accounts saved successfully');
@@ -37,7 +40,8 @@ class RepositoryImpl extends Repository {
   }
 
   @override
-  Future<Either<Failure, List<Transaction>>> loadTransactions(DateTime selectedDate) async {
+  Future<Either<Failure, List<Transaction>>> loadTransactions(
+      DateTime selectedDate) async {
     try {
       final transactions = await _transactionDao.getTransactions(selectedDate);
       return Right(transactions);
@@ -45,7 +49,7 @@ class RepositoryImpl extends Repository {
       return Left(Failure(-1, AppStrings.unknownError));
     }
   }
-  
+
   @override
   Future<double> expenseAmount(List<Transaction> transactions) async {
     if (transactions.isEmpty) {
@@ -73,7 +77,7 @@ class RepositoryImpl extends Repository {
     }
     return count;
   }
-  
+
   @override
   Future<Either<Failure, String>> deleteAccountData(String accountId) async {
     try {
@@ -95,19 +99,89 @@ class RepositoryImpl extends Repository {
   }
 
   @override
-  Future<Either<Failure, List<Category>>> loadCategoryData(CategoryType type) async {
+  Future<Either<Failure, List<Category>>> loadCategoryData(
+      CategoryType type) async {
     final accounts = await _categorytDao.loadCategories(type.index);
     if (accounts.isEmpty) {
-      return Left(Failure(-1, 'Empty account data'));
+      List<Category> categories = [];
+      switch (type) {
+        case CategoryType.income:
+          categories = getDefaultIncomeCategories();
+        case CategoryType.expense:
+          categories = getDefaultExpenseCategories();
+      }
+      return Right(categories);
     }
     return Right(accounts);
   }
 
   @override
-  Future<Either<Failure, String>> saveCategoryData(List<Category> categories) async {
+  Future<Either<Failure, String>> saveCategoryData(
+      List<Category> categories) async {
     try {
       await _categorytDao.insertCategories(categories);
       return Right('Categories saved successfully');
+    } catch (e) {
+      return Left(Failure(-1, e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> createTransaction(
+      Transaction transaction) async {
+    try {
+      switch (transaction.typeSpending) {
+        case TypeSpending.expense:
+          await _accountDao.updateAccount(transaction.account!
+              .copyWith(cash: transaction.account!.cash - transaction.cash));
+        case TypeSpending.income:
+          await _accountDao.updateAccount(transaction.account!
+              .copyWith(cash: transaction.account!.cash + transaction.cash));
+        case TypeSpending.transfer:
+          await _accountDao.updateAccount(transaction.account!
+              .copyWith(cash: transaction.account!.cash - transaction.cash));
+          await _accountDao.updateAccount(transaction.destination!.copyWith(
+              cash: transaction.destination!.cash + transaction.cash));
+      }
+      await _transactionDao.insertTransaction(transaction);
+      return Right(true);
+    } catch (e) {
+      return Left(Failure(-1, e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> updateTransaction(
+      Transaction transaction) async {
+    try {
+      switch (transaction.typeSpending) {
+        case TypeSpending.expense:
+          await _accountDao.updateAccount(
+            transaction.account!.copyWith(
+                cash: transaction.account!.cash - transaction.cash),
+          );
+          break;
+        case TypeSpending.income:
+          await _accountDao.updateAccount(
+            transaction.account!.copyWith(
+                cash: transaction.account!.cash + transaction.cash),
+          );
+          break;
+        case TypeSpending.transfer:
+          await _accountDao.updateAccount(
+            transaction.account!.copyWith(
+                cash: transaction.account!.cash - transaction.cash),
+          );
+          await _accountDao.updateAccount(
+            transaction.destination!.copyWith(
+                cash:
+                    transaction.destination!.cash + transaction.cash),
+          );
+          break;
+      }
+
+      await _transactionDao.updateTransaction(transaction);
+      return Right(true);
     } catch (e) {
       return Left(Failure(-1, e.toString()));
     }

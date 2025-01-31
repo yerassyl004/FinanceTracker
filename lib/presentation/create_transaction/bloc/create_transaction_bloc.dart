@@ -2,7 +2,10 @@ import 'package:finance_app/domain/models/account.dart';
 import 'package:finance_app/domain/models/category.dart';
 import 'package:finance_app/domain/models/transaction.dart';
 import 'package:finance_app/domain/models/type_spending.dart';
-import 'package:finance_app/data/repository/create_transaction_repository.dart';
+import 'package:finance_app/domain/usecases.dart/create_transaction_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/load_account_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/load_category_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/update_transaction_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -43,10 +46,18 @@ class CreateTransactionData with _$CreateTransactionData {
 
 class CreateTransactionBloc
     extends Bloc<CreateTransactionEvent, CreateTransactionState> {
-  final CreateTransactionRepository repository;
+  final UpdateTransactionUsecase updateTransactionUsecase;
+  final CreateTransactionUsecase createTransactionUsecase;
+  final LoadAccountUseCase loadAccountUseCase;
+  final LoadCategoryUsecase loadCategoryUsecase;
   final Transaction? transaction;
 
-  CreateTransactionBloc({required this.repository, this.transaction})
+  CreateTransactionBloc(
+      this.updateTransactionUsecase,
+      this.createTransactionUsecase,
+      this.loadAccountUseCase,
+      this.loadCategoryUsecase,
+      this.transaction)
       : super(const CreateTransactionState.initial(
             CreateTransactionData.init())) {
     on<InitialTransactionEvent>(_init);
@@ -56,10 +67,12 @@ class CreateTransactionBloc
 
   Future<void> _init(InitialTransactionEvent event,
       Emitter<CreateTransactionState> emit) async {
-    final accountList = await repository.loadAccountData();
-    final expenseCategoryList = await repository.loadExpenseCategoryData();
-    final incomeCategoryList = await repository.loadIncomeCategoryData();
-
+    List<Account> accountList = await _onLoadAccounts();
+    List<Category> expenseCategoryList =
+        await _onLoadCategory(CategoryType.expense);
+    List<Category> incomeCategoryList =
+        await _onLoadCategory(CategoryType.income);
+    print('transaction:::: ${transaction?.toJson()}');
     final newData = event.data.copyWith(
         accounts: accountList,
         fromAccount: transaction?.account,
@@ -82,15 +95,43 @@ class CreateTransactionBloc
     if (event.data.transaction?.account != null &&
         (event.data.transaction?.category != null ||
             event.data.transaction?.destination != null)) {
+      final transactionData = event.data.transaction!.copyWith(
+        account: event.data.fromAccount,
+        destination: event.data.toAccount,
+        category: event.data.category,
+        typeSpending: event.data.selectedType,
+      );
+      emit(CreateTransactionState.loading(event.data));
       if (transaction == null) {
-        repository.saveTransaction(event.data.transaction!);
+        final result = await createTransactionUsecase.execute(transactionData);
+        result.fold(
+            (failure) => emit(CreateTransactionState.editing(
+                event.data.copyWith(errorMessage: 'Error'))),
+            (success) => emit(CreateTransactionState.success(event.data)));
       } else {
-        repository.updateTransactions(event.data.transaction!, transaction!);
+        final result = await updateTransactionUsecase.execute(transactionData);
+        result.fold(
+            (failure) => emit(CreateTransactionState.editing(
+                event.data.copyWith(errorMessage: 'Error'))),
+            (success) => emit(CreateTransactionState.success(event.data)));
+        updateTransactionUsecase.execute(transactionData);
       }
-      emit(CreateTransactionState.success(event.data));
     } else {
       emit(CreateTransactionState.editing(
           event.data.copyWith(errorMessage: 'Empty')));
     }
+  }
+
+  Future<List<Account>> _onLoadAccounts() async {
+    final result = await loadAccountUseCase.execute(null);
+    return result.fold(
+      (failure) => [],
+      (accounts) => accounts,
+    );
+  }
+
+  Future<List<Category>> _onLoadCategory(CategoryType type) async {
+    final result = await loadCategoryUsecase.execute(type);
+    return result.fold((failure) => [], (categories) => categories);
   }
 }

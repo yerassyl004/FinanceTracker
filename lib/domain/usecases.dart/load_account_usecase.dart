@@ -10,7 +10,7 @@ class LoadAccountUseCase extends BaseUseCase<void, List<Account>> {
   LoadAccountUseCase(this._repository);
 
   @override
-  Future<Either<Failure, List<Account>>> execute(input) {
+  Future<Either<Failure, List<Account>>> execute(input) async {
     return _repository.loadAccountData();
   }
 }

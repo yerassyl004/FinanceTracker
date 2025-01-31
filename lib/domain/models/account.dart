@@ -23,13 +23,13 @@ class Account {
   }
 
   factory Account.fromJson(Map<String, dynamic> json) {
-    return Account(
-      id: json['id'],
-      cash: json['cash'],
-      icon: json['icon'],
-      title: json['title'],
-    );
-  }
+  return Account(
+    id: json['id'],
+    cash: json['cash'],
+    icon: json['icon'],
+    title: json['title'],
+  );
+}
 
   Account copyWith({double? cash, String? icon, String? title}) {
     return Account(
@@ -38,12 +38,20 @@ class Account {
         icon: icon ?? this.icon,
         title: title ?? this.title);
   }
+
+  Account sendAmount(Account account) {
+    return account.copyWith(cash: cash - account.cash);
+  }
+
+  Account topUpAmount(Account account) {
+    return account.copyWith(cash: cash + account.cash);
+  }
 }
 
- List<Account> getDefaultAccounts() {
-    return [
-      Account(cash: 10000, icon: 'card', title: 'Card'),
-      Account(cash: 10000, icon: 'cash_icon', title: 'Cash'),
-      Account(cash: 5000, icon: 'saving_icon', title: 'Saving'),
-    ];
-  }
+List<Account> getDefaultAccounts() {
+  return [
+    Account(cash: 10000, icon: 'card', title: 'Card'),
+    Account(cash: 10000, icon: 'cash_icon', title: 'Cash'),
+    Account(cash: 5000, icon: 'saving_icon', title: 'Saving'),
+  ];
+}
