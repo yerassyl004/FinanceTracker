@@ -3,7 +3,6 @@ import 'package:finance_app/domain/models/transaction.dart';
 import 'package:finance_app/domain/models/type_spending.dart';
 import 'package:finance_app/presentation/transaction_info/bloc/transaction_info_bloc.dart';
 import 'package:finance_app/presentation/transaction_info/di.dart';
-import 'package:finance_app/data/repository/transaction_info_repository.dart';
 import 'package:finance_app/presentation/transaction_info/ui/widget/account_info_widget.dart';
 import 'package:finance_app/presentation/transaction_info/ui/widget/destination_widget.dart';
 import 'package:finance_app/presentation/transaction_info/ui/widget/header_detail_widget.dart';
@@ -24,9 +23,7 @@ class TansactionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => di.getTransactionInfoBloc(
-            repository: TransactionInfoRepository(),
-            transaction: args.transaction)
+        create: (context) => di.getTransactionInfoBloc(args.transaction)
           ..add(TransactionInfoEvent.show(
               data: TransactionInfoData(transaction: args.transaction))),
         child: TansactionPageView(args: args));

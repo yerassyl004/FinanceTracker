@@ -120,7 +120,7 @@ class RepositoryImpl extends Repository {
   }
 
   @override
-  Future<Either<Failure, bool>> createTransaction(
+  Future<Either<Failure, String>> createTransaction(
       Transaction transaction) async {
     try {
       switch (transaction.typeSpending) {
@@ -137,14 +137,14 @@ class RepositoryImpl extends Repository {
               cash: transaction.destination!.cash + transaction.cash));
       }
       await _transactionDao.insertTransaction(transaction);
-      return Right(true);
+      return Right('Transaction created successfully');
     } catch (e) {
       return Left(Failure(-1, e.toString()));
     }
   }
 
   @override
-  Future<Either<Failure, bool>> updateTransaction(
+  Future<Either<Failure, String>> updateTransaction(
       Transaction transaction) async {
     try {
       switch (transaction.typeSpending) {
@@ -173,27 +173,27 @@ class RepositoryImpl extends Repository {
       }
 
       await _transactionDao.updateTransaction(transaction);
-      return Right(true);
+      return Right('Transaction updated successfully');
     } catch (e) {
       return Left(Failure(-1, e.toString()));
     }
   }
 
   @override
-  Future<Either<Failure, bool>> createAccount(Account account) async {
+  Future<Either<Failure, String>> createAccount(Account account) async {
     try {
       await _accountDao.insertAccount(account);
-      return Right(true);
+      return Right('Account created successfully');
     } catch (e) {
       return Left(Failure(-1, AppStrings.defaultError));
     }
   }
 
   @override
-  Future<Either<Failure, bool>> updateAccount(Account account) async {
+  Future<Either<Failure, String>> updateAccount(Account account) async {
     try {
       await _accountDao.updateAccount(account);
-      return Right(true);
+      return Right('Account updated successfully');
     } catch (e) {
       return Left(Failure(-1, AppStrings.defaultError));
     }
@@ -303,6 +303,16 @@ class RepositoryImpl extends Repository {
       return Right(transactions);
     } catch (e) {
       return Left(Failure(-1, AppStrings.unknownError));
+    }
+  }
+  
+  @override
+  Future<Either<Failure, String>> deleteTransaction(Transaction transaction) async {
+    try {
+      await _transactionDao.deleteTransaction(transaction.id);
+      return Right('Transaction deleted successfully');
+    } catch (e) {
+      return Left(Failure(-1, e.toString()));
     }
   }
 }

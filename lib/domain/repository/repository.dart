@@ -10,8 +10,9 @@ import 'package:finance_app/domain/models/type_spending.dart';
 abstract class Repository{
 
   /// Transaction
-  Future<Either<Failure, bool>> updateTransaction(Transaction transaction);
-  Future<Either<Failure, bool>> createTransaction(Transaction transaction);
+  Future<Either<Failure, String>> updateTransaction(Transaction transaction);
+  Future<Either<Failure, String>> createTransaction(Transaction transaction);
+  Future<Either<Failure, String>> deleteTransaction(Transaction transaction);
   Future<Either<Failure, List<Transaction>>> loadTransactions(DateTime selectedDate);
   Future<Either<Failure, List<Transaction>>> loadTransactionsBySpending(DateTime selectedDate, TypeSpending typeSpending);
   Future<Either<Failure, List<Transaction>>> loadTransactionsByCategory(DateTime selectedDate, Category category);
@@ -24,8 +25,8 @@ abstract class Repository{
 
   /// Account
   Future<Either<Failure, List<Account>>> loadAccountData();
-  Future<Either<Failure, bool>> updateAccount(Account account);
-  Future<Either<Failure, bool>> createAccount(Account account);
+  Future<Either<Failure, String>> updateAccount(Account account);
+  Future<Either<Failure, String>> createAccount(Account account);
   Future<Either<Failure, String>> deleteAccountData(String accountId);
 
   
