@@ -2,6 +2,7 @@ import 'package:finance_app/presentation/create_account/ui/widget/name_field_wid
 import 'package:finance_app/presentation/create_category/service/create_category_service.dart';
 import 'package:finance_app/presentation/create_category/ui/widgets/category_type_widget.dart';
 import 'package:finance_app/domain/models/category.dart';
+import 'package:finance_app/presentation/resourses/strings_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -142,7 +143,7 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
                     Row(
                       children: [
                         const Text(
-                          'Add new category',
+                          AppStrings.addNewCategory,
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
@@ -162,7 +163,7 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
                     Row(
                       children: [
                       const Text(
-                        'Type',
+                        AppStrings.type,
                         style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w500,
@@ -176,13 +177,13 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CategoryTypeWidget(
-                                title: "Income",
+                                title: AppStrings.incomeText,
                                 isSelected: selectedType == CategoryType.income,
                                 onTap: () {
                                   _categorySelected(CategoryType.income);
                                 }),
                             CategoryTypeWidget(
-                                title: "Expense",
+                                title: AppStrings.expenseText,
                                 isSelected: selectedType == CategoryType.expense,
                                 onTap: () {
                                   _categorySelected(CategoryType.expense);

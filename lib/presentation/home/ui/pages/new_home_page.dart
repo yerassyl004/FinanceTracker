@@ -15,9 +15,8 @@ class NewHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.getHomeBloc(getIt()),
+      create: (context) => di.getHomeBloc(),
       child: Scaffold(
-
         body: BlocConsumer<TransactionBloc, TransactionState>(
             listener: (context, state) {},
             builder: (context, state) {
@@ -89,6 +88,9 @@ class NewHomePage extends StatelessWidget {
                                 .read<TransactionBloc>()
                                 .add(LoadTransactionItems(month: newDate));
                           },
+                          expenseAmount: data.expenseAmount,
+                          incomeAmount: data.incomeAmount, 
+                          currentDate: data.currentMonth,
                         ),
                         orElse: () => const SizedBox(),
                       )),
@@ -99,10 +101,10 @@ class NewHomePage extends StatelessWidget {
                       backgroundColor: Colors.grey.shade300,
                       onPressed: () async {
                         final result = await Navigator.pushNamed(
-                            context, Routes.createTransactionPage,
-                            arguments: CreateTransactionsArgument(
-                              null),
-                            );
+                          context,
+                          Routes.createTransactionPage,
+                          arguments: CreateTransactionsArgument(null),
+                        );
                         if (result == true) {
                           state.maybeWhen(
                             loaded: (data) {

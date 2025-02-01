@@ -1,5 +1,4 @@
 import 'package:finance_app/presentation/analysis/ui/widgets/analys_type_spending_widget.dart';
-import 'package:finance_app/data/repository/home_reposirory.dart';
 import 'package:finance_app/domain/models/type_spending.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -20,7 +19,6 @@ class AnalysHeaderWidget extends StatefulWidget {
 
 class _AnalysHeaderWidgetState extends State<AnalysHeaderWidget> {
   late DateTime _currentDate;
-  HomeRepository cashService = HomeRepository();
   var selectedType = TypeSpending.expense;
 
   @override

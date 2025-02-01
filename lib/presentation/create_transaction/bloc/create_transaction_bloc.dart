@@ -6,6 +6,7 @@ import 'package:finance_app/domain/usecases.dart/create_transaction_usecase.dart
 import 'package:finance_app/domain/usecases.dart/load_account_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/load_category_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/update_transaction_usecase.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -72,7 +73,7 @@ class CreateTransactionBloc
         await _onLoadCategory(CategoryType.expense);
     List<Category> incomeCategoryList =
         await _onLoadCategory(CategoryType.income);
-    print('transaction:::: ${transaction?.toJson()}');
+    debugPrint('transaction:::: ${transaction?.toJson()}');
     final newData = event.data.copyWith(
         accounts: accountList,
         fromAccount: transaction?.account,
