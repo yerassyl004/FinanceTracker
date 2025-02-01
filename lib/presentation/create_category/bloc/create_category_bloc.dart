@@ -81,9 +81,11 @@ class CreateCategoryBloc
     final imageAssets = getCategoryImages(event.data.categoryType);
     final data = event.data;
     final newData = data.copyWith(
+      imageAssets: imageAssets,
         category: data.category?.copyWith(
       type: data.categoryType,
       icon: imageAssets[data.selectedImageIndex],
+
     ));
 
     emit(CreateCategoryState.show(data: newData));

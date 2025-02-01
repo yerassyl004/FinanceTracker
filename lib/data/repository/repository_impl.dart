@@ -98,7 +98,8 @@ class RepositoryImpl extends Repository {
           categories = getDefaultIncomeCategories();
         case CategoryType.expense:
           categories = getDefaultExpenseCategories();
-          _categorytDao.insertCategories(categories);
+      _categorytDao.insertCategories(getDefaultIncomeCategories());
+      _categorytDao.insertCategories(getDefaultExpenseCategories());
       }
       return Right(categories);
     }
