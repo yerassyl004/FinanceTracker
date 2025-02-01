@@ -14,7 +14,7 @@ class TransactionAnalysWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => TransactionsCategory(category: analysis.category, dateTime: dateTime)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => TransactionsCategory(args: TransactionsCategoryArguments(analysis.category, dateTime, analysis.cash),)));
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, bottom: 4),

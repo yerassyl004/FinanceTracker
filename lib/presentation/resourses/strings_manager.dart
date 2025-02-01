@@ -7,4 +7,5 @@ class AppStrings {
   static const String balanceText = 'Balance';
   static const String addNewCategory = 'Add new category';
   static const String type = 'Type';
+  static const String untitled = 'Untitled';
 }

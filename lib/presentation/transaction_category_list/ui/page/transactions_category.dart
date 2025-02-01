@@ -1,84 +1,61 @@
+import 'package:finance_app/app/date_format.dart';
+import 'package:finance_app/app/di.dart';
 import 'package:finance_app/domain/models/category.dart';
 import 'package:finance_app/presentation/transaction_category_list/bloc/transaction_category_bloc.dart';
-import 'package:finance_app/presentation/transaction_category_list/bloc/transaction_category_event.dart';
-import 'package:finance_app/presentation/transaction_category_list/bloc/transaction_category_state.dart';
-import 'package:finance_app/presentation/transaction_category_list/service/transaction_category_service.dart';
+import 'package:finance_app/presentation/transaction_category_list/di.dart';
 import 'package:finance_app/presentation/transaction_category_list/ui/widget/transaction_category_header.dart';
 import 'package:finance_app/presentation/transaction_category_list/ui/widget/transaction_category_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TransactionsCategory extends StatefulWidget {
+class TransactionsCategoryArguments {
   final DateTime dateTime;
   final Category category;
+  final double totalCash;
 
-  const TransactionsCategory({super.key, required this.category, required this.dateTime});
-
-  @override
-  _TransactionsCategoryState createState() => _TransactionsCategoryState();
+  const TransactionsCategoryArguments(this.category, this.dateTime, this.totalCash);
 }
 
-class _TransactionsCategoryState extends State<TransactionsCategory> {
-  late TransactionCategoryBloc categoryBloc;
-  TransactionCategoryService service = TransactionCategoryService();
+class TransactionsCategory extends StatelessWidget {
+  final TransactionsCategoryArguments args;
+  const TransactionsCategory({super.key, required this.args});
 
   @override
-  void initState() {
-    super.initState();
-    categoryBloc = TransactionCategoryBloc(service: service);
-    categoryBloc.add(LoadTransactionsCategory(category: widget.category, selectedMonth: widget.dateTime));
+  Widget build(BuildContext context) {
+    return BlocProvider(
+        create: (context) => di.getTransactionCategoryBloc(args),
+        child: TransactionsCategoryPageView(args: args));
   }
+}
 
-  @override
-  void dispose() {
-    categoryBloc.close();
-    super.dispose();
-  }
+class TransactionsCategoryPageView extends StatelessWidget {
+  final TransactionsCategoryArguments args;
+  const TransactionsCategoryPageView({super.key, required this.args});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-      body: Column(
-        children: [
-          BlocBuilder<TransactionCategoryBloc, TransactionCategoryState>(
-            bloc: categoryBloc,
-            builder: (context, state) {
-              if (state is TransactionCategoryLoading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state is TransactionCategoryError) {
-                return Center(child: Text('Error: ${state.message}'));
-              } else if (state is TransactionCategoryLoaded) {
-                return TransactionCategoryHeader(
-                    category: widget.category,
-                    totalCash: service.getTotalCash(state.transaction, widget.dateTime), date: service.getDate(state.transaction));
-              } else {
-                return const SizedBox();
-              }
-            },
-          ),
-          Expanded(
-            child:
-                BlocBuilder<TransactionCategoryBloc, TransactionCategoryState>(
-              bloc: categoryBloc,
-              builder: (context, state) {
-                if (state is TransactionCategoryLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (state is TransactionCategoryError) {
-                  return Center(child: Text('Error: ${state.message}'));
-                } else if (state is TransactionCategoryLoaded) {
-                  return TransactionCategoryList(
-                      transactions: state.transaction, updateList: () { 
-                        categoryBloc.add(LoadTransactionsCategory(category: widget.category, selectedMonth: widget.dateTime));
-                       },);
-                } else {
-                  return const SizedBox();
-                }
-              },
-            ),
-          ),
-        ],
-      ),
-    );
+        body: BlocBuilder<TransactionCategoryBloc, TransactionCategoryState>(
+            builder: (context, state) => state.maybeWhen(
+                  orElse: () => SizedBox(),
+                  loaded: (transactions) => Column(
+                    children: [
+                      TransactionCategoryHeader(
+                          category: args.category,
+                          totalCash: args.totalCash,
+                          date: getDate(transactions)),
+                      Expanded(
+                        child: TransactionCategoryList(
+                          transactions: transactions,
+                          updateList: ()  {
+                            context.read<TransactionCategoryBloc>().add(TransactionCategoryEvent.loadTransactions(category: args.category, selectedMonth: args.dateTime));
+                          },
+                        ),
+                      ),
+                      
+                    ],
+                  ),
+                )));
   }
 }

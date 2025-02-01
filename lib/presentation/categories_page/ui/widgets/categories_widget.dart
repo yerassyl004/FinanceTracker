@@ -1,7 +1,8 @@
 import 'package:finance_app/presentation/accounts_page/ui/widget/pop_up_menu_text.dart';
-import 'package:finance_app/data/repository/category_repository.dart';
 import 'package:finance_app/domain/models/category.dart';
+import 'package:finance_app/presentation/categories_page/bloc/category_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CategoriesWidget extends StatelessWidget {
   final VoidCallback categoryDeleted;
@@ -14,14 +15,12 @@ class CategoriesWidget extends StatelessWidget {
       required this.categoryDeleted});
 
   void onSelected(BuildContext context, int item) {
-    CategoryRepository service = CategoryRepository();
     switch (item) {
       case 0:
         categoryEdit(category);
         break;
       case 1:
-        service.deleteCategory(category);
-        categoryDeleted();
+        context.read<CategoryBloc>().add(CategoryEvent.deleteAccount(category));
         break;
     }
   }
