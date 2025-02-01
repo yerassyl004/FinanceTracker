@@ -348,8 +348,6 @@ mixin _$AnalysisEvent {
     required TResult Function() loadTransactions,
     required TResult Function(DateTime month, TypeSpending typeSpending)
         updateTransactions,
-    required TResult Function(AnalysisData data) updateSegments,
-    required TResult Function(AnalysisData data) loadAnalysis,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -357,8 +355,6 @@ mixin _$AnalysisEvent {
     TResult? Function()? loadTransactions,
     TResult? Function(DateTime month, TypeSpending typeSpending)?
         updateTransactions,
-    TResult? Function(AnalysisData data)? updateSegments,
-    TResult? Function(AnalysisData data)? loadAnalysis,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -366,8 +362,6 @@ mixin _$AnalysisEvent {
     TResult Function()? loadTransactions,
     TResult Function(DateTime month, TypeSpending typeSpending)?
         updateTransactions,
-    TResult Function(AnalysisData data)? updateSegments,
-    TResult Function(AnalysisData data)? loadAnalysis,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -375,24 +369,18 @@ mixin _$AnalysisEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(LoadTransactions value) loadTransactions,
     required TResult Function(UpdateTransactions value) updateTransactions,
-    required TResult Function(UpdateSegments value) updateSegments,
-    required TResult Function(LoadAnalysis value) loadAnalysis,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoadTransactions value)? loadTransactions,
     TResult? Function(UpdateTransactions value)? updateTransactions,
-    TResult? Function(UpdateSegments value)? updateSegments,
-    TResult? Function(LoadAnalysis value)? loadAnalysis,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoadTransactions value)? loadTransactions,
     TResult Function(UpdateTransactions value)? updateTransactions,
-    TResult Function(UpdateSegments value)? updateSegments,
-    TResult Function(LoadAnalysis value)? loadAnalysis,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -472,8 +460,6 @@ class _$LoadTransactionsImpl
     required TResult Function() loadTransactions,
     required TResult Function(DateTime month, TypeSpending typeSpending)
         updateTransactions,
-    required TResult Function(AnalysisData data) updateSegments,
-    required TResult Function(AnalysisData data) loadAnalysis,
   }) {
     return loadTransactions();
   }
@@ -484,8 +470,6 @@ class _$LoadTransactionsImpl
     TResult? Function()? loadTransactions,
     TResult? Function(DateTime month, TypeSpending typeSpending)?
         updateTransactions,
-    TResult? Function(AnalysisData data)? updateSegments,
-    TResult? Function(AnalysisData data)? loadAnalysis,
   }) {
     return loadTransactions?.call();
   }
@@ -496,8 +480,6 @@ class _$LoadTransactionsImpl
     TResult Function()? loadTransactions,
     TResult Function(DateTime month, TypeSpending typeSpending)?
         updateTransactions,
-    TResult Function(AnalysisData data)? updateSegments,
-    TResult Function(AnalysisData data)? loadAnalysis,
     required TResult orElse(),
   }) {
     if (loadTransactions != null) {
@@ -511,8 +493,6 @@ class _$LoadTransactionsImpl
   TResult map<TResult extends Object?>({
     required TResult Function(LoadTransactions value) loadTransactions,
     required TResult Function(UpdateTransactions value) updateTransactions,
-    required TResult Function(UpdateSegments value) updateSegments,
-    required TResult Function(LoadAnalysis value) loadAnalysis,
   }) {
     return loadTransactions(this);
   }
@@ -522,8 +502,6 @@ class _$LoadTransactionsImpl
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoadTransactions value)? loadTransactions,
     TResult? Function(UpdateTransactions value)? updateTransactions,
-    TResult? Function(UpdateSegments value)? updateSegments,
-    TResult? Function(LoadAnalysis value)? loadAnalysis,
   }) {
     return loadTransactions?.call(this);
   }
@@ -533,8 +511,6 @@ class _$LoadTransactionsImpl
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoadTransactions value)? loadTransactions,
     TResult Function(UpdateTransactions value)? updateTransactions,
-    TResult Function(UpdateSegments value)? updateSegments,
-    TResult Function(LoadAnalysis value)? loadAnalysis,
     required TResult orElse(),
   }) {
     if (loadTransactions != null) {
@@ -641,8 +617,6 @@ class _$UpdateTransactionsImpl
     required TResult Function() loadTransactions,
     required TResult Function(DateTime month, TypeSpending typeSpending)
         updateTransactions,
-    required TResult Function(AnalysisData data) updateSegments,
-    required TResult Function(AnalysisData data) loadAnalysis,
   }) {
     return updateTransactions(month, typeSpending);
   }
@@ -653,8 +627,6 @@ class _$UpdateTransactionsImpl
     TResult? Function()? loadTransactions,
     TResult? Function(DateTime month, TypeSpending typeSpending)?
         updateTransactions,
-    TResult? Function(AnalysisData data)? updateSegments,
-    TResult? Function(AnalysisData data)? loadAnalysis,
   }) {
     return updateTransactions?.call(month, typeSpending);
   }
@@ -665,8 +637,6 @@ class _$UpdateTransactionsImpl
     TResult Function()? loadTransactions,
     TResult Function(DateTime month, TypeSpending typeSpending)?
         updateTransactions,
-    TResult Function(AnalysisData data)? updateSegments,
-    TResult Function(AnalysisData data)? loadAnalysis,
     required TResult orElse(),
   }) {
     if (updateTransactions != null) {
@@ -680,8 +650,6 @@ class _$UpdateTransactionsImpl
   TResult map<TResult extends Object?>({
     required TResult Function(LoadTransactions value) loadTransactions,
     required TResult Function(UpdateTransactions value) updateTransactions,
-    required TResult Function(UpdateSegments value) updateSegments,
-    required TResult Function(LoadAnalysis value) loadAnalysis,
   }) {
     return updateTransactions(this);
   }
@@ -691,8 +659,6 @@ class _$UpdateTransactionsImpl
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoadTransactions value)? loadTransactions,
     TResult? Function(UpdateTransactions value)? updateTransactions,
-    TResult? Function(UpdateSegments value)? updateSegments,
-    TResult? Function(LoadAnalysis value)? loadAnalysis,
   }) {
     return updateTransactions?.call(this);
   }
@@ -702,8 +668,6 @@ class _$UpdateTransactionsImpl
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoadTransactions value)? loadTransactions,
     TResult Function(UpdateTransactions value)? updateTransactions,
-    TResult Function(UpdateSegments value)? updateSegments,
-    TResult Function(LoadAnalysis value)? loadAnalysis,
     required TResult orElse(),
   }) {
     if (updateTransactions != null) {
@@ -725,361 +689,6 @@ abstract class UpdateTransactions implements AnalysisEvent {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UpdateTransactionsImplCopyWith<_$UpdateTransactionsImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$UpdateSegmentsImplCopyWith<$Res> {
-  factory _$$UpdateSegmentsImplCopyWith(_$UpdateSegmentsImpl value,
-          $Res Function(_$UpdateSegmentsImpl) then) =
-      __$$UpdateSegmentsImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({AnalysisData data});
-
-  $AnalysisDataCopyWith<$Res> get data;
-}
-
-/// @nodoc
-class __$$UpdateSegmentsImplCopyWithImpl<$Res>
-    extends _$AnalysisEventCopyWithImpl<$Res, _$UpdateSegmentsImpl>
-    implements _$$UpdateSegmentsImplCopyWith<$Res> {
-  __$$UpdateSegmentsImplCopyWithImpl(
-      _$UpdateSegmentsImpl _value, $Res Function(_$UpdateSegmentsImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AnalysisEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? data = null,
-  }) {
-    return _then(_$UpdateSegmentsImpl(
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as AnalysisData,
-    ));
-  }
-
-  /// Create a copy of AnalysisEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AnalysisDataCopyWith<$Res> get data {
-    return $AnalysisDataCopyWith<$Res>(_value.data, (value) {
-      return _then(_value.copyWith(data: value));
-    });
-  }
-}
-
-/// @nodoc
-
-class _$UpdateSegmentsImpl
-    with DiagnosticableTreeMixin
-    implements UpdateSegments {
-  const _$UpdateSegmentsImpl({required this.data});
-
-  @override
-  final AnalysisData data;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AnalysisEvent.updateSegments(data: $data)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'AnalysisEvent.updateSegments'))
-      ..add(DiagnosticsProperty('data', data));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$UpdateSegmentsImpl &&
-            (identical(other.data, data) || other.data == data));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, data);
-
-  /// Create a copy of AnalysisEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$UpdateSegmentsImplCopyWith<_$UpdateSegmentsImpl> get copyWith =>
-      __$$UpdateSegmentsImplCopyWithImpl<_$UpdateSegmentsImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loadTransactions,
-    required TResult Function(DateTime month, TypeSpending typeSpending)
-        updateTransactions,
-    required TResult Function(AnalysisData data) updateSegments,
-    required TResult Function(AnalysisData data) loadAnalysis,
-  }) {
-    return updateSegments(data);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loadTransactions,
-    TResult? Function(DateTime month, TypeSpending typeSpending)?
-        updateTransactions,
-    TResult? Function(AnalysisData data)? updateSegments,
-    TResult? Function(AnalysisData data)? loadAnalysis,
-  }) {
-    return updateSegments?.call(data);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loadTransactions,
-    TResult Function(DateTime month, TypeSpending typeSpending)?
-        updateTransactions,
-    TResult Function(AnalysisData data)? updateSegments,
-    TResult Function(AnalysisData data)? loadAnalysis,
-    required TResult orElse(),
-  }) {
-    if (updateSegments != null) {
-      return updateSegments(data);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(LoadTransactions value) loadTransactions,
-    required TResult Function(UpdateTransactions value) updateTransactions,
-    required TResult Function(UpdateSegments value) updateSegments,
-    required TResult Function(LoadAnalysis value) loadAnalysis,
-  }) {
-    return updateSegments(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(LoadTransactions value)? loadTransactions,
-    TResult? Function(UpdateTransactions value)? updateTransactions,
-    TResult? Function(UpdateSegments value)? updateSegments,
-    TResult? Function(LoadAnalysis value)? loadAnalysis,
-  }) {
-    return updateSegments?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(LoadTransactions value)? loadTransactions,
-    TResult Function(UpdateTransactions value)? updateTransactions,
-    TResult Function(UpdateSegments value)? updateSegments,
-    TResult Function(LoadAnalysis value)? loadAnalysis,
-    required TResult orElse(),
-  }) {
-    if (updateSegments != null) {
-      return updateSegments(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class UpdateSegments implements AnalysisEvent {
-  const factory UpdateSegments({required final AnalysisData data}) =
-      _$UpdateSegmentsImpl;
-
-  AnalysisData get data;
-
-  /// Create a copy of AnalysisEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UpdateSegmentsImplCopyWith<_$UpdateSegmentsImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$LoadAnalysisImplCopyWith<$Res> {
-  factory _$$LoadAnalysisImplCopyWith(
-          _$LoadAnalysisImpl value, $Res Function(_$LoadAnalysisImpl) then) =
-      __$$LoadAnalysisImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({AnalysisData data});
-
-  $AnalysisDataCopyWith<$Res> get data;
-}
-
-/// @nodoc
-class __$$LoadAnalysisImplCopyWithImpl<$Res>
-    extends _$AnalysisEventCopyWithImpl<$Res, _$LoadAnalysisImpl>
-    implements _$$LoadAnalysisImplCopyWith<$Res> {
-  __$$LoadAnalysisImplCopyWithImpl(
-      _$LoadAnalysisImpl _value, $Res Function(_$LoadAnalysisImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AnalysisEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? data = null,
-  }) {
-    return _then(_$LoadAnalysisImpl(
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as AnalysisData,
-    ));
-  }
-
-  /// Create a copy of AnalysisEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AnalysisDataCopyWith<$Res> get data {
-    return $AnalysisDataCopyWith<$Res>(_value.data, (value) {
-      return _then(_value.copyWith(data: value));
-    });
-  }
-}
-
-/// @nodoc
-
-class _$LoadAnalysisImpl with DiagnosticableTreeMixin implements LoadAnalysis {
-  const _$LoadAnalysisImpl({required this.data});
-
-  @override
-  final AnalysisData data;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AnalysisEvent.loadAnalysis(data: $data)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'AnalysisEvent.loadAnalysis'))
-      ..add(DiagnosticsProperty('data', data));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$LoadAnalysisImpl &&
-            (identical(other.data, data) || other.data == data));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, data);
-
-  /// Create a copy of AnalysisEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$LoadAnalysisImplCopyWith<_$LoadAnalysisImpl> get copyWith =>
-      __$$LoadAnalysisImplCopyWithImpl<_$LoadAnalysisImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loadTransactions,
-    required TResult Function(DateTime month, TypeSpending typeSpending)
-        updateTransactions,
-    required TResult Function(AnalysisData data) updateSegments,
-    required TResult Function(AnalysisData data) loadAnalysis,
-  }) {
-    return loadAnalysis(data);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loadTransactions,
-    TResult? Function(DateTime month, TypeSpending typeSpending)?
-        updateTransactions,
-    TResult? Function(AnalysisData data)? updateSegments,
-    TResult? Function(AnalysisData data)? loadAnalysis,
-  }) {
-    return loadAnalysis?.call(data);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loadTransactions,
-    TResult Function(DateTime month, TypeSpending typeSpending)?
-        updateTransactions,
-    TResult Function(AnalysisData data)? updateSegments,
-    TResult Function(AnalysisData data)? loadAnalysis,
-    required TResult orElse(),
-  }) {
-    if (loadAnalysis != null) {
-      return loadAnalysis(data);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(LoadTransactions value) loadTransactions,
-    required TResult Function(UpdateTransactions value) updateTransactions,
-    required TResult Function(UpdateSegments value) updateSegments,
-    required TResult Function(LoadAnalysis value) loadAnalysis,
-  }) {
-    return loadAnalysis(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(LoadTransactions value)? loadTransactions,
-    TResult? Function(UpdateTransactions value)? updateTransactions,
-    TResult? Function(UpdateSegments value)? updateSegments,
-    TResult? Function(LoadAnalysis value)? loadAnalysis,
-  }) {
-    return loadAnalysis?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(LoadTransactions value)? loadTransactions,
-    TResult Function(UpdateTransactions value)? updateTransactions,
-    TResult Function(UpdateSegments value)? updateSegments,
-    TResult Function(LoadAnalysis value)? loadAnalysis,
-    required TResult orElse(),
-  }) {
-    if (loadAnalysis != null) {
-      return loadAnalysis(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class LoadAnalysis implements AnalysisEvent {
-  const factory LoadAnalysis({required final AnalysisData data}) =
-      _$LoadAnalysisImpl;
-
-  AnalysisData get data;
-
-  /// Create a copy of AnalysisEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LoadAnalysisImplCopyWith<_$LoadAnalysisImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

@@ -36,14 +36,6 @@ class AnalysisEvent with _$AnalysisEvent {
     required DateTime month,
     required TypeSpending typeSpending,
   }) = UpdateTransactions;
-
-  const factory AnalysisEvent.updateSegments({
-    required AnalysisData data,
-  }) = UpdateSegments;
-
-  const factory AnalysisEvent.loadAnalysis({
-    required AnalysisData data,
-  }) = LoadAnalysis;
 }
 
 @freezed
@@ -73,8 +65,6 @@ class AnalysisBloc extends Bloc<AnalysisEvent, AnalysisState> {
     this.loadTransactionsWithTypeUsecase,
   ) : super(const AnalysisState.initial()) {
     on<LoadTransactions>(_onLoadTransactions);
-    on<UpdateSegments>(_onUpdateSegments);
-    on<LoadAnalysis>(_onLoadAnalysis);
     on<UpdateTransactions>(_onUpdateTransactions);
 
     add(AnalysisEvent.loadTransactions());
@@ -82,7 +72,8 @@ class AnalysisBloc extends Bloc<AnalysisEvent, AnalysisState> {
 
   Future<void> _onLoadTransactions(
       LoadTransactions event, Emitter<AnalysisState> emit) async {
-    emit(AnalysisState.loading(data: AnalysisData(
+    emit(AnalysisState.loading(
+        data: AnalysisData(
       currentMonth: DateTime.now(),
       transactions: [],
       segments: [],
@@ -95,13 +86,17 @@ class AnalysisBloc extends Bloc<AnalysisEvent, AnalysisState> {
         emit(AnalysisState.error(failure.toString()));
       },
       (transactions) async {
-        final expenseResult = await getExpenseAmountUseCase.execute(transactions);
+        final expenseResult =
+            await getExpenseAmountUseCase.execute(transactions);
         final incomeResult = await getIncomeAmountUseCase.execute(transactions);
-        final segmentResult = await segmentPersentageUsecase.execute(transactions);
+        final segmentResult =
+            await segmentPersentageUsecase.execute(transactions);
+        final analysisResult = await loadAnalysisUsecase.execute(transactions);
 
         double expenseAmount = 0;
         double incomeAmount = 0;
         List<Segment> segmentList = [];
+        List<Analysis> analysisList = [];
 
         expenseResult.fold(
           (failure) => emit(AnalysisState.error(failure.toString())),
@@ -118,14 +113,19 @@ class AnalysisBloc extends Bloc<AnalysisEvent, AnalysisState> {
           (segments) => segmentList = segments,
         );
 
+        analysisResult.fold(
+          (failure) => emit(AnalysisState.error(failure.toString())),
+          (analysis) => analysisList = analysis,
+        );
+
         emit(AnalysisState.loaded(
           data: AnalysisData(
-            currentMonth: DateTime.now(),
-            transactions: transactions,
-            segments: segmentList,
-            expenseAmount: expenseAmount,
-            incomeAmount: incomeAmount,
-          ),
+              currentMonth: DateTime.now(),
+              transactions: transactions,
+              segments: segmentList,
+              expenseAmount: expenseAmount,
+              incomeAmount: incomeAmount,
+              analysis: analysisList),
         ));
       },
     );
@@ -133,26 +133,32 @@ class AnalysisBloc extends Bloc<AnalysisEvent, AnalysisState> {
 
   Future<void> _onUpdateTransactions(
       UpdateTransactions event, Emitter<AnalysisState> emit) async {
-    emit(AnalysisState.loading(data: AnalysisData(
+    emit(AnalysisState.loading(
+        data: AnalysisData(
       currentMonth: event.month,
       transactions: [],
       segments: [],
     )));
 
-    final result = await loadTransactionsWithTypeUsecase.execute(LoadTransactionsArguments(event.month, event.typeSpending));
+    final result = await loadTransactionsWithTypeUsecase
+        .execute(LoadTransactionsArguments(event.month, event.typeSpending));
 
     await result.fold(
       (failure) async {
         emit(AnalysisState.error(failure.toString()));
       },
       (transactions) async {
-        final expenseResult = await getExpenseAmountUseCase.execute(transactions);
+        final expenseResult =
+            await getExpenseAmountUseCase.execute(transactions);
         final incomeResult = await getIncomeAmountUseCase.execute(transactions);
-        final segmentResult = await segmentPersentageUsecase.execute(transactions);
+        final segmentResult =
+            await segmentPersentageUsecase.execute(transactions);
+        final analysisResult = await loadAnalysisUsecase.execute(transactions);
 
         double expenseAmount = 0;
         double incomeAmount = 0;
         List<Segment> segmentList = [];
+        List<Analysis> analysisList = [];
 
         expenseResult.fold(
           (failure) => emit(AnalysisState.error(failure.toString())),
@@ -169,39 +175,20 @@ class AnalysisBloc extends Bloc<AnalysisEvent, AnalysisState> {
           (segments) => segmentList = segments,
         );
 
+        analysisResult.fold(
+          (failure) => emit(AnalysisState.error(failure.toString())),
+          (analysis) => analysisList = analysis,
+        );
+
         emit(AnalysisState.loaded(
           data: AnalysisData(
-            currentMonth: event.month,
-            transactions: transactions,
-            segments: segmentList,
-            expenseAmount: expenseAmount,
-            incomeAmount: incomeAmount,
-          ),
+              currentMonth: event.month,
+              transactions: transactions,
+              segments: segmentList,
+              expenseAmount: expenseAmount,
+              incomeAmount: incomeAmount,
+              analysis: analysisList),
         ));
-      },
-    );
-  }
-
-  Future<void> _onUpdateSegments(
-      UpdateSegments event, Emitter<AnalysisState> emit) async {
-        print(event.data.currentMonth);
-    final result = await segmentPersentageUsecase.execute(event.data.transactions);
-    result.fold(
-      (failure) => emit(AnalysisState.error(failure.toString())),
-      (segments) {
-        emit(AnalysisState.loaded(data: event.data.copyWith(segments: segments)));
-      },
-    );
-  }
-
-  Future<void> _onLoadAnalysis(
-      LoadAnalysis event, Emitter<AnalysisState> emit) async {
-    final result = await loadAnalysisUsecase.execute(event.data.transactions);
-
-    result.fold(
-      (failure) => emit(AnalysisState.error(failure.toString())),
-      (analysis) {
-        emit(AnalysisState.loaded(data: event.data.copyWith(analysis: analysis)));
       },
     );
   }
