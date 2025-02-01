@@ -1,7 +1,6 @@
 import 'package:finance_app/app/di.dart';
 import 'package:finance_app/presentation/create_account/bloc/create_account_bloc.dart';
 import 'package:finance_app/presentation/create_account/di.dart';
-import 'package:finance_app/data/repository/create_account_repository.dart';
 import 'package:finance_app/domain/models/account.dart';
 import 'package:finance_app/presentation/create_account/ui/widget/balance_field_widget.dart';
 import 'package:finance_app/presentation/create_account/ui/widget/name_field_widget.dart';
@@ -22,8 +21,7 @@ class CreateAccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.getCreateAccountBloc(
-          repository: CreateAccountRepository(), account: args?.account)
+      create: (context) => di.getCreateAccountBloc(args?.account)
         ..add(CreateAccountEvent.init()),
       child: CreateAccountPageView(),
     );

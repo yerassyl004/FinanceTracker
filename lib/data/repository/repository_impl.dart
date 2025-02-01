@@ -157,25 +157,24 @@ class RepositoryImpl extends Repository {
       switch (transaction.typeSpending) {
         case TypeSpending.expense:
           await _accountDao.updateAccount(
-            transaction.account!.copyWith(
-                cash: transaction.account!.cash - transaction.cash),
+            transaction.account!
+                .copyWith(cash: transaction.account!.cash - transaction.cash),
           );
           break;
         case TypeSpending.income:
           await _accountDao.updateAccount(
-            transaction.account!.copyWith(
-                cash: transaction.account!.cash + transaction.cash),
+            transaction.account!
+                .copyWith(cash: transaction.account!.cash + transaction.cash),
           );
           break;
         case TypeSpending.transfer:
           await _accountDao.updateAccount(
-            transaction.account!.copyWith(
-                cash: transaction.account!.cash - transaction.cash),
+            transaction.account!
+                .copyWith(cash: transaction.account!.cash - transaction.cash),
           );
           await _accountDao.updateAccount(
             transaction.destination!.copyWith(
-                cash:
-                    transaction.destination!.cash + transaction.cash),
+                cash: transaction.destination!.cash + transaction.cash),
           );
           break;
       }
@@ -184,6 +183,26 @@ class RepositoryImpl extends Repository {
       return Right(true);
     } catch (e) {
       return Left(Failure(-1, e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> createAccount(Account account) async {
+    try {
+      await _accountDao.insertAccount(account);
+      return Right(true);
+    } catch (e) {
+      return Left(Failure(-1, AppStrings.defaultError));
+    }
+  }
+  
+  @override
+  Future<Either<Failure, bool>> updateAccount(Account account) async {
+    try {
+      await _accountDao.updateAccount(account);
+      return Right(true);
+    } catch (e) {
+      return Left(Failure(-1, AppStrings.defaultError));
     }
   }
 }

@@ -11,6 +11,8 @@ abstract class Repository{
   Future<Either<Failure, String>> deleteCategoryData(String categoryId);
   Future<Either<Failure, List<Category>>> loadCategoryData(CategoryType type);
   Future<Either<Failure, String>> deleteAccountData(String accountId);
+  Future<Either<Failure, bool>> createAccount(Account account);
+  Future<Either<Failure, bool>> updateAccount(Account account);
   Future<Either<Failure, List<Account>>> loadAccountData();
   Future<Either<Failure, String>> saveAccountData(List<Account> accounts);
   Future<Either<Failure, List<Transaction>>> loadTransactions(DateTime selectedDate);

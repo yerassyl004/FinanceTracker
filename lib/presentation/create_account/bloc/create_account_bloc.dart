@@ -1,5 +1,7 @@
+import 'package:finance_app/app/constant.dart';
 import 'package:finance_app/domain/models/account.dart';
-import 'package:finance_app/data/repository/create_account_repository.dart';
+import 'package:finance_app/domain/usecases.dart/create_account_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/update_account_usecase.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -36,10 +38,11 @@ class CreateAccountData with _$CreateAccountData {
 }
 
 class CreateAccountBloc extends Bloc<CreateAccountEvent, CreateAccountState> {
-  final CreateAccountRepository repository;
   final Account? initialAccount;
+  final CreateAccountUsecase createAccountUsecase;
+  final UpdateAccountUsecase updateAccountUsecase;
 
-  CreateAccountBloc({required this.repository, this.initialAccount})
+  CreateAccountBloc(this.initialAccount, this.createAccountUsecase, this.updateAccountUsecase)
       : super(CreateAccountState.initial()) {
     on<CreateNewAccount>(_create);
     on<EditNewAccount>(_edit);
@@ -49,7 +52,7 @@ class CreateAccountBloc extends Bloc<CreateAccountEvent, CreateAccountState> {
 
   Future<void> _init(
       InitNewAccount event, Emitter<CreateAccountState> emit) async {
-    final imageAssets = await repository.getImageAssets();
+    final imageAssets = getDefoultImageAssets();
     final newData = CreateAccountData(
         account: initialAccount != null
             ? initialAccount!
@@ -73,9 +76,9 @@ class CreateAccountBloc extends Bloc<CreateAccountEvent, CreateAccountState> {
       CreateNewAccount event, Emitter<CreateAccountState> emit) async {
     if (isValid(event.data.account)) {
       if (initialAccount == null) {
-        await repository.createAccount(event.data.account!);
+        await createAccountUsecase.execute(event.data.account!);
       } else {
-        await repository.updateAccount(event.data.account!);
+        await updateAccountUsecase.execute(event.data.account!);
       }
       emit(CreateAccountState.success(data: event.data));
     }
