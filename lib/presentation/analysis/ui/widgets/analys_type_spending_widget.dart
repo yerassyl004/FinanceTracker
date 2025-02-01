@@ -21,11 +21,6 @@ class AnalysTypeSpendingWidget extends StatelessWidget {
                   ? Colors.orange.shade100
                   : Colors.green.shade100 : Colors.white,
           borderRadius: BorderRadius.circular(24),
-          // border: Border.all(
-              // color: isSelected ? typeSpending == TypeSpending.expense
-              //     ? Colors.orange
-              //     : Colors.green : Colors.transparent,
-              // width: isSelected ? 1.0 : 0.0),
         ),
         child: Text(
           typeSpending == TypeSpending.expense ? 'Expense' : 'Income',

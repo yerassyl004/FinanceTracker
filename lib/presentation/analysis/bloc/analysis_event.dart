@@ -1,22 +1,9 @@
-// analysis_event.dart
-import 'package:equatable/equatable.dart';
-import 'package:finance_app/domain/models/type_spending.dart';
+// part of 'analysis_bloc.dart';
 
-abstract class AnalysisEvent extends Equatable {
-  const AnalysisEvent();
-
-  @override
-  List<Object> get props => [];
-}
-
-class LoadTransactions extends AnalysisEvent {
-  final DateTime month;
-  final TypeSpending typeSpending;
-
-  const LoadTransactions(this.month, this.typeSpending);
-
-  @override
-  List<Object> get props => [month, typeSpending];
-}
-
-class UpdateSegments extends AnalysisEvent {}
+// @freezed
+// class AnalysisEvent with _$AnalysisEvent {
+//   const factory AnalysisEvent.loadTransactionItems(
+//       {required DateTime month}) = LoadAnalysisItems;
+//   const factory AnalysisEvent.updateTransactionItems(
+//       {required DateTime month}) = UpdateAnalysisItems;
+// }

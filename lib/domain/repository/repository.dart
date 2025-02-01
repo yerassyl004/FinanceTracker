@@ -1,8 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:finance_app/app/failure.dart';
 import 'package:finance_app/domain/models/account.dart';
+import 'package:finance_app/domain/models/analysis.dart';
 import 'package:finance_app/domain/models/category.dart';
+import 'package:finance_app/domain/models/segment.dart';
 import 'package:finance_app/domain/models/transaction.dart';
+import 'package:finance_app/domain/models/type_spending.dart';
 
 abstract class Repository{
 
@@ -10,8 +13,13 @@ abstract class Repository{
   Future<Either<Failure, bool>> updateTransaction(Transaction transaction);
   Future<Either<Failure, bool>> createTransaction(Transaction transaction);
   Future<Either<Failure, List<Transaction>>> loadTransactions(DateTime selectedDate);
+  Future<Either<Failure, List<Transaction>>> loadTransactionsWithType(DateTime selectedDate, TypeSpending typeSpending);
   Future<double> expenseAmount(List<Transaction> transactions);
   Future<double> incomeAmount(List<Transaction> transactions);
+
+  /// Analys
+  Future<Either<Failure, List<Segment>>> getSegmentPercentage(List<Transaction> transactions);
+  Future<Either<Failure, List<Analysis>>> getExpensePercentItem(List<Transaction> transactions);
 
   /// Account
   Future<Either<Failure, List<Account>>> loadAccountData();

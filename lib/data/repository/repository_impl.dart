@@ -4,11 +4,14 @@ import 'package:finance_app/data/data_source/local/account_dao.dart';
 import 'package:finance_app/data/data_source/local/category_dao.dart';
 import 'package:finance_app/data/data_source/local/transaction_dao.dart';
 import 'package:finance_app/domain/models/account.dart';
+import 'package:finance_app/domain/models/analysis.dart';
 import 'package:finance_app/domain/models/category.dart';
+import 'package:finance_app/domain/models/segment.dart';
 import 'package:finance_app/domain/models/transaction.dart';
 import 'package:finance_app/domain/models/type_spending.dart';
 import 'package:finance_app/domain/repository/repository.dart';
 import 'package:finance_app/presentation/resourses/strings_manager.dart';
+import 'package:flutter/material.dart';
 
 class RepositoryImpl extends Repository {
   final CategoryDao _categorytDao;
@@ -98,8 +101,8 @@ class RepositoryImpl extends Repository {
           categories = getDefaultIncomeCategories();
         case CategoryType.expense:
           categories = getDefaultExpenseCategories();
-      _categorytDao.insertCategories(getDefaultIncomeCategories());
-      _categorytDao.insertCategories(getDefaultExpenseCategories());
+          _categorytDao.insertCategories(getDefaultIncomeCategories());
+          _categorytDao.insertCategories(getDefaultExpenseCategories());
       }
       return Right(categories);
     }
@@ -203,6 +206,95 @@ class RepositoryImpl extends Repository {
       return Right('Categories updated successfully');
     } catch (e) {
       return Left(Failure(-1, AppStrings.defaultError));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Segment>>> getSegmentPercentage(
+      List<Transaction> transactions) async {
+    final Map<String, double> categoryTotals = {};
+    double totalAmount = 0.0;
+
+    final List<Color> colors = [
+      Colors.blue,
+      Colors.red,
+      Colors.orange,
+      Colors.green,
+      Colors.purple,
+      Colors.yellow,
+      Colors.cyan,
+      Colors.pink,
+    ];
+
+    for (var transaction in transactions) {
+      if (transaction.category != null) {
+        totalAmount += transaction.cash;
+        categoryTotals.update(
+          transaction.category!.title,
+          (value) => value + transaction.cash,
+          ifAbsent: () => transaction.cash,
+        );
+      }
+    }
+
+    final sortedCategoryTotals = categoryTotals.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+
+    List<Segment> segments = sortedCategoryTotals.map((entry) {
+      final category = transactions
+          .firstWhere((transaction) => transaction.category!.title == entry.key)
+          .category!;
+      final colorIndex = sortedCategoryTotals.indexOf(entry) % colors.length;
+      return Segment(
+        color: colors[colorIndex],
+        percent: (entry.value / totalAmount) * 100,
+        icon: category.icon,
+      );
+    }).toList();
+
+    return Right(segments);
+  }
+
+  @override
+  Future<Either<Failure, List<Analysis>>> getExpensePercentItem(
+      List<Transaction> transactions) async {
+    try {
+      final Map<String, Analysis> analysisMap = {};
+
+      for (var transaction in transactions) {
+        final category = transaction.category;
+        if (category != null) {
+          analysisMap
+              .putIfAbsent(
+                category.title,
+                () => Analysis(
+                  category: category,
+                  cash: 0.0,
+                  typeSpending: transaction.typeSpending,
+                ),
+              )
+              .cash += transaction.cash;
+        }
+      }
+
+      final List<Analysis> analysisList = analysisMap.values.toList()
+        ..sort((a, b) => b.cash.compareTo(a.cash));
+
+      return Right(analysisList);
+    } catch (e) {
+      return Left(Failure(-1, 'Error calculating expense percentages: $e'));
+    }
+  }
+  
+  @override
+  Future<Either<Failure, List<Transaction>>> loadTransactionsWithType(DateTime selectedDate, TypeSpending typeSpending) async {
+    print('TypeSpending:: ${typeSpending.name}');
+    try {
+      final transactions = await _transactionDao.getTransactionsWithType(selectedDate, typeSpending);
+      print('transactions::: ${transactions}');
+      return Right(transactions);
+    } catch (e) {
+      return Left(Failure(-1, AppStrings.unknownError));
     }
   }
 }

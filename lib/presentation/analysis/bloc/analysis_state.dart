@@ -1,34 +1,9 @@
-// analysis_state.dart
-import 'package:equatable/equatable.dart';
-import 'package:finance_app/domain/models/segment.dart';
-import 'package:finance_app/domain/models/transaction.dart';
+// part of 'transaction_bloc.dart';
 
-abstract class AnalysisState extends Equatable {
-  const AnalysisState();
-
-  @override
-  List<Object> get props => [];
-}
-
-class AnalysisInitial extends AnalysisState {}
-
-class AnalysisLoading extends AnalysisState {}
-
-class AnalysisLoaded extends AnalysisState {
-  final List<Transaction> transactions;
-  final List<Segment> segments;
-
-  const AnalysisLoaded({required this.transactions, required this.segments});
-
-  @override
-  List<Object> get props => [transactions, segments];
-}
-
-class AnalysisError extends AnalysisState {
-  final String message;
-
-  const AnalysisError(this.message);
-
-  @override
-  List<Object> get props => [message];
-}
+// @freezed
+// class AnalysisState with _$AnalysisState {
+//   const factory AnalysisState.initial() = AnalysisInitial;
+//   const factory AnalysisState.loading() = AnalysisLoading;
+//   const factory AnalysisState.error(String message) = AnalysisError;
+//   const factory AnalysisState.loaded({required AnalysisData data}) = AnalysisLoaded;
+// }

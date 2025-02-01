@@ -1,196 +1,318 @@
+import 'package:finance_app/app/di.dart';
 import 'package:finance_app/presentation/analysis/bloc/analysis_bloc.dart';
-import 'package:finance_app/presentation/analysis/bloc/analysis_event.dart';
-import 'package:finance_app/presentation/analysis/bloc/analysis_state.dart';
-import 'package:finance_app/presentation/analysis/service/analys_service.dart';
-import 'package:finance_app/presentation/analysis/ui/analysis_list/bloc/income_analysis_bloc.dart';
-import 'package:finance_app/presentation/analysis/ui/analysis_list/bloc/income_analysis_event.dart';
+import 'package:finance_app/presentation/analysis/di.dart';
+import 'package:finance_app/presentation/analysis/ui/analysis_list/transaction_analys_list.dart';
 import 'package:finance_app/presentation/analysis/ui/widgets/analys_header_widget.dart';
 import 'package:finance_app/presentation/analysis/ui/widgets/multi_segment_circular_percent_indicator.dart';
-import 'package:finance_app/presentation/analysis/ui/analysis_list/transaction_analys_list.dart';
-import 'package:finance_app/domain/models/type_spending.dart';
 import 'package:finance_app/presentation/create_transaction/ui/pages/new_create_transactions_page.dart';
 import 'package:finance_app/presentation/resourses/routes_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AnalysisPage extends StatefulWidget {
+class AnalysisPage extends StatelessWidget {
   const AnalysisPage({super.key});
 
   @override
-  State<AnalysisPage> createState() => _AnalysisPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(create: (context) => di.getAnalysisBloc(),
+    child: AnalysisPageView());
+  }
 }
 
-class _AnalysisPageState extends State<AnalysisPage>
-    with SingleTickerProviderStateMixin {
-  late AnalysisBloc _analysisBloc;
-  late IncomeAnalysisBloc _incomeAnalysisBloc;
-  late AnimationController _fabAnimationController;
-  late Animation<Offset> _fabAnimation;
-  final ScrollController _scrollController = ScrollController();
-  var selectedMonth = DateTime.now();
-  var selectedType = TypeSpending.expense;
-
-  @override
-  void initState() {
-    super.initState();
-    _analysisBloc = AnalysisBloc(analysService: AnalysService());
-    _incomeAnalysisBloc = IncomeAnalysisBloc(analysService: AnalysService());
-    _fabAnimationController = AnimationController(
-      duration: const Duration(milliseconds: 100),
-      vsync: this,
-    );
-
-    _fabAnimation = Tween<Offset>(
-      begin: Offset.zero,
-      end: const Offset(0.0, 2.0),
-    ).animate(_fabAnimationController);
-
-    _scrollController.addListener(_scrollListener);
-    _analysisBloc.add(LoadTransactions(selectedMonth, selectedType));
-    _incomeAnalysisBloc
-        .add(LoadIncomeTransactions(selectedMonth, selectedType));
-  }
-
-  void _scrollListener() {
-    if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.reverse) {
-      _fabAnimationController.forward();
-    } else if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.forward) {
-      _fabAnimationController.reverse();
-    }
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    _fabAnimationController.dispose();
-    _analysisBloc.close();
-    _incomeAnalysisBloc.close();
-    super.dispose();
-  }
-
-  void _handleDateChanged(DateTime newDate) {
-    setState(() {
-      selectedMonth = newDate;
-    });
-    _analysisBloc.add(LoadTransactions(selectedMonth, selectedType));
-    _incomeAnalysisBloc
-        .add(LoadIncomeTransactions(selectedMonth, selectedType));
-  }
-
-  void _setTypeSpending(TypeSpending typeSpending) {
-    setState(() {
-      selectedType = typeSpending;
-    });
-    _analysisBloc.add(LoadTransactions(selectedMonth, typeSpending));
-    _incomeAnalysisBloc
-        .add(LoadIncomeTransactions(selectedMonth, typeSpending));
-  }
+class AnalysisPageView extends StatelessWidget {
+  const AnalysisPageView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey.shade100,
-      body: Stack(
-        children: [
-          SafeArea(
-            child: CustomScrollView(
-              controller: _scrollController,
-              slivers: [
-                const SliverToBoxAdapter(
-                  child: SizedBox(height: 100),
-                ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 320,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 26),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: Colors.white,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Categories',
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.w500),
+    return BlocBuilder<AnalysisBloc, AnalysisState>(
+        builder: (context, state) => state.maybeWhen(
+            orElse: () => SizedBox(),
+            loaded: (data) => Scaffold(
+                  backgroundColor: Colors.grey.shade100,
+                  body: Stack(
+                    children: [
+                      SafeArea(
+                        child: CustomScrollView(
+                          slivers: [
+                            const SliverToBoxAdapter(
+                              child: SizedBox(height: 100),
                             ),
-                            const SizedBox(height: 30),
-                            BlocBuilder<AnalysisBloc, AnalysisState>(
-                              bloc: _analysisBloc,
-                              builder: (context, state) {
-                                if (state is AnalysisLoading) {
-                                  return const SizedBox();
-                                } else if (state is AnalysisLoaded) {
-                                  return MultiSegmentCircularPercentIndicator(
-                                    segments: state.segments,
-                                  );
-                                } else if (state is AnalysisError) {
-                                  return Text('Error: ${state.message}');
-                                } else {
-                                  return const SizedBox();
-                                }
-                              },
+                            SliverToBoxAdapter(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  height: 320,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 26),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      color: Colors.white,
+                                    ),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'Categories',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        const SizedBox(height: 30),
+                                        MultiSegmentCircularPercentIndicator(
+                                          segments: data.segments,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
+                            TransactionAnalysList(
+                                dateTime: data.currentMonth,
+                                analysisList: data.analysis),
                           ],
                         ),
                       ),
-                    ),
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        child: AnalysHeaderWidget(
+                          onDateChanged: (date) {
+                            context.read<AnalysisBloc>().add(
+                                AnalysisEvent.updateTransactions(month: date, typeSpending: data.selectedType));
+                          },
+                          typeSpending: (selectedType) {
+                            print('selectedType::: $selectedType');
+                            context.read<AnalysisBloc>().add(
+                                AnalysisEvent.updateTransactions(month: data.currentMonth, typeSpending: selectedType));
+                          },
+                        ),
+                      ),
+                      Positioned(
+                        right: 16,
+                        bottom: 16,
+                        child: FloatingActionButton(
+                          backgroundColor: Colors.grey.shade300,
+                          onPressed: () async {
+                            final result = await Navigator.pushNamed(
+                              context,
+                              Routes.createTransactionPage,
+                              arguments: CreateTransactionsArgument(null),
+                            );
+                            if (result == true) {
+                              context.read<AnalysisBloc>().add(LoadTransactions());
+                            }
+                          },
+                          child: const Icon(CupertinoIcons.add),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                TransactionAnalysList(
-                  incomeAnalysisBloc: _incomeAnalysisBloc,
-                  dateTime: selectedMonth,
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            top: 0,
-            child: AnalysHeaderWidget(
-              onDateChanged: _handleDateChanged,
-              typeSpending: _setTypeSpending,
-            ),
-          ),
-          Positioned(
-            right: 16,
-            bottom: 16,
-            child: SlideTransition(
-              position: _fabAnimation,
-              child: FloatingActionButton(
-                backgroundColor: Colors.grey.shade300,
-                onPressed: () async {
-                  final result = await Navigator.pushNamed(
-                    context,
-                    Routes.createTransactionPage,
-                    arguments: CreateTransactionsArgument(null),
-                  );
-                  if (result == true) {
-                    _analysisBloc
-                        .add(LoadTransactions(selectedMonth, selectedType));
-                    _incomeAnalysisBloc.add(
-                        LoadIncomeTransactions(selectedMonth, selectedType));
-                  }
-                },
-                child: const Icon(CupertinoIcons.add),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                )));
   }
 }
+
+// import 'package:finance_app/presentation/analysis/bloc/analysis_bloc.dart';
+// import 'package:finance_app/presentation/analysis/bloc/analysis_event.dart';
+// import 'package:finance_app/presentation/analysis/bloc/analysis_state.dart';
+// import 'package:finance_app/presentation/analysis/service/analys_service.dart';
+// import 'package:finance_app/presentation/analysis/ui/analysis_list/bloc/income_analysis_bloc.dart';
+// import 'package:finance_app/presentation/analysis/ui/analysis_list/bloc/income_analysis_event.dart';
+// import 'package:finance_app/presentation/analysis/ui/widgets/analys_header_widget.dart';
+// import 'package:finance_app/presentation/analysis/ui/widgets/multi_segment_circular_percent_indicator.dart';
+// import 'package:finance_app/presentation/analysis/ui/analysis_list/transaction_analys_list.dart';
+// import 'package:finance_app/domain/models/type_spending.dart';
+// import 'package:finance_app/presentation/create_transaction/ui/pages/new_create_transactions_page.dart';
+// import 'package:finance_app/presentation/resourses/routes_manager.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter/rendering.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+
+// class AnalysisPage extends StatefulWidget {
+//   const AnalysisPage({super.key});
+
+//   @override
+//   State<AnalysisPage> createState() => _AnalysisPageState();
+// }
+
+// class _AnalysisPageState extends State<AnalysisPage>
+//     with SingleTickerProviderStateMixin {
+//   late AnalysisBloc _analysisBloc;
+//   late IncomeAnalysisBloc _incomeAnalysisBloc;
+//   late AnimationController _fabAnimationController;
+//   late Animation<Offset> _fabAnimation;
+//   final ScrollController _scrollController = ScrollController();
+//   var selectedMonth = DateTime.now();
+//   var selectedType = TypeSpending.expense;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _analysisBloc = AnalysisBloc(analysService: AnalysService());
+//     _incomeAnalysisBloc = IncomeAnalysisBloc(analysService: AnalysService());
+//     _fabAnimationController = AnimationController(
+//       duration: const Duration(milliseconds: 100),
+//       vsync: this,
+//     );
+
+//     _fabAnimation = Tween<Offset>(
+//       begin: Offset.zero,
+//       end: const Offset(0.0, 2.0),
+//     ).animate(_fabAnimationController);
+
+//     _scrollController.addListener(_scrollListener);
+//     _analysisBloc.add(LoadTransactions(selectedMonth, selectedType));
+//     _incomeAnalysisBloc
+//         .add(LoadIncomeTransactions(selectedMonth, selectedType));
+//   }
+
+//   void _scrollListener() {
+//     if (_scrollController.position.userScrollDirection ==
+//         ScrollDirection.reverse) {
+//       _fabAnimationController.forward();
+//     } else if (_scrollController.position.userScrollDirection ==
+//         ScrollDirection.forward) {
+//       _fabAnimationController.reverse();
+//     }
+//   }
+
+//   @override
+//   void dispose() {
+//     _scrollController.dispose();
+//     _fabAnimationController.dispose();
+//     _analysisBloc.close();
+//     _incomeAnalysisBloc.close();
+//     super.dispose();
+//   }
+
+//   void _handleDateChanged(DateTime newDate) {
+//     setState(() {
+//       selectedMonth = newDate;
+//     });
+//     _analysisBloc.add(LoadTransactions(selectedMonth, selectedType));
+//     _incomeAnalysisBloc
+//         .add(LoadIncomeTransactions(selectedMonth, selectedType));
+//   }
+
+//   void _setTypeSpending(TypeSpending typeSpending) {
+//     setState(() {
+//       selectedType = typeSpending;
+//     });
+//     _analysisBloc.add(LoadTransactions(selectedMonth, typeSpending));
+//     _incomeAnalysisBloc
+//         .add(LoadIncomeTransactions(selectedMonth, typeSpending));
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.grey.shade100,
+//       body: Stack(
+//         children: [
+//           SafeArea(
+//             child: CustomScrollView(
+//               controller: _scrollController,
+//               slivers: [
+//                 const SliverToBoxAdapter(
+//                   child: SizedBox(height: 100),
+//                 ),
+//                 SliverToBoxAdapter(
+//                   child: Padding(
+//                     padding: const EdgeInsets.all(16),
+//                     child: SizedBox(
+//                       width: double.infinity,
+//                       height: 320,
+//                       child: Container(
+//                         padding: const EdgeInsets.symmetric(
+//                             horizontal: 16, vertical: 26),
+//                         decoration: BoxDecoration(
+//                           borderRadius: BorderRadius.circular(16),
+//                           color: Colors.white,
+//                         ),
+//                         child: Column(
+//                           mainAxisSize: MainAxisSize.min,
+//                           crossAxisAlignment: CrossAxisAlignment.center,
+//                           mainAxisAlignment: MainAxisAlignment.start,
+//                           children: [
+//                             const Text(
+//                               'Categories',
+//                               style: TextStyle(
+//                                   fontSize: 20, fontWeight: FontWeight.w500),
+//                             ),
+//                             const SizedBox(height: 30),
+//                             BlocBuilder<AnalysisBloc, AnalysisState>(
+//                               bloc: _analysisBloc,
+//                               builder: (context, state) {
+//                                 if (state is AnalysisLoading) {
+//                                   return const SizedBox();
+//                                 } else if (state is AnalysisLoaded) {
+//                                   return MultiSegmentCircularPercentIndicator(
+//                                     segments: state.segments,
+//                                   );
+//                                 } else if (state is AnalysisError) {
+//                                   return Text('Error: ${state.message}');
+//                                 } else {
+//                                   return const SizedBox();
+//                                 }
+//                               },
+//                             ),
+//                           ],
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//                 TransactionAnalysList(
+//                   incomeAnalysisBloc: _incomeAnalysisBloc,
+//                   dateTime: selectedMonth,
+//                 ),
+//               ],
+//             ),
+//           ),
+//           Positioned(
+//             left: 0,
+//             right: 0,
+//             top: 0,
+//             child: AnalysHeaderWidget(
+//               onDateChanged: _handleDateChanged,
+//               typeSpending: _setTypeSpending,
+//             ),
+//           ),
+//           Positioned(
+//             right: 16,
+//             bottom: 16,
+//             child: SlideTransition(
+//               position: _fabAnimation,
+//               child: FloatingActionButton(
+//                 backgroundColor: Colors.grey.shade300,
+//                 onPressed: () async {
+//                   final result = await Navigator.pushNamed(
+//                     context,
+//                     Routes.createTransactionPage,
+//                     arguments: CreateTransactionsArgument(null),
+//                   );
+//                   if (result == true) {
+//                     _analysisBloc
+//                         .add(LoadTransactions(selectedMonth, selectedType));
+//                     _incomeAnalysisBloc.add(
+//                         LoadIncomeTransactions(selectedMonth, selectedType));
+//                   }
+//                 },
+//                 child: const Icon(CupertinoIcons.add),
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
