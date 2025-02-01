@@ -13,7 +13,8 @@ abstract class Repository{
   Future<Either<Failure, bool>> updateTransaction(Transaction transaction);
   Future<Either<Failure, bool>> createTransaction(Transaction transaction);
   Future<Either<Failure, List<Transaction>>> loadTransactions(DateTime selectedDate);
-  Future<Either<Failure, List<Transaction>>> loadTransactionsWithType(DateTime selectedDate, TypeSpending typeSpending);
+  Future<Either<Failure, List<Transaction>>> loadTransactionsBySpending(DateTime selectedDate, TypeSpending typeSpending);
+  Future<Either<Failure, List<Transaction>>> loadTransactionsByCategory(DateTime selectedDate, Category category);
   Future<double> expenseAmount(List<Transaction> transactions);
   Future<double> incomeAmount(List<Transaction> transactions);
 

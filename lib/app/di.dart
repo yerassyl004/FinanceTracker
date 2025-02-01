@@ -11,8 +11,9 @@ import 'package:finance_app/domain/usecases.dart/expence_count_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/income_count_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/load_analysis_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/load_category_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/load_transaction_by_category_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/load_transactions_usecase.dart';
-import 'package:finance_app/domain/usecases.dart/load_transactions_with_type_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/load_transactions_by_type_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/segment_persentage_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/update_account_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/update_category_usecase.dart';
@@ -61,7 +62,8 @@ class DI {
     getIt.registerFactory<UpdateTransactionUsecase>(() => UpdateTransactionUsecase(getIt()));
     getIt.registerFactory<IncomeCountUsecase>(() => IncomeCountUsecase(getIt()));
     getIt.registerFactory<ExpenceCountUsecase>(() => ExpenceCountUsecase(getIt()));
-    getIt.registerFactory<LoadTransactionsWithTypeUsecase>(() => LoadTransactionsWithTypeUsecase(getIt()));
+    getIt.registerFactory<LoadTransactionsByTypeUsecase>(() => LoadTransactionsByTypeUsecase(getIt()));
+    getIt.registerFactory<LoadTransactionByCategoryUsecase>(() => LoadTransactionByCategoryUsecase(getIt()));
 
     /// Account
     getIt.registerFactory<DeleteAccountUsecase>(() => DeleteAccountUsecase(getIt()));

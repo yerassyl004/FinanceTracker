@@ -287,11 +287,19 @@ class RepositoryImpl extends Repository {
   }
   
   @override
-  Future<Either<Failure, List<Transaction>>> loadTransactionsWithType(DateTime selectedDate, TypeSpending typeSpending) async {
-    print('TypeSpending:: ${typeSpending.name}');
+  Future<Either<Failure, List<Transaction>>> loadTransactionsBySpending(DateTime selectedDate, TypeSpending typeSpending) async {
     try {
-      final transactions = await _transactionDao.getTransactionsWithType(selectedDate, typeSpending);
-      print('transactions::: ${transactions}');
+      final transactions = await _transactionDao.getTransactionsBySpending(selectedDate, typeSpending);
+      return Right(transactions);
+    } catch (e) {
+      return Left(Failure(-1, AppStrings.unknownError));
+    }
+  }
+  
+  @override
+  Future<Either<Failure, List<Transaction>>> loadTransactionsByCategory(DateTime selectedDate, Category category) async {
+    try {
+      final transactions = await _transactionDao.getTransactionsByCategory(selectedDate, category);
       return Right(transactions);
     } catch (e) {
       return Left(Failure(-1, AppStrings.unknownError));

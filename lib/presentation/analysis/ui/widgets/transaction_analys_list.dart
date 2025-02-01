@@ -14,7 +14,8 @@ class TransactionAnalysList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverList(
+    return 
+    SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) {
           return TransactionAnalysWidget(

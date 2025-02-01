@@ -12,13 +12,13 @@ class LoadTransactionsArguments {
   LoadTransactionsArguments(this.date, this.typeSpending);
 } 
 
-class LoadTransactionsWithTypeUsecase extends BaseUseCase<LoadTransactionsArguments, List<Transaction>> {
+class LoadTransactionsByTypeUsecase extends BaseUseCase<LoadTransactionsArguments, List<Transaction>> {
   final Repository _repository;
 
-  LoadTransactionsWithTypeUsecase(this._repository);
+  LoadTransactionsByTypeUsecase(this._repository);
 
   @override
   Future<Either<Failure, List<Transaction>>> execute(LoadTransactionsArguments input) {
-    return _repository.loadTransactionsWithType(input.date, input.typeSpending);
+    return _repository.loadTransactionsBySpending(input.date, input.typeSpending);
   }
 }

@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:finance_app/data/data_source/local/database_helper.dart';
 import 'package:finance_app/domain/models/transaction.dart';
 import 'package:finance_app/domain/models/type_spending.dart';
+
+import '../../../domain/models/category.dart';
 
 class TransactionDao {
   final dbHelper = DatabaseHelper.instance;
@@ -25,7 +29,7 @@ class TransactionDao {
     return result.map((json) => Transaction.fromJson(json)).toList();
   }
 
-  Future<List<Transaction>> getTransactionsWithType(
+  Future<List<Transaction>> getTransactionsBySpending(
       DateTime selectedDate, TypeSpending typeSpending) async {
     final db = await DatabaseHelper.instance.database;
 
@@ -41,6 +45,23 @@ class TransactionDao {
 
     return result.map((json) => Transaction.fromJson(json)).toList();
   }
+
+  Future<List<Transaction>> getTransactionsByCategory(
+    DateTime selectedDate, Category category) async {
+  final db = await DatabaseHelper.instance.database;
+
+  final result = await db.query(
+    'transactions',
+    where: "strftime('%Y-%m', date) = ? AND json_extract(category, '\$.title') = ?",
+    whereArgs: [
+      "${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}",
+      category.title,
+    ],
+    orderBy: 'date DESC',
+  );
+
+  return result.map((json) => Transaction.fromJson(json)).toList();
+}
 
   Future<int> deleteTransaction(String id) async {
     final db = await DatabaseHelper.instance.database;

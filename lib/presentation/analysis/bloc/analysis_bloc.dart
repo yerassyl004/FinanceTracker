@@ -4,7 +4,7 @@ import 'package:finance_app/domain/usecases.dart/expence_count_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/income_count_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/load_analysis_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/load_transactions_usecase.dart';
-import 'package:finance_app/domain/usecases.dart/load_transactions_with_type_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/load_transactions_by_type_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/segment_persentage_usecase.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -54,7 +54,7 @@ class AnalysisBloc extends Bloc<AnalysisEvent, AnalysisState> {
   final IncomeCountUsecase getIncomeAmountUseCase;
   final SegmentPersentageUsecase segmentPersentageUsecase;
   final LoadAnalysisUsecase loadAnalysisUsecase;
-  final LoadTransactionsWithTypeUsecase loadTransactionsWithTypeUsecase;
+  final LoadTransactionsByTypeUsecase loadTransactionsWithTypeUsecase;
 
   AnalysisBloc(
     this.getExpenseAmountUseCase,
@@ -182,6 +182,7 @@ class AnalysisBloc extends Bloc<AnalysisEvent, AnalysisState> {
 
         emit(AnalysisState.loaded(
           data: AnalysisData(
+              selectedType: event.typeSpending,
               currentMonth: event.month,
               transactions: transactions,
               segments: segmentList,

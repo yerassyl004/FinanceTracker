@@ -92,7 +92,7 @@ class AnalysisPageView extends StatelessWidget {
                                     typeSpending: data.selectedType));
                           },
                           typeSpending: (selectedType) {
-                            print('selectedType::: $selectedType');
+                            
                             context.read<AnalysisBloc>().add(
                                 AnalysisEvent.updateTransactions(
                                     month: data.currentMonth,
