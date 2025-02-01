@@ -4,7 +4,8 @@ class NameFieldWidget extends StatefulWidget {
   final Function(String)? onChanged;
   final TextEditingController? controller;
   final String? initialValue;
-  const NameFieldWidget({super.key, this.controller, this.onChanged, this.initialValue});
+  final String? placeholder;
+  const NameFieldWidget({super.key, this.controller, this.onChanged, this.initialValue, this.placeholder});
 
   @override
   State<NameFieldWidget> createState() => _NameFieldWidgetState();
@@ -29,8 +30,8 @@ class _NameFieldWidgetState extends State<NameFieldWidget> {
         color: Colors.grey.shade100,
       ),
         child: TextField(
-          decoration: const InputDecoration(
-            hintText: 'Untitled',
+          decoration: InputDecoration(
+            hintText: widget.placeholder ?? 'Untitled',
             border: InputBorder.none,
             hintStyle: TextStyle(
               fontWeight: FontWeight.normal,

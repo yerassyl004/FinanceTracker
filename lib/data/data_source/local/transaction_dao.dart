@@ -20,7 +20,6 @@ class TransactionDao {
       ],
       orderBy: 'date DESC',
     );
-    print(result);
 
     return result.map((json) => Transaction.fromJson(json)).toList();
   }

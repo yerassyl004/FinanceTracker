@@ -3,6 +3,7 @@ import 'package:finance_app/data/data_source/local/category_dao.dart';
 import 'package:finance_app/data/repository/repository_impl.dart';
 import 'package:finance_app/domain/repository/repository.dart';
 import 'package:finance_app/domain/usecases.dart/create_account_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/create_category_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/create_transaction_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/delete_account_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/delete_category_usecase.dart';
@@ -11,6 +12,7 @@ import 'package:finance_app/domain/usecases.dart/income_count_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/load_category_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/load_transactions_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/update_account_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/update_category_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/update_transaction_usecase.dart';
 import 'package:finance_app/presentation/accounts_page/bloc/accounts_bloc.dart';
 import 'package:finance_app/presentation/categories_page/bloc/category_bloc.dart';
@@ -49,16 +51,25 @@ class DI {
     getIt.registerFactory<CategoryDao>(() => CategoryDao());
     getIt.registerFactory<AccountDao>(() => AccountDao());
     getIt.registerFactory<TransactionDao>(() => TransactionDao());
+
+    /// Transaction
     getIt.registerFactory<LoadTransactionsUsecase>(() => LoadTransactionsUsecase(getIt()));
-    getIt.registerFactory<LoadAccountUseCase>(() => LoadAccountUseCase(getIt()));
-    getIt.registerFactory<DeleteAccountUsecase>(() => DeleteAccountUsecase(getIt()));
-    getIt.registerFactory<LoadCategoryUsecase>(() => LoadCategoryUsecase(getIt()));
-    getIt.registerFactory<DeleteCategoryUsecase>(() => DeleteCategoryUsecase(getIt()));
     getIt.registerFactory<CreateTransactionUsecase>(() => CreateTransactionUsecase(getIt()));
     getIt.registerFactory<UpdateTransactionUsecase>(() => UpdateTransactionUsecase(getIt()));
     getIt.registerFactory<IncomeCountUsecase>(() => IncomeCountUsecase(getIt()));
     getIt.registerFactory<ExpenceCountUsecase>(() => ExpenceCountUsecase(getIt()));
+
+    /// Account
+    getIt.registerFactory<DeleteAccountUsecase>(() => DeleteAccountUsecase(getIt()));
     getIt.registerFactory<CreateAccountUsecase>(() => CreateAccountUsecase(getIt()));
     getIt.registerFactory<UpdateAccountUsecase>(() => UpdateAccountUsecase(getIt()));
+    getIt.registerFactory<LoadAccountUseCase>(() => LoadAccountUseCase(getIt()));
+
+
+    /// Category
+    getIt.registerFactory<CreateCategoryUsecase>(() => CreateCategoryUsecase(getIt()));
+    getIt.registerFactory<UpdateCategoryUsecase>(() => UpdateCategoryUsecase(getIt()));
+    getIt.registerFactory<LoadCategoryUsecase>(() => LoadCategoryUsecase(getIt()));
+    getIt.registerFactory<DeleteCategoryUsecase>(() => DeleteCategoryUsecase(getIt()));
   }
 }

@@ -53,7 +53,7 @@ class CategoriesPageView extends StatelessWidget {
                                   context: context,
                                   backgroundColor: Colors.transparent,
                                   builder: (context) =>
-                                      CreateCategoryPage(category: category),
+                                      CreateCategoryPage(args: CreateCategoryPageArguments(category),),
                                 );
                                 if (result == true) {
                                   context
@@ -84,7 +84,7 @@ class CategoriesPageView extends StatelessWidget {
                           context: context,
                           backgroundColor: Colors.transparent,
                           builder: (context) =>
-                              CreateCategoryPage(category: null),
+                              CreateCategoryPage(),
                         );
 
                         if (result == true) {

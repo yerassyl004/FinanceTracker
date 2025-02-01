@@ -29,17 +29,6 @@ class RepositoryImpl extends Repository {
   }
 
   @override
-  Future<Either<Failure, String>> saveAccountData(
-      List<Account> accounts) async {
-    try {
-      await _accountDao.insertAccounts(accounts);
-      return Right('Accounts saved successfully');
-    } catch (e) {
-      return Left(Failure(-1, e.toString()));
-    }
-  }
-
-  @override
   Future<Either<Failure, List<Transaction>>> loadTransactions(
       DateTime selectedDate) async {
     try {
@@ -109,6 +98,7 @@ class RepositoryImpl extends Repository {
           categories = getDefaultIncomeCategories();
         case CategoryType.expense:
           categories = getDefaultExpenseCategories();
+          _categorytDao.insertCategories(categories);
       }
       return Right(categories);
     }
@@ -116,10 +106,9 @@ class RepositoryImpl extends Repository {
   }
 
   @override
-  Future<Either<Failure, String>> saveCategoryData(
-      List<Category> categories) async {
+  Future<Either<Failure, String>> createCategory(Category category) async {
     try {
-      await _categorytDao.insertCategories(categories);
+      await _categorytDao.insertCategory(category);
       return Right('Categories saved successfully');
     } catch (e) {
       return Left(Failure(-1, e.toString()));
@@ -195,12 +184,22 @@ class RepositoryImpl extends Repository {
       return Left(Failure(-1, AppStrings.defaultError));
     }
   }
-  
+
   @override
   Future<Either<Failure, bool>> updateAccount(Account account) async {
     try {
       await _accountDao.updateAccount(account);
       return Right(true);
+    } catch (e) {
+      return Left(Failure(-1, AppStrings.defaultError));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> updateCategory(Category category) async {
+    try {
+      await _categorytDao.updateCategory(category);
+      return Right('Categories updated successfully');
     } catch (e) {
       return Left(Failure(-1, AppStrings.defaultError));
     }
