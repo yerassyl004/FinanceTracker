@@ -1,55 +1,39 @@
-import 'package:finance_app/data/repository/home_reposirory.dart';
 import 'package:finance_app/presentation/home/ui/widgets/categories_widgets.dart';
 import 'package:finance_app/domain/models/transaction.dart';
+import 'package:finance_app/presentation/resourses/strings_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class HeaderWidget extends StatefulWidget {
+class HeaderWidget extends StatelessWidget {
   final List<Transaction> transactionsFuture;
   final Function(DateTime) onDateChanged;
+  final double expenseAmount;
+  final double incomeAmount;
+  final DateTime currentDate;
 
   const HeaderWidget({
     super.key,
     required this.transactionsFuture,
     required this.onDateChanged,
+    required this.expenseAmount,
+    required this.incomeAmount,
+    required this.currentDate,
   });
 
-  @override
-  _HeaderWidgetState createState() => _HeaderWidgetState();
-}
-
-class _HeaderWidgetState extends State<HeaderWidget> {
-  late DateTime _currentDate;
-  HomeRepository cashService = HomeRepository();
-
-  @override
-  void initState() {
-    super.initState();
-    _currentDate = DateTime.now();
-  }
-
   void _previousMonth() {
-    setState(() {
-      _currentDate = DateTime(_currentDate.year, _currentDate.month - 1);
-    });
-    widget.onDateChanged(_currentDate);
+    onDateChanged(DateTime(currentDate.year, currentDate.month - 1));
   }
 
   void _nextMonth() {
-    setState(() {
-      _currentDate = DateTime(_currentDate.year, _currentDate.month + 1);
-    });
-    widget.onDateChanged(_currentDate);
+    onDateChanged(DateTime(currentDate.year, currentDate.month + 1));
   }
 
   @override
   Widget build(BuildContext context) {
     final categoryWidth = (MediaQuery.of(context).size.width - 16) / 3;
-    final expense = cashService.expenseCount(widget.transactionsFuture);
-    final income = cashService.incomeCount(widget.transactionsFuture);
-    final total = income - expense;
+    final total = incomeAmount - expenseAmount;
     final padding = MediaQuery.of(context).padding;
-    String monthYear = DateFormat('MMMM, yyyy').format(_currentDate);
+    String monthYear = DateFormat('MMMM, yyyy').format(currentDate);
 
     return Container(
       padding: EdgeInsets.only(top: padding.top),
@@ -101,23 +85,23 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                 SizedBox(
                   width: categoryWidth,
                   child: CategoriesWidgets(
-                    category: 'Expense',
-                    cash: expense.toStringAsFixed(2),
+                    category: AppStrings.expenseText,
+                    cash: expenseAmount.toStringAsFixed(2),
                     color: Colors.orange,
                   ),
                 ),
                 SizedBox(
                   width: categoryWidth,
                   child: CategoriesWidgets(
-                    category: 'Income',
-                    cash: income.toStringAsFixed(2),
+                    category: AppStrings.incomeText,
+                    cash: incomeAmount.toStringAsFixed(2),
                     color: Colors.green,
                   ),
                 ),
                 SizedBox(
                   width: categoryWidth,
                   child: CategoriesWidgets(
-                    category: 'Balance',
+                    category: AppStrings.balanceText,
                     cash: total.toStringAsFixed(2),
                     color: total > 0 ? Colors.blue : Colors.orange,
                   ),

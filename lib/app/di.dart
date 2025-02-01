@@ -5,6 +5,8 @@ import 'package:finance_app/domain/repository/repository.dart';
 import 'package:finance_app/domain/usecases.dart/create_transaction_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/delete_account_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/delete_category_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/expence_count_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/income_count_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/load_category_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/load_transactions_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/update_transaction_usecase.dart';
@@ -34,7 +36,7 @@ class DI {
     // getIt.registerLazySingleton(AccountsRepository)
 
     /// Bloc registrations
-    getIt.registerLazySingleton<TransactionBloc>(() => TransactionBloc(getIt()));
+    getIt.registerLazySingleton<TransactionBloc>(() => TransactionBloc(getIt(), getIt(), getIt()));
     getIt.registerLazySingleton<CreateTransactionBloc>(() => CreateTransactionBloc(getIt(), getIt(), getIt(), getIt(), getIt()));
     getIt.registerLazySingleton<TransactionInfoBloc>(() => TransactionInfoBloc(repository: getIt(), transaction: getIt()));
     getIt.registerLazySingleton<AccountsBloc>(() => AccountsBloc(getIt(), getIt()));
@@ -52,5 +54,7 @@ class DI {
     getIt.registerFactory<DeleteCategoryUsecase>(() => DeleteCategoryUsecase(getIt()));
     getIt.registerFactory<CreateTransactionUsecase>(() => CreateTransactionUsecase(getIt()));
     getIt.registerFactory<UpdateTransactionUsecase>(() => UpdateTransactionUsecase(getIt()));
+    getIt.registerFactory<IncomeCountUsecase>(() => IncomeCountUsecase(getIt()));
+    getIt.registerFactory<ExpenceCountUsecase>(() => ExpenceCountUsecase(getIt()));
   }
 }
