@@ -1,5 +1,7 @@
 import 'package:finance_app/presentation/categories_page/ui/widgets/categories_widget.dart';
 import 'package:finance_app/domain/models/category.dart';
+import 'package:finance_app/presentation/resourses/strings_manager.dart';
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesList extends StatelessWidget {
@@ -25,19 +27,16 @@ class CategoriesList extends StatelessWidget {
       itemCount: totalCount,
       itemBuilder: (context, index) {
         if (index == 0) {
-          return _buildHeader('Expense Categories');
-        }
-        else if (index > 0 && index <= expenseCategories.length) {
+          return _buildHeader(AppStrings.expenseCategories);
+        } else if (index > 0 && index <= expenseCategories.length) {
           return CategoriesWidget(
             category: expenseCategories[index - 1],
             categoryDeleted: updateList,
             categoryEdit: pushEditCategory,
           );
-        }
-        else if (index == expenseCategories.length + 1) {
-          return _buildHeader('Income Categories');
-        }
-        else {
+        } else if (index == expenseCategories.length + 1) {
+          return _buildHeader(AppStrings.incomeCategories);
+        } else {
           int incomeIndex = index - expenseCategories.length - 2;
           return CategoriesWidget(
             category: incomeCategories[incomeIndex],
@@ -54,22 +53,19 @@ class CategoriesList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 6),
+          padding: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 6),
           child: Text(
             title,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            style: AppTextStyle.bold20()
           ),
         ),
-        const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Divider(
-                  height: 2,
-                  color: Color.fromRGBO(156, 182, 201, 1),
-                ),
-              ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Divider(
+            height: 2,
+            color: Color.fromRGBO(156, 182, 201, 1),
+          ),
+        ),
       ],
     );
   }

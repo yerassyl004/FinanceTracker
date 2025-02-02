@@ -3,6 +3,8 @@ import 'package:finance_app/presentation/accounts_page/bloc/accounts_bloc.dart';
 import 'package:finance_app/presentation/accounts_page/di.dart';
 import 'package:finance_app/presentation/accounts_page/ui/widget/accounts_list.dart';
 import 'package:finance_app/presentation/create_account/ui/page/create_account_page.dart';
+import 'package:finance_app/presentation/resourses/color_manager.dart';
+import 'package:finance_app/presentation/resourses/strings_manager.dart';
 import 'package:finance_app/presentation/resourses/styles_manager.dart';
 
 import 'package:flutter/material.dart';
@@ -39,7 +41,7 @@ class AccountsPageView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     SizedBox(height: 8.h),
-                    Text('Accounts', style: TextNewStyle.bold24(context), textAlign: TextAlign.center,),
+                    Text(AppStrings.accounts, style: AppTextStyle.bold24(), textAlign: TextAlign.center,),
                     Expanded(
                         child: state.maybeWhen(
                             loaded: (accounts) => AccountsList(
@@ -92,13 +94,9 @@ class AccountsPageView extends StatelessWidget {
                     }
                   },
                   backgroundColor: Colors.blueAccent,
-                  child: const Text(
+                  child: Text(
                     'Add new account',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: AppTextStyle.bold16().copyWith(color: ColorManager.white),
                   ),
                 ),
               ),

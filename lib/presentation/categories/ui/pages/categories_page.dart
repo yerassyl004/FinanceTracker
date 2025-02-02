@@ -1,6 +1,10 @@
+import 'package:finance_app/app/extensions.dart';
 import 'package:finance_app/presentation/categories/ui/widget/category_grid_item.dart';
 import 'package:finance_app/domain/models/category.dart';
 import 'package:finance_app/presentation/create_transaction/bloc/create_transaction_bloc.dart';
+import 'package:finance_app/presentation/resourses/color_manager.dart';
+import 'package:finance_app/presentation/resourses/strings_manager.dart';
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesPage extends StatelessWidget {
@@ -21,22 +25,18 @@ class CategoriesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.all(16.0),
+      color: ColorManager.white,
+      padding: EdgeInsets.all(16.0),
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Categories',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
+              Text(
+                AppStrings.categories,
+                style: AppTextStyle.bold24()
               ),
-              const SizedBox(height: 16),
+              16.ph,
               Wrap(
                 spacing: 16,
                 runSpacing: 16,

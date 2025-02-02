@@ -3,6 +3,7 @@ import 'package:finance_app/presentation/analysis/ui/pages/analysis_page.dart';
 import 'package:finance_app/presentation/categories_page/ui/pages/categories_page.dart';
 import 'package:finance_app/presentation/home/ui/pages/new_home_page.dart';
 import 'package:finance_app/presentation/resourses/color_manager.dart';
+import 'package:finance_app/presentation/resourses/strings_manager.dart';
 import 'package:finance_app/presentation/resourses/values_manager.dart';
 import 'package:flutter/material.dart';
 
@@ -42,22 +43,22 @@ class _TabBarPageState extends State<TabBarPage> {
           unselectedItemColor: ColorManager.grey,
           backgroundColor: Colors.grey.shade100,
           type: BottomNavigationBarType.fixed,
-          items: const <BottomNavigationBarItem>[
+          items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.checklist),
-              label: 'Records',
+              label: AppStrings.records,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.analytics),
-              label: 'Analysis',
+              label: AppStrings.analysis,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.account_balance),
-              label: 'Accounts',
+              label: AppStrings.accounts,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.category),
-              label: 'Categories',
+              label: AppStrings.categories,
             ),
           ],
           currentIndex: _selectedIndex,

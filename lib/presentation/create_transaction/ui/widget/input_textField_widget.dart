@@ -1,3 +1,4 @@
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
 
 class InputTextfieldWidget extends StatelessWidget {
@@ -27,10 +28,8 @@ class InputTextfieldWidget extends StatelessWidget {
         decoration: InputDecoration(
             hintText: hintText,
             border: InputBorder.none,
-            hintStyle: const TextStyle(fontSize: 18)),
-        style: const TextStyle(
-          fontSize: 18,
-        ),
+            hintStyle: AppTextStyle.body18Regular()),
+        style: AppTextStyle.body18Regular(),
         controller: controller,
         keyboardType: inputType,
         minLines: minLine,

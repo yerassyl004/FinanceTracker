@@ -1,3 +1,6 @@
+import 'package:finance_app/presentation/resourses/color_manager.dart';
+import 'package:finance_app/presentation/resourses/strings_manager.dart';
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,9 +13,9 @@ class AddAccountButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onTap,
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent),
+        backgroundColor: WidgetStateProperty.all<Color>(Colors.blueAccent),
       ),
-      child: const Padding(
+      child: Padding(
         padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -22,12 +25,8 @@ class AddAccountButton extends StatelessWidget {
               color: Colors.white,),
             SizedBox(width: 6),
             Text(
-              'Add new account',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-              ),
+              AppStrings.addNewAccount,
+              style: AppTextStyle.body18Medium().copyWith(color: ColorManager.white),
             ),
           ],
         ),

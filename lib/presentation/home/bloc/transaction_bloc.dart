@@ -1,7 +1,7 @@
 import 'package:finance_app/domain/models/transaction.dart';
-import 'package:finance_app/domain/usecases.dart/expence_count_usecase.dart';
-import 'package:finance_app/domain/usecases.dart/income_count_usecase.dart';
-import 'package:finance_app/domain/usecases.dart/load_transactions_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/transactions/expence_count_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/transactions/income_count_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/transactions/load_transactions_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

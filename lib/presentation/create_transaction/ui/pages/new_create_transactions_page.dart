@@ -1,8 +1,12 @@
 import 'package:finance_app/app/di.dart';
+import 'package:finance_app/app/extensions.dart';
 import 'package:finance_app/presentation/accounts_modal/ui/pages/accounts_modal.dart';
 import 'package:finance_app/presentation/categories/ui/pages/categories_page.dart';
 import 'package:finance_app/presentation/create_transaction/bloc/create_transaction_bloc.dart';
 import 'package:finance_app/presentation/create_transaction/di.dart';
+import 'package:finance_app/presentation/resourses/color_manager.dart';
+import 'package:finance_app/presentation/resourses/strings_manager.dart';
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -56,12 +60,9 @@ class NewCreateTransactionView extends StatelessWidget {
             editing: (data, error) {
               return Scaffold(
                 appBar: AppBar(
-                  title: const Text(
-                    'New Transaction',
-                    style: TextStyle(
-                        fontSize: 22,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500),
+                  title: Text(
+                    AppStrings.newTransaction,
+                    style: AppTextStyle.body22Medium()
                   ),
                   backgroundColor: Colors.grey.shade100,
                 ),
@@ -75,16 +76,16 @@ class NewCreateTransactionView extends StatelessWidget {
                             minHeight: constraints.maxHeight,
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            padding: EdgeInsets.all(16.0),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                const SizedBox(height: 16),
+                                16.ph,
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     TypesSpendingWidget(
-                                        title: 'Transfer',
+                                        title: AppStrings.transfer,
                                         isSelected: data.selectedType ==
                                             TypeSpending.transfer,
                                         onTap: () => context
@@ -103,11 +104,11 @@ class NewCreateTransactionView extends StatelessWidget {
                                       width: 1,
                                       height: 20,
                                       color: Colors.grey,
-                                      margin: const EdgeInsets.symmetric(
+                                      margin: EdgeInsets.symmetric(
                                           horizontal: 16.0),
                                     ),
                                     TypesSpendingWidget(
-                                        title: 'Expense',
+                                        title: AppStrings.expenseText,
                                         isSelected: data.selectedType ==
                                             TypeSpending.expense,
                                         onTap: () => context
@@ -126,11 +127,11 @@ class NewCreateTransactionView extends StatelessWidget {
                                       width: 1,
                                       height: 20,
                                       color: Colors.grey,
-                                      margin: const EdgeInsets.symmetric(
+                                      margin: EdgeInsets.symmetric(
                                           horizontal: 16.0),
                                     ),
                                     TypesSpendingWidget(
-                                        title: 'Income',
+                                        title: AppStrings.incomeText,
                                         isSelected: data.selectedType ==
                                             TypeSpending.income,
                                         onTap: () => context
@@ -147,7 +148,7 @@ class NewCreateTransactionView extends StatelessWidget {
                                             ))),
                                   ],
                                 ),
-                                const SizedBox(height: 32),
+                                32.ph,
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -157,7 +158,7 @@ class NewCreateTransactionView extends StatelessWidget {
                                         image: data.fromAccount?.icon ??
                                             'wallet_icon',
                                         title: data.fromAccount?.title ??
-                                            'Account',
+                                            AppStrings.accounts,
                                         onTap: () async {
                                           showBarModalBottomSheet(
                                               expand: false,
@@ -182,14 +183,14 @@ class NewCreateTransactionView extends StatelessWidget {
                                         isSelected: data.fromAccount != null,
                                       ),
                                     ),
-                                    const SizedBox(width: 8),
+                                    8.pw,
                                     data.selectedType == TypeSpending.transfer
                                         ? Expanded(
                                             child: TransferInfoWidget(
                                             image: data.toAccount?.icon ??
                                                 'wallet_icon',
                                             title: data.toAccount?.title ??
-                                                'Account',
+                                                AppStrings.account,
                                             onTap: () =>
                                                 showBarModalBottomSheet(
                                                     expand: false,
@@ -215,7 +216,7 @@ class NewCreateTransactionView extends StatelessWidget {
                                             image: data.category?.icon ??
                                                 'category_icon',
                                             title: data.category?.title ??
-                                                'Category',
+                                                AppStrings.categoriy,
                                             onTap: () =>
                                                 showBarModalBottomSheet(
                                               expand: false,
@@ -242,7 +243,7 @@ class NewCreateTransactionView extends StatelessWidget {
                                           )),
                                   ],
                                 ),
-                                const SizedBox(height: 16),
+                                16.ph,
                                 InputTextfieldWidget(
                                   hintText: '0',
                                   inputType: TextInputType.number,
@@ -251,15 +252,15 @@ class NewCreateTransactionView extends StatelessWidget {
                                   controller: amountController,
                                   onChanged: (text) => context.read<CreateTransactionBloc>().add(CreateTransactionEvent.edit(data: data.copyWith(transaction: data.transaction?.copyWith(cash: double.tryParse(text) ?? 0))))
                                 ),
-                                const SizedBox(height: 12),
+                                12.ph,
                                 InputTextfieldWidget(
-                                  hintText: 'Add notes',
+                                  hintText: AppStrings.addNotes,
                                   inputType: TextInputType.text,
                                   maxLine: 3,
                                   minLine: 2,
                                   controller: notesController,
                                 ),
-                                const SizedBox(height: 12),
+                                12.ph,
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -267,27 +268,23 @@ class NewCreateTransactionView extends StatelessWidget {
                                     Text(
                                       DateFormat('MMM d, EEEE')
                                           .format(DateTime.now()),
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400),
+                                      style: AppTextStyle.body16Regular()
                                     ),
                                     Container(
                                       width: 1,
                                       height: 20,
                                       color: Colors.grey,
-                                      margin: const EdgeInsets.symmetric(
+                                      margin: EdgeInsets.symmetric(
                                           horizontal: 8.0),
                                     ),
                                     Text(
                                       DateFormat('h:mm a')
                                           .format(DateTime.now()),
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400),
+                                      style: AppTextStyle.body16Regular()
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 62),
+                                62.ph,
                               ],
                             ),
                           ),
@@ -300,7 +297,7 @@ class NewCreateTransactionView extends StatelessWidget {
                   width: double.infinity,
                   child: Padding(
                     padding:
-                        const EdgeInsets.only(left: 16, right: 16, bottom: 0),
+                        EdgeInsets.only(left: 16, right: 16, bottom: 0),
                     child: FloatingActionButton.extended(
                       onPressed: () => context
                           .read<CreateTransactionBloc>()
@@ -319,13 +316,9 @@ class NewCreateTransactionView extends StatelessWidget {
                             ),
                           )),
                       backgroundColor: Colors.blueAccent,
-                      label: const Text(
-                        'Save',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      label: Text(
+                        AppStrings.save,
+                        style: AppTextStyle.bold16().copyWith(color: ColorManager.white)
                       ),
                     ),
                   ),

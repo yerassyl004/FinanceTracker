@@ -2,6 +2,7 @@ import 'package:finance_app/presentation/accounts_modal/ui/widgets/account_item_
 import 'package:finance_app/domain/models/account.dart';
 import 'package:finance_app/presentation/create_transaction/bloc/create_transaction_bloc.dart';
 import 'package:finance_app/presentation/resourses/color_manager.dart';
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -23,18 +24,14 @@ class AddAccountsPage extends StatelessWidget {
       color: ColorManager.white,
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Select an account',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 24,
-                  color: Colors.black,
-                ),
+                style: AppTextStyle.bold24()
               ),
               SizedBox(height: 16.h),
               Flexible(

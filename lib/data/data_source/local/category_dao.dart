@@ -28,7 +28,7 @@ class CategoryDao {
     final db = await dbHelper.database;
     return await db.insert(
       'categories',
-      category.toJson(), // Handle conflicts
+      category.toJson(),
     );
   }
 

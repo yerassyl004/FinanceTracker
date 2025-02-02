@@ -1,5 +1,5 @@
-import 'package:finance_app/domain/usecases.dart/create_category_usecase.dart';
-import 'package:finance_app/domain/usecases.dart/update_category_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/category/create_category_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/category/update_category_usecase.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -93,7 +93,6 @@ class CreateCategoryBloc
 
   Future<void> _create(
       CreateNewCategory event, Emitter<CreateCategoryState> emit) async {
-    print('category:::: ${isValid(event.data.category)}');
     if (isValid(event.data.category)) {
       if (initialCategory == null) {
         await createCategoryUsecase.execute(event.data.category!);

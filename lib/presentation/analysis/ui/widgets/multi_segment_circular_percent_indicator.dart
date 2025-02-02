@@ -47,12 +47,11 @@ class _MultiSegmentCircularPercentIndicatorState extends State<MultiSegmentCircu
   Future<List<ui.Image>> _loadImages() async {
     List<ui.Image> images = [];
     for (var segment in widget.segments) {
-      print(segment.color);
       try {
         final image = await _loadImage('assets/images/${segment.icon}.png');
         images.add(image);
       } catch (e) {
-        print('Error loading image for segment ${segment.icon}: $e');
+        debugPrint('Error loading image for segment ${segment.icon}: $e');
       }
     }
     return images;
@@ -68,8 +67,8 @@ class _MultiSegmentCircularPercentIndicatorState extends State<MultiSegmentCircu
       });
       return completer.future;
     } catch (e) {
-      print('Error loading image from path $path: $e');
-      throw e;
+      debugPrint('Error loading image from path $path: $e');
+      rethrow;
     }
   }
 

@@ -6,6 +6,8 @@ import 'package:finance_app/presentation/analysis/ui/widgets/analys_header_widge
 import 'package:finance_app/presentation/analysis/ui/widgets/multi_segment_circular_percent_indicator.dart';
 import 'package:finance_app/presentation/create_transaction/ui/pages/new_create_transactions_page.dart';
 import 'package:finance_app/presentation/resourses/routes_manager.dart';
+import 'package:finance_app/presentation/resourses/strings_manager.dart';
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,17 +37,17 @@ class AnalysisPageView extends StatelessWidget {
                       SafeArea(
                         child: CustomScrollView(
                           slivers: [
-                            const SliverToBoxAdapter(
+                            SliverToBoxAdapter(
                               child: SizedBox(height: 100),
                             ),
                             SliverToBoxAdapter(
                               child: Padding(
-                                padding: const EdgeInsets.all(16),
+                                padding: EdgeInsets.all(16),
                                 child: SizedBox(
                                   width: double.infinity,
                                   height: 320,
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(
+                                    padding: EdgeInsets.symmetric(
                                         horizontal: 16, vertical: 26),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(16),
@@ -58,13 +60,11 @@ class AnalysisPageView extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        const Text(
-                                          'Categories',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w500),
+                                        Text(
+                                          AppStrings.categories,
+                                          style: AppTextStyle.body20Medium()
                                         ),
-                                        const SizedBox(height: 30),
+                                        SizedBox(height: 30),
                                         MultiSegmentCircularPercentIndicator(
                                           segments: data.segments,
                                         )
@@ -117,7 +117,7 @@ class AnalysisPageView extends StatelessWidget {
                                   .add(LoadTransactions());
                             }
                           },
-                          child: const Icon(CupertinoIcons.add),
+                          child: Icon(CupertinoIcons.add),
                         ),
                       ),
                     ],

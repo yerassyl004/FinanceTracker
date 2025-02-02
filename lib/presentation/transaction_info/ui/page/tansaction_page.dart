@@ -1,9 +1,9 @@
 import 'package:finance_app/app/di.dart';
+import 'package:finance_app/app/extensions.dart';
 import 'package:finance_app/domain/models/transaction.dart';
 import 'package:finance_app/domain/models/type_spending.dart';
 import 'package:finance_app/presentation/transaction_info/bloc/transaction_info_bloc.dart';
 import 'package:finance_app/presentation/transaction_info/di.dart';
-import 'package:finance_app/data/repository/transaction_info_repository.dart';
 import 'package:finance_app/presentation/transaction_info/ui/widget/account_info_widget.dart';
 import 'package:finance_app/presentation/transaction_info/ui/widget/destination_widget.dart';
 import 'package:finance_app/presentation/transaction_info/ui/widget/header_detail_widget.dart';
@@ -24,9 +24,7 @@ class TansactionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => di.getTransactionInfoBloc(
-            repository: TransactionInfoRepository(),
-            transaction: args.transaction)
+        create: (context) => di.getTransactionInfoBloc(args.transaction)
           ..add(TransactionInfoEvent.show(
               data: TransactionInfoData(transaction: args.transaction))),
         child: TansactionPageView(args: args));
@@ -47,7 +45,7 @@ class TansactionPageView extends StatelessWidget {
       return state.maybeWhen(
           show: (data) => Container(
               color: Colors.white,
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               child: ConstrainedBox(
                   constraints: BoxConstraints(
                     maxHeight: MediaQuery.of(context).size.height * 0.8,
@@ -63,15 +61,15 @@ class TansactionPageView extends StatelessWidget {
                                   context.read<TransactionInfoBloc>().add(
                                       TransactionInfoEvent.remove(data: data));
                                 }),
-                            const SizedBox(height: 16),
+                            16.ph,
                             AccountInfoWidget(
                                 account: args.transaction.account!),
                             data.transaction.typeSpending ==
                                     TypeSpending.transfer
                                 ? DestinationWidget(
                                     destination: data.transaction.destination)
-                                : const SizedBox(),
-                            const SizedBox(height: 16),
+                                : SizedBox(),
+                            16.ph,
                             TransferNoteWidget(controller: _controller)
                           ]),
                     ),

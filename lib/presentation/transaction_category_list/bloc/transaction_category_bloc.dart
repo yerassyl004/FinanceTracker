@@ -1,7 +1,8 @@
 import 'package:finance_app/domain/models/category.dart';
 import 'package:finance_app/domain/models/transaction.dart';
-import 'package:finance_app/domain/usecases.dart/load_transaction_by_category_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/transactions/load_transaction_by_category_usecase.dart';
 import 'package:finance_app/presentation/transaction_category_list/ui/page/transactions_category.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -48,7 +49,7 @@ class TransactionCategoryBloc
     result.fold(
         (fail) => emit(TransactionCategoryState.error(message: fail.message)),
         (transactions) {
-          print('transactions::::::: ${transactions.length}');
+          debugPrint('transactions::::::: ${transactions.length}');
             emit(TransactionCategoryState.loaded(transactions: transactions));
 
       });

@@ -1,8 +1,8 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 
 import 'package:finance_app/domain/models/category.dart';
-import 'package:finance_app/domain/usecases.dart/delete_category_usecase.dart';
-import 'package:finance_app/domain/usecases.dart/load_category_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/category/delete_category_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/category/load_category_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

@@ -1,4 +1,5 @@
 import 'package:finance_app/app/di.dart';
+import 'package:finance_app/app/extensions.dart';
 import 'package:finance_app/presentation/create_transaction/ui/pages/new_create_transactions_page.dart';
 import 'package:finance_app/presentation/home/bloc/transaction_bloc.dart';
 import 'package:finance_app/presentation/home/di.dart';
@@ -29,7 +30,7 @@ class NewHomePage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const SizedBox(height: 115),
+                        115.ph,
                         Expanded(
                           child: state.maybeWhen(
                             loading: () => const Center(
@@ -40,7 +41,7 @@ class NewHomePage extends StatelessWidget {
                             ),
                             loaded: (data) {
                               if (data.transactions.isEmpty) {
-                                return const Padding(
+                                return Padding(
                                   padding: EdgeInsets.all(24.0),
                                   child: Center(
                                     child: Text(
@@ -64,7 +65,7 @@ class NewHomePage extends StatelessWidget {
                                 );
                               }
                             },
-                            orElse: () => const Center(
+                            orElse: () => Center(
                               child: Text('No transactions found.'),
                             ),
                           ),

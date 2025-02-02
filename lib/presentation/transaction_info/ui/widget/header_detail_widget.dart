@@ -1,11 +1,15 @@
 import 'dart:io';
+import 'package:finance_app/app/extensions.dart';
 import 'package:finance_app/presentation/create_transaction/ui/pages/new_create_transactions_page.dart';
 import 'package:finance_app/presentation/home/ui/widgets/cash_transaction_widget.dart';
 import 'package:finance_app/domain/models/transaction.dart';
 import 'package:finance_app/domain/models/type_spending.dart';
 import 'package:finance_app/presentation/resourses/routes_manager.dart';
+import 'package:finance_app/presentation/resourses/strings_manager.dart';
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 class HeaderDetailWidget extends StatelessWidget {
@@ -20,26 +24,24 @@ class HeaderDetailWidget extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return CupertinoAlertDialog(
-            title: const Text('Confirm Delete'),
-            content:
-                const Text('Are you sure you want to delete this transaction?'),
+            title: Text(AppStrings.confirmDelete),
+            content: Text(AppStrings.deleteSubTitle),
             actions: <Widget>[
               CupertinoDialogAction(
                 textStyle: const TextStyle(color: Colors.blueAccent),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('Cancel'),
+                child: Text(AppStrings.cancel),
               ),
               CupertinoDialogAction(
                 isDestructiveAction: true,
                 onPressed: () {
                   onDelete();
                   Navigator.of(context).pop();
-                  Navigator.of(context)
-                      .pop(true);
+                  Navigator.of(context).pop(true);
                 },
-                child: const Text('Delete'),
+                child: Text(AppStrings.delete),
               ),
             ],
           );
@@ -50,24 +52,22 @@ class HeaderDetailWidget extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Confirm Delete'),
-            content:
-                const Text('Are you sure you want to delete this transaction?'),
+            title: Text(AppStrings.confirmDelete),
+            content: Text(AppStrings.deleteSubTitle),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('Cancel'),
+                child: Text(AppStrings.cancel),
               ),
               TextButton(
                 onPressed: () {
                   onDelete();
                   Navigator.of(context).pop();
-                  Navigator.of(context)
-                      .pop(true);
+                  Navigator.of(context).pop(true);
                 },
-                child: const Text('Delete'),
+                child: Text(AppStrings.delete),
               ),
             ],
           );
@@ -82,7 +82,7 @@ class HeaderDetailWidget extends StatelessWidget {
         ? 'transfer_icon'
         : transaction.category?.icon;
     String? title = transaction.typeSpending == TypeSpending.transfer
-        ? 'Transfer'
+        ? AppStrings.transfer
         : transaction.category?.title;
     String date = DateFormat('dd/MM/yyyy HH:mm').format(transaction.date);
     return Column(
@@ -95,38 +95,32 @@ class HeaderDetailWidget extends StatelessWidget {
             icon != null
                 ? Image.asset(
                     'assets/images/$icon.png',
-                    height: 50,
-                    width: 50,
+                    height: 50.h,
+                    width: 50.w,
                   )
-                : const SizedBox(),
-            const SizedBox(width: 16),
+                : SizedBox(),
+            16.pw,
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title ?? '',
-                  style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
+                  style: AppTextStyle.body22Medium(),
                   textAlign: TextAlign.start,
                 ),
                 Text(
                   date,
-                  style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
+                  style: AppTextStyle.body14Medium()
                 ),
               ],
             ),
-            const Spacer(),
+            Spacer(),
             IconButton(
               onPressed: () {
                 _confirmDelete(context);
               },
-              icon: const Icon(CupertinoIcons.trash),
+              icon: Icon(CupertinoIcons.trash),
             ),
             IconButton(
               onPressed: () async {
@@ -143,12 +137,12 @@ class HeaderDetailWidget extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        16.ph,
         Center(
           child: CashTransactionWidget(
               typeSpending: transaction.typeSpending,
               cash: transaction.cash.toString(),
-              font: 28),
+              font: 28.sp),
         ),
       ],
     );
