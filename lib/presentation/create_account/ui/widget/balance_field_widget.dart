@@ -1,3 +1,4 @@
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -24,25 +25,18 @@ class _BalanceFieldWidgetState extends State<BalanceFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: EdgeInsets.symmetric(horizontal: 24),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: Colors.grey.shade100,
       ),
       child: TextField(
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           hintText: '₸0',
           border: InputBorder.none,
-          hintStyle: TextStyle(
-            fontWeight: FontWeight.normal,
-            fontSize: 18,
-            color: Colors.black,
-          ),
+          hintStyle: AppTextStyle.body18Medium()
         ),
-        style: const TextStyle(
-          color: Colors.black,
-          fontSize: 18,
-        ),
+        style: AppTextStyle.body18Regular(),
         onChanged: widget.onChanged,
         keyboardType: TextInputType.numberWithOptions(decimal: true),
         controller: controller,

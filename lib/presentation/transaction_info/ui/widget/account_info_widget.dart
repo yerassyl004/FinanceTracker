@@ -1,5 +1,8 @@
+import 'package:finance_app/app/extensions.dart';
 import 'package:finance_app/domain/models/account.dart';
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AccountInfoWidget extends StatelessWidget {
   final Account account;
@@ -8,7 +11,7 @@ class AccountInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.grey.shade100,
         borderRadius: BorderRadius.circular(16),
@@ -21,19 +24,18 @@ class AccountInfoWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(6)
             ),
             child: Padding(
-              padding: const EdgeInsets.all(6.0),
+              padding: EdgeInsets.all(6.0),
               child: Image.asset(
                 'assets/images/${account.icon}.png',
-                height: 40,
-                width: 40,
+                height: 40.h,
+                width: 40.w,
               ),
             ),
           ),
-          const SizedBox(width: 16),
+          16.pw,
           Text(
             account.title,
-            style: const TextStyle(
-                fontSize: 20, fontWeight: FontWeight.w500, color: Colors.black),
+            style: AppTextStyle.body20Medium()
           ),
         ],
       ),

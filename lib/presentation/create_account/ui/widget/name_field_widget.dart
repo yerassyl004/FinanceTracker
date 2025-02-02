@@ -1,3 +1,4 @@
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
 
 class NameFieldWidget extends StatefulWidget {
@@ -40,10 +41,7 @@ class _NameFieldWidgetState extends State<NameFieldWidget> {
             ),
           ),
           onChanged: widget.onChanged,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-          ),
+          style: AppTextStyle.body18Regular(),
           keyboardType: TextInputType.name,
           textAlign: TextAlign.start,
           controller: controller,

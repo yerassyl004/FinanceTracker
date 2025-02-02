@@ -1,7 +1,10 @@
+import 'package:finance_app/app/extensions.dart';
 import 'package:finance_app/presentation/home/ui/widgets/categories_widgets.dart';
 import 'package:finance_app/domain/models/transaction.dart';
 import 'package:finance_app/presentation/resourses/strings_manager.dart';
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 class HeaderWidget extends StatelessWidget {
@@ -44,7 +47,7 @@ class HeaderWidget extends StatelessWidget {
             color: Colors.black.withOpacity(0.2),
             spreadRadius: 1,
             blurRadius: 8,
-            offset: const Offset(0, 4),
+            offset: Offset(0, 4),
           ),
         ],
       ),
@@ -57,28 +60,25 @@ class HeaderWidget extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: _previousMonth,
-                icon: const Icon(Icons.arrow_back_ios),
+                icon: Icon(Icons.arrow_back_ios),
               ),
               SizedBox(
-                width: 170,
+                width: 170.h,
                 child: Text(
                   monthYear,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: AppTextStyle.body16Medium(),
                   textAlign: TextAlign.center,
                 ),
               ),
               IconButton(
                 onPressed: _nextMonth,
-                icon: const Icon(Icons.arrow_forward_ios),
+                icon: Icon(Icons.arrow_forward_ios),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          16.ph,
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: EdgeInsets.symmetric(horizontal: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -109,7 +109,7 @@ class HeaderWidget extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 8),
+          8.ph
         ],
       ),
     );

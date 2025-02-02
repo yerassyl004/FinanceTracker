@@ -1,6 +1,9 @@
+import 'package:finance_app/app/extensions.dart';
 import 'package:finance_app/presentation/accounts_page/ui/widget/pop_up_menu_text.dart';
 import 'package:finance_app/domain/models/category.dart';
 import 'package:finance_app/presentation/categories_page/bloc/category_bloc.dart';
+import 'package:finance_app/presentation/resourses/strings_manager.dart';
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,7 +31,7 @@ class CategoriesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Row(
         children: [
           Image.asset(
@@ -36,35 +39,34 @@ class CategoriesWidget extends StatelessWidget {
             width: 40,
             height: 40,
           ),
-          const SizedBox(width: 8),
+          8.pw,
           Text(
             category.title,
-            style: const TextStyle(
-                fontSize: 18, fontWeight: FontWeight.w500, color: Colors.black),
+            style: AppTextStyle.body18Medium()
           ),
-          const Spacer(),
+          Spacer(),
           Stack(
             alignment: Alignment.center,
             children: [
               IconButton(
                 onPressed: () {},
-                icon: const Icon(Icons.more_horiz),
+                icon: Icon(Icons.more_horiz),
               ),
               PopupMenuButton<int>(
                 color: Colors.white,
                 onSelected: (item) => onSelected(context, item),
                 itemBuilder: (context) => [
-                  const PopupMenuItem<int>(
+                  PopupMenuItem<int>(
                     value: 0,
-                    child: PopUpMenuText(title: 'Edit'),
+                    child: PopUpMenuText(title: AppStrings.edit),
                   ),
-                  const PopupMenuItem<int>(
+                  PopupMenuItem<int>(
                     value: 1,
-                    child: PopUpMenuText(title: 'Delete'),
+                    child: PopUpMenuText(title: AppStrings.delete),
                   ),
                 ],
-                icon: const Icon(Icons.more_horiz, color: Colors.transparent),
-                offset: const Offset(0, 45),
+                icon: Icon(Icons.more_horiz, color: Colors.transparent),
+                offset: Offset(0, 45),
               ),
             ],
           ),

@@ -1,5 +1,6 @@
 import 'package:finance_app/presentation/analysis/ui/widgets/analys_type_spending_widget.dart';
 import 'package:finance_app/domain/models/type_spending.dart';
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -62,7 +63,7 @@ class _AnalysHeaderWidgetState extends State<AnalysHeaderWidget> {
             color: Colors.black.withOpacity(0.2),
             spreadRadius: 1,
             blurRadius: 8,
-            offset: const Offset(0, 4),
+            offset: Offset(0, 4),
           ),
         ],
       ),
@@ -75,35 +76,32 @@ class _AnalysHeaderWidgetState extends State<AnalysHeaderWidget> {
             children: [
               IconButton(
                 onPressed: _previousMonth,
-                icon: const Icon(Icons.arrow_back_ios),
+                icon: Icon(Icons.arrow_back_ios),
               ),
               SizedBox(
                 width: 170,
                 child: Text(
                   monthYear,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: AppTextStyle.body16Medium(),
                   textAlign: TextAlign.center,
                 ),
               ),
               IconButton(
                 onPressed: _nextMonth,
-                icon: const Icon(Icons.arrow_forward_ios),
+                icon: Icon(Icons.arrow_forward_ios),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               AnalysTypeSpendingWidget(typeSpending: TypeSpending.expense, isSelected: TypeSpending.expense == selectedType, onTap: _onSelectedType),
-              const SizedBox(width: 42),
+              SizedBox(width: 42),
               AnalysTypeSpendingWidget(typeSpending: TypeSpending.income, isSelected: TypeSpending.income == selectedType, onTap: _onSelectedType),
             ],    
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
         ],
       ),
     );

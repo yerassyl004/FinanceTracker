@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:finance_app/domain/models/analysis.dart';
-import 'package:finance_app/domain/usecases.dart/expence_count_usecase.dart';
-import 'package:finance_app/domain/usecases.dart/income_count_usecase.dart';
-import 'package:finance_app/domain/usecases.dart/load_analysis_usecase.dart';
-import 'package:finance_app/domain/usecases.dart/load_transactions_usecase.dart';
-import 'package:finance_app/domain/usecases.dart/load_transactions_by_type_usecase.dart';
-import 'package:finance_app/domain/usecases.dart/segment_persentage_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/transactions/expence_count_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/transactions/income_count_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/analysis/load_analysis_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/transactions/load_transactions_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/transactions/load_transactions_by_type_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/analysis/segment_persentage_usecase.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:finance_app/domain/models/type_spending.dart';

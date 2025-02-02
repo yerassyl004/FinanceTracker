@@ -1,12 +1,14 @@
 import 'package:finance_app/app/di.dart';
+import 'package:finance_app/app/extensions.dart';
 import 'package:finance_app/presentation/categories_page/bloc/category_bloc.dart';
 import 'package:finance_app/presentation/categories_page/di.dart';
 import 'package:finance_app/presentation/categories_page/ui/widgets/categories_list.dart';
 import 'package:finance_app/presentation/create_category/ui/page/create_category_page.dart';
+import 'package:finance_app/presentation/resourses/color_manager.dart';
+import 'package:finance_app/presentation/resourses/strings_manager.dart';
 import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class CategoriesPage extends StatelessWidget {
@@ -36,10 +38,10 @@ class CategoriesPageView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        SizedBox(height: 8.h),
+                        8.ph,
                         Text(
-                          'Accounts',
-                          style: TextNewStyle.bold24(context),
+                          AppStrings.categories,
+                          style: AppTextStyle.bold24(),
                           textAlign: TextAlign.center,
                         ),
                         Expanded(
@@ -68,7 +70,7 @@ class CategoriesPageView extends StatelessWidget {
                               }),
                           orElse: () => SizedBox(),
                         )),
-                        SizedBox(height: 56)
+                        56.ph,
                       ],
                     ),
                   ),
@@ -94,13 +96,9 @@ class CategoriesPageView extends StatelessWidget {
                         }
                       },
                       backgroundColor: Colors.blueAccent,
-                      child: const Text(
-                        'Add new category',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      child: Text(
+                        AppStrings.addNewCategory,
+                        style: AppTextStyle.bold16().copyWith(color: ColorManager.white)
                       ),
                     ),
                   ),

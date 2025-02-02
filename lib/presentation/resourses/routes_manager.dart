@@ -1,15 +1,13 @@
 import 'package:finance_app/presentation/create_transaction/ui/pages/new_create_transactions_page.dart';
 import 'package:finance_app/presentation/tab_bar/ui/page/tab_bar_page.dart';
+import 'package:finance_app/presentation/transaction_category_list/ui/page/transactions_category.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
   static const String addTransaction = "/addTransaction";
   static const String createTransactionPage = "/createTransactionPage";
-  static const String loginRoute = "/login";
-  static const String registerRoute = "/register";
-  static const String forgotPasswordRoute = "/forgotPassword";
+  static const String analysis = "/analysis";
   static const String mainRoute = "/main";
-  static const String storeDetailsRoute = "/storeDetails";
 }
 
 class RouteGenerator {
@@ -30,6 +28,16 @@ class RouteGenerator {
 
       case Routes.mainRoute:
         return MaterialPageRoute(builder: (_) => const TabBarPage());
+      case Routes.analysis:
+        if (routeSettings.arguments is TransactionsCategoryArguments) {
+          final args = routeSettings.arguments as TransactionsCategoryArguments;
+
+          return MaterialPageRoute(
+              builder: (_) => TransactionsCategory(
+                    args: args,
+                  ));
+        }
+        return unDefinedRoute();
       default:
         return unDefinedRoute();
     }

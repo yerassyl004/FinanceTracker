@@ -1,11 +1,16 @@
+import 'package:finance_app/app/extensions.dart';
+import 'package:finance_app/presentation/resourses/routes_manager.dart';
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:finance_app/presentation/transaction_category_list/ui/page/transactions_category.dart';
 import 'package:finance_app/domain/models/analysis.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TransactionAnalysWidget extends StatelessWidget {
   final Analysis analysis;
   final DateTime dateTime;
-  const TransactionAnalysWidget({super.key, required this.analysis, required this.dateTime});
+  const TransactionAnalysWidget(
+      {super.key, required this.analysis, required this.dateTime});
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +18,19 @@ class TransactionAnalysWidget extends StatelessWidget {
     String categoryTitle = analysis.category.title;
 
     return GestureDetector(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => TransactionsCategory(args: TransactionsCategoryArguments(analysis.category, dateTime, analysis.cash),)));
+      onTap: () async {
+        final result = await Navigator.pushNamed(
+          context,
+          Routes.analysis,
+          arguments: TransactionsCategoryArguments(
+              analysis.category, dateTime, analysis.cash),
+        );
+        if (result == true) {
+          Navigator.pop(context);
+        }
       },
       child: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 4),
+        padding: EdgeInsets.only(left: 16, right: 16, bottom: 4),
         child: Container(
           color: Colors.transparent,
           child: Column(
@@ -26,36 +39,24 @@ class TransactionAnalysWidget extends StatelessWidget {
                 children: [
                   Image.asset(
                     'assets/images/$categoryIcon.png',
-                    height: 50,
+                    height: 50.h,
                   ),
-                  const SizedBox(width: 8),
+                  8.pw,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        categoryTitle,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                      Text(categoryTitle, style: AppTextStyle.body16Medium()),
                     ],
                   ),
-                  const Spacer(),
-                  Text(
-                    '₸${analysis.cash.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500),
-                  )
+                  Spacer(),
+                  Text('₸${analysis.cash.toStringAsFixed(2)}',
+                      style: AppTextStyle.body16Medium())
                 ],
               ),
-              const SizedBox(height: 4),
-              const Padding(
+              4.ph,
+              Padding(
                 padding: EdgeInsets.only(left: 60),
                 child: Divider(
                   height: 2,

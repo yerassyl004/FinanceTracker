@@ -13,7 +13,8 @@ class TransactionsCategoryArguments {
   final Category category;
   final double totalCash;
 
-  const TransactionsCategoryArguments(this.category, this.dateTime, this.totalCash);
+  const TransactionsCategoryArguments(
+      this.category, this.dateTime, this.totalCash);
 }
 
 class TransactionsCategory extends StatelessWidget {
@@ -35,7 +36,7 @@ class TransactionsCategoryPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+        backgroundColor: Colors.grey.shade100,
         body: BlocBuilder<TransactionCategoryBloc, TransactionCategoryState>(
             builder: (context, state) => state.maybeWhen(
                   orElse: () => SizedBox(),
@@ -48,12 +49,14 @@ class TransactionsCategoryPageView extends StatelessWidget {
                       Expanded(
                         child: TransactionCategoryList(
                           transactions: transactions,
-                          updateList: ()  {
-                            context.read<TransactionCategoryBloc>().add(TransactionCategoryEvent.loadTransactions(category: args.category, selectedMonth: args.dateTime));
+                          updateList: () {
+                            context.read<TransactionCategoryBloc>().add(
+                                TransactionCategoryEvent.loadTransactions(
+                                    category: args.category,
+                                    selectedMonth: args.dateTime));
                           },
                         ),
                       ),
-                      
                     ],
                   ),
                 )));

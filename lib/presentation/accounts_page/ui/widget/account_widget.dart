@@ -1,4 +1,5 @@
 import 'package:finance_app/presentation/accounts_page/ui/widget/pop_up_menu_text.dart';
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:finance_app/domain/models/account.dart';
 
@@ -25,7 +26,7 @@ class AccountWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
       child: Row(
         children: [
           Image.asset(
@@ -33,62 +34,53 @@ class AccountWidget extends StatelessWidget {
             height: 50,
             width: 50,
           ),
-          const SizedBox(width: 16),
+          SizedBox(width: 16),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 account.title,
-                style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black),
+                style: AppTextStyle.body18Medium()
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: 4),
               Row(
                 children: [
-                  const Text(
+                  Text(
                     'Balance:',
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                    style: AppTextStyle.body18Medium()
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Text(
                     '₸${account.cash.toStringAsFixed(2)}',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: getColor()),
+                    style: AppTextStyle.body16Medium().copyWith(color: getColor())
                   ),
                 ],
               )
             ],
           ),
-          const Spacer(),
+          Spacer(),
           Stack(
             alignment: Alignment.center,
             children: [
               IconButton(
                 onPressed: () {},
-                icon: const Icon(Icons.more_horiz),
+                icon: Icon(Icons.more_horiz),
               ),
               PopupMenuButton<int>(
                 color: Colors.white,
                 onSelected: (item) => onSelected(context, item),
                 itemBuilder: (context) => [
-                  const PopupMenuItem<int>(
+                  PopupMenuItem<int>(
                     value: 0,
                     child: PopUpMenuText(title: 'Edit'),
                   ),
-                  const PopupMenuItem<int>(
+                  PopupMenuItem<int>(
                     value: 1,
                     child: PopUpMenuText(title: 'Delete'),
                   ),
                 ],
-                icon: const Icon(Icons.more_horiz, color: Colors.transparent),
-                offset: const Offset(0, 45),
+                icon: Icon(Icons.more_horiz, color: Colors.transparent),
+                offset: Offset(0, 45),
               ),
             ],
           ),

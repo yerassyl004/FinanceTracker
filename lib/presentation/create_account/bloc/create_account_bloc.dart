@@ -1,7 +1,7 @@
 import 'package:finance_app/app/constant.dart';
 import 'package:finance_app/domain/models/account.dart';
-import 'package:finance_app/domain/usecases.dart/create_account_usecase.dart';
-import 'package:finance_app/domain/usecases.dart/update_account_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/account/create_account_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/account/update_account_usecase.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

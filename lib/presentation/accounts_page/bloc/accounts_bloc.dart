@@ -3,8 +3,8 @@
 import 'dart:ffi';
 
 import 'package:finance_app/domain/models/account.dart';
-import 'package:finance_app/domain/usecases.dart/delete_account_usecase.dart';
-import 'package:finance_app/domain/usecases.dart/load_account_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/account/delete_account_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/account/load_account_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

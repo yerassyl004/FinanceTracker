@@ -1,5 +1,5 @@
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class CategoryTypeWidget extends StatelessWidget {
   final String title;
@@ -19,15 +19,11 @@ class CategoryTypeWidget extends StatelessWidget {
       child: Row(
         children: [
           isSelected ?
-          const Icon(CupertinoIcons.check_mark_circled_solid) :
-          const SizedBox(),
+          Icon(CupertinoIcons.check_mark_circled_solid) :
+          SizedBox(),
           Text(
             title,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
-            ),
+            style: AppTextStyle.body16Medium()
           )
         ],
       ),

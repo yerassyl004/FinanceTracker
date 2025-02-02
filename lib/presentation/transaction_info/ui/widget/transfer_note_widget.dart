@@ -1,3 +1,5 @@
+import 'package:finance_app/presentation/resourses/strings_manager.dart';
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
 
 class TransferNoteWidget extends StatelessWidget {
@@ -13,18 +15,11 @@ class TransferNoteWidget extends StatelessWidget {
         color: Colors.grey.shade100,
       ),
       child: TextField(
-        decoration: const InputDecoration(
-            hintText: 'No notes',
+        decoration: InputDecoration(
+            hintText: AppStrings.noNoted,
             border: InputBorder.none,
-            hintStyle: TextStyle(
-              fontWeight: FontWeight.normal,
-              fontSize: 18, 
-              color: Colors.black
-            )),
-        style: const TextStyle(
-          color: Colors.black,
-          fontSize: 18,
-        ),
+            hintStyle: AppTextStyle.body18Regular()),
+        style: AppTextStyle.body18Regular(),
         controller: controller,
         minLines: 1,
         maxLines: 3,

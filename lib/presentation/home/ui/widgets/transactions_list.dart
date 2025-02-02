@@ -1,7 +1,9 @@
 import 'package:finance_app/domain/models/transaction.dart';
 import 'package:finance_app/presentation/home/ui/widgets/transaction_widget.dart';
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Add this for date formatting
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 class TransactionsList extends StatelessWidget {
   final List<Transaction> transactions;
@@ -26,13 +28,13 @@ class TransactionsList extends StatelessWidget {
         lastDate = transactionDate;
         items.add(
           Padding(
-            padding: const EdgeInsets.only(top: 16),
+            padding: EdgeInsets.only(top: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Expanded(
+                Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 16.0),
+                    padding: EdgeInsets.only(left: 16.w),
                     child: Divider(
                       height: 3,
                       color: Color.fromRGBO(156, 182, 201, 1),
@@ -40,19 +42,15 @@ class TransactionsList extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                   child: Text(
                     transactionDate,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(156, 182, 201, 1),
-                    ),
+                    style: AppTextStyle.bold14().copyWith(color: Color.fromRGBO(156, 182, 201, 1))
                   ),
                 ),
-                const Expanded(
+                Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(right: 16.0),
+                    padding: EdgeInsets.only(right: 16.w),
                     child: Divider(
                       color: Color.fromRGBO(156, 182, 201, 1),
                       height: 4,

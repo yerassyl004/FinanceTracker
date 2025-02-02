@@ -4,16 +4,89 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'font_manager.dart';
 
-class TextNewStyle {
-  static TextStyle body15Medium(BuildContext context) => TextStyle(
+class AppTextStyle {
+
+  static TextStyle body14Medium() => TextStyle(
+     color: ColorManager.black,
+      fontSize: 14.sp,
+      fontWeight: FontWeight.w500,
+  );
+
+  static TextStyle bold14() => TextStyle(
+     color: ColorManager.black,
+      fontSize: 14.sp,
+      fontWeight: FontWeight.w700,
+  );
+
+  static TextStyle body15Medium() => TextStyle(
      color: ColorManager.black,
       fontSize: 15.sp,
       fontWeight: FontWeight.w500,
   );
 
-  static TextStyle bold24(BuildContext context) => TextStyle(
+  static TextStyle body16Regular() => TextStyle(
+     color: ColorManager.black,
+      fontSize: 16.sp,
+      fontWeight: FontWeight.w400,
+  );
+
+  static TextStyle body16Medium() => TextStyle(
+     color: ColorManager.black,
+      fontSize: 16.sp,
+      fontWeight: FontWeight.w500,
+  );
+
+  static TextStyle bold16() => TextStyle(
+     color: ColorManager.black,
+      fontSize: 16.sp,
+      fontWeight: FontWeight.w700,
+  );
+
+  static TextStyle body18Regular() => TextStyle(
+     color: ColorManager.black,
+      fontSize: 18.sp,
+      fontWeight: FontWeight.w400,
+  );
+
+  static TextStyle body18Medium() => TextStyle(
+     color: ColorManager.black,
+      fontSize: 18.sp,
+      fontWeight: FontWeight.w500,
+  );
+
+  static TextStyle body20Medium() => TextStyle(
+     color: ColorManager.black,
+      fontSize: 20.sp,
+      fontWeight: FontWeight.w500,
+  );
+
+  static TextStyle bold20() => TextStyle(
+     color: ColorManager.black,
+      fontSize: 20.sp,
+      fontWeight: FontWeight.w700,
+  );
+
+  static TextStyle body22Medium() => TextStyle(
+     color: ColorManager.black,
+      fontSize: 22.sp,
+      fontWeight: FontWeight.w500,
+  );
+
+  static TextStyle bold22() => TextStyle(
+     color: ColorManager.black,
+      fontSize: 22.sp,
+      fontWeight: FontWeight.w700,
+  );
+
+  static TextStyle bold24() => TextStyle(
      color: ColorManager.black,
       fontSize: 24.sp,
+      fontWeight: FontWeight.w700,
+  );
+
+  static TextStyle bold30() => TextStyle(
+     color: ColorManager.black,
+      fontSize: 30.sp,
       fontWeight: FontWeight.w700,
   );
 }

@@ -1,9 +1,13 @@
+import 'package:finance_app/app/extensions.dart';
 import 'package:finance_app/presentation/home/ui/widgets/cash_transaction_widget.dart';
 import 'package:finance_app/domain/models/transaction.dart';
 import 'package:finance_app/domain/models/type_spending.dart';
+import 'package:finance_app/presentation/resourses/strings_manager.dart';
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:finance_app/presentation/transaction_info/ui/page/tansaction_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TransactionCategoryWidget extends StatelessWidget {
   final Transaction transaction;
@@ -18,7 +22,7 @@ class TransactionCategoryWidget extends StatelessWidget {
       useSafeArea: true,
       enableDrag: true,
       useRootNavigator: true,
-      shape: const RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
       ),
       builder: (BuildContext context) {
@@ -46,7 +50,7 @@ class TransactionCategoryWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => _handleTransactionTap(context, transaction),
       child: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+        padding: EdgeInsets.only(left: 16, right: 16, bottom: 8),
         child: Container(
           color: Colors.transparent,
           child: Column(
@@ -54,34 +58,28 @@ class TransactionCategoryWidget extends StatelessWidget {
               Row(children: [
                 Image.asset(
                   'assets/images/${categoryIcon ?? 'transfer_icon'}.png',
-                  height: 40,
+                  height: 40.h,
                 ),
-                const SizedBox(width: 8),
+                8.pw,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      categoryTitle ?? 'Transfer',
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500),
+                      categoryTitle ?? AppStrings.transfer,
+                      style: AppTextStyle.body16Medium()
                     ),
                     Row(
                       children: [
                         Image.asset(
                           'assets/images/$accountIcon.png',
-                          width: 25,
+                          width: 25.w,
                         ),
-                        const SizedBox(width: 5),
+                        5.pw,
                         Text(
                           accountTitle ?? '',
-                          style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600),
+                          style: AppTextStyle.body14Medium().copyWith(color: Colors.grey),
                         ),
                         typeSpending == TypeSpending.transfer
                             ? Row(children: [
@@ -91,29 +89,26 @@ class TransactionCategoryWidget extends StatelessWidget {
                                 ),
                                 Image.asset(
                                   'assets/images/$distanationIcon.png',
-                                  height: 25,
+                                  height: 25.h,
                                 ),
-                                const SizedBox(width: 5),
+                                5.pw,
                                 Text(
                                   distanationTitle ?? '',
-                                  style: const TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600),
+                                  style: AppTextStyle.body14Medium().copyWith(color: Colors.grey),
                                 ),
                               ])
-                            : const SizedBox(),
+                            : SizedBox(),
                       ],
                     ),
                   ],
                 ),
-                const Spacer(),
+                Spacer(),
                 CashTransactionWidget(
-                    typeSpending: typeSpending, cash: cash, font: 16)
+                    typeSpending: typeSpending, cash: cash, font: 16.sp)
               ]),
-              const SizedBox(height: 8),
-              const Padding(
-                padding: EdgeInsets.only(left: 50),
+              8.ph,
+              Padding(
+                padding: EdgeInsets.only(left: 50.w),
                 child: Divider(
                   height: 2,
                   color: Color.fromRGBO(156, 182, 201, 1),

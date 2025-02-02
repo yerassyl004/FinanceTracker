@@ -1,5 +1,5 @@
 import 'package:finance_app/domain/models/transaction.dart';
-import 'package:finance_app/domain/usecases.dart/delete_transaction_usecase.dart';
+import 'package:finance_app/domain/usecases.dart/transactions/delete_transaction_usecase.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

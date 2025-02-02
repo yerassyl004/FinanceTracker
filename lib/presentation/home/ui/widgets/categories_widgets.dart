@@ -1,3 +1,4 @@
+import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesWidgets extends StatelessWidget {
@@ -19,19 +20,12 @@ class CategoriesWidgets extends StatelessWidget {
       children: [
         Text(
           category,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
+          style: AppTextStyle.body16Medium(),
           textAlign: TextAlign.center,
         ),
         Text(
           '₸$cash',
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-            color: color
-          ),
+          style: AppTextStyle.body15Medium().copyWith(color: color),
           maxLines: 1,
           textAlign: TextAlign.center,
         )
