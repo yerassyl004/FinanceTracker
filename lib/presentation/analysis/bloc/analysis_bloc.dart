@@ -3,7 +3,6 @@ import 'package:finance_app/domain/models/analysis.dart';
 import 'package:finance_app/domain/usecases.dart/transactions/expence_count_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/transactions/income_count_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/analysis/load_analysis_usecase.dart';
-import 'package:finance_app/domain/usecases.dart/transactions/load_transactions_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/transactions/load_transactions_by_type_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/analysis/segment_persentage_usecase.dart';
 import 'package:flutter/foundation.dart';
@@ -49,7 +48,6 @@ class AnalysisState with _$AnalysisState {
 }
 
 class AnalysisBloc extends Bloc<AnalysisEvent, AnalysisState> {
-  final LoadTransactionsUsecase loadAccountUseCase;
   final ExpenceCountUsecase getExpenseAmountUseCase;
   final IncomeCountUsecase getIncomeAmountUseCase;
   final SegmentPersentageUsecase segmentPersentageUsecase;
@@ -59,7 +57,6 @@ class AnalysisBloc extends Bloc<AnalysisEvent, AnalysisState> {
   AnalysisBloc(
     this.getExpenseAmountUseCase,
     this.getIncomeAmountUseCase,
-    this.loadAccountUseCase,
     this.segmentPersentageUsecase,
     this.loadAnalysisUsecase,
     this.loadTransactionsWithTypeUsecase,
@@ -79,7 +76,7 @@ class AnalysisBloc extends Bloc<AnalysisEvent, AnalysisState> {
       segments: [],
     )));
 
-    final result = await loadAccountUseCase.execute(DateTime.now());
+    final result = await loadTransactionsWithTypeUsecase.execute(LoadTransactionsArguments(DateTime.now(), TypeSpending.expense));
 
     await result.fold(
       (failure) async {
