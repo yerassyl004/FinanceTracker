@@ -57,6 +57,7 @@ dependencies:
   sqflite: ^2.4.1
   dartz: ^0.10.1
   auto_route: ^10.0.1
+  flutter_riverpod: ^2.6.1
 
 dev_dependencies:
   flutter_test:
