@@ -651,7 +651,7 @@ class _$InitNewAccountImpl
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'CreateAccountEvent.init'));
+    properties..add(DiagnosticsProperty('type', 'CreateAccountEvent.init'));
   }
 
   @override
@@ -848,7 +848,7 @@ class _$InitialCreateAccountStateImpl
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'CreateAccountState.initial'));
+    properties..add(DiagnosticsProperty('type', 'CreateAccountState.initial'));
   }
 
   @override

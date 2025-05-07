@@ -1,5 +1,6 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:finance_app/app/app_router.dart';
 import 'package:finance_app/app/extensions.dart';
-import 'package:finance_app/presentation/resourses/routes_manager.dart';
 import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:finance_app/presentation/transaction_category_list/ui/page/transactions_category.dart';
 import 'package:finance_app/domain/models/analysis.dart';
@@ -19,14 +20,11 @@ class TransactionAnalysWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () async {
-        final result = await Navigator.pushNamed(
-          context,
-          Routes.analysis,
-          arguments: TransactionsCategoryArguments(
-              analysis.category, dateTime, analysis.cash),
-        );
-        if (result == true) {
-          Navigator.pop(context);
+        final result = await context.pushRoute(TransactionsCategoryRoute(
+            args: TransactionsCategoryArguments(
+                analysis.category, dateTime, analysis.cash)));
+        if (context.mounted && result == true) {
+          context.maybePop();
         }
       },
       child: Padding(

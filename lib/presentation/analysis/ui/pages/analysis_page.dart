@@ -1,11 +1,11 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:finance_app/app/app_router.dart';
 import 'package:finance_app/app/di.dart';
 import 'package:finance_app/presentation/analysis/bloc/analysis_bloc.dart';
 import 'package:finance_app/presentation/analysis/di.dart';
 import 'package:finance_app/presentation/analysis/ui/widgets/transaction_analys_list.dart';
 import 'package:finance_app/presentation/analysis/ui/widgets/analys_header_widget.dart';
 import 'package:finance_app/presentation/analysis/ui/widgets/multi_segment_circular_percent_indicator.dart';
-import 'package:finance_app/presentation/create_transaction/ui/pages/new_create_transactions_page.dart';
-import 'package:finance_app/presentation/resourses/routes_manager.dart';
 import 'package:finance_app/presentation/resourses/strings_manager.dart';
 import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/cupertino.dart';
@@ -106,12 +106,8 @@ class AnalysisPageView extends StatelessWidget {
                         child: FloatingActionButton(
                           backgroundColor: Colors.grey.shade300,
                           onPressed: () async {
-                            final result = await Navigator.pushNamed(
-                              context,
-                              Routes.createTransactionPage,
-                              arguments: CreateTransactionsArgument(null),
-                            );
-                            if (result == true) {
+                            final result = await context.pushRoute(NewCreateTransactionsRoute(args: null));
+                            if (context.mounted && result == true) {
                               context
                                   .read<AnalysisBloc>()
                                   .add(LoadTransactions());
