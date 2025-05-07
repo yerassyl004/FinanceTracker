@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:finance_app/app/di.dart';
 import 'package:finance_app/app/extensions.dart';
 import 'package:finance_app/presentation/accounts_modal/ui/pages/accounts_modal.dart';
@@ -22,6 +23,7 @@ class CreateTransactionsArgument {
   const CreateTransactionsArgument(this.transaction);
 }
 
+@RoutePage()
 class NewCreateTransactionsPage extends StatelessWidget {
   final CreateTransactionsArgument? args;
   const NewCreateTransactionsPage({super.key, required this.args});

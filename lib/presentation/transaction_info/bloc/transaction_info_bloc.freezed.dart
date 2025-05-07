@@ -849,7 +849,8 @@ class _$TransactionInfoInitialImpl
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'TransactionInfoState.initial'));
+    properties
+      ..add(DiagnosticsProperty('type', 'TransactionInfoState.initial'));
   }
 
   @override
@@ -978,7 +979,8 @@ class _$TransactionInfoLoadingImpl
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'TransactionInfoState.loading'));
+    properties
+      ..add(DiagnosticsProperty('type', 'TransactionInfoState.loading'));
   }
 
   @override

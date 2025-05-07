@@ -1,11 +1,11 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:finance_app/app/app_router.dart';
 import 'package:finance_app/app/di.dart';
 import 'package:finance_app/app/extensions.dart';
-import 'package:finance_app/presentation/create_transaction/ui/pages/new_create_transactions_page.dart';
 import 'package:finance_app/presentation/home/bloc/transaction_bloc.dart';
 import 'package:finance_app/presentation/home/di.dart';
 import 'package:finance_app/presentation/home/ui/widgets/header_widget.dart';
 import 'package:finance_app/presentation/home/ui/widgets/transactions_list.dart';
-import 'package:finance_app/presentation/resourses/routes_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -90,7 +90,7 @@ class NewHomePage extends StatelessWidget {
                                 .add(LoadTransactionItems(month: newDate));
                           },
                           expenseAmount: data.expenseAmount,
-                          incomeAmount: data.incomeAmount, 
+                          incomeAmount: data.incomeAmount,
                           currentDate: data.currentMonth,
                         ),
                         orElse: () => const SizedBox(),
@@ -101,11 +101,8 @@ class NewHomePage extends StatelessWidget {
                     child: FloatingActionButton(
                       backgroundColor: Colors.grey.shade300,
                       onPressed: () async {
-                        final result = await Navigator.pushNamed(
-                          context,
-                          Routes.createTransactionPage,
-                          arguments: CreateTransactionsArgument(null),
-                        );
+                        final result = await context
+                            .pushRoute(NewCreateTransactionsRoute(args: null));
                         if (result == true) {
                           state.maybeWhen(
                             loaded: (data) {

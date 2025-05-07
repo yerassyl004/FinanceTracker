@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:finance_app/presentation/accounts_page/ui/page/accounts_page.dart';
 import 'package:finance_app/presentation/analysis/ui/pages/analysis_page.dart';
 import 'package:finance_app/presentation/categories_page/ui/pages/categories_page.dart';
@@ -7,6 +8,7 @@ import 'package:finance_app/presentation/resourses/strings_manager.dart';
 import 'package:finance_app/presentation/resourses/values_manager.dart';
 import 'package:flutter/material.dart';
 
+@RoutePage()
 class TabBarPage extends StatefulWidget {
   const TabBarPage({super.key});
 

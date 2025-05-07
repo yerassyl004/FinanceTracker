@@ -7,7 +7,7 @@ class Routes {
   static const String addTransaction = "/addTransaction";
   static const String createTransactionPage = "/createTransactionPage";
   static const String analysis = "/analysis";
-  static const String mainRoute = "/main";
+  static const String mainRoute = "/";
 }
 
 class RouteGenerator {
@@ -33,7 +33,7 @@ class RouteGenerator {
           final args = routeSettings.arguments as TransactionsCategoryArguments;
 
           return MaterialPageRoute(
-              builder: (_) => TransactionsCategory(
+              builder: (_) => TransactionsCategoryPage(
                     args: args,
                   ));
         }

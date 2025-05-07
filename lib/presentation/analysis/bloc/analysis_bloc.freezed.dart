@@ -442,7 +442,7 @@ class _$LoadTransactionsImpl
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-        .add(DiagnosticsProperty('type', 'AnalysisEvent.loadTransactions'));
+      ..add(DiagnosticsProperty('type', 'AnalysisEvent.loadTransactions'));
   }
 
   @override
@@ -801,7 +801,7 @@ class _$AnalysisInitialImpl
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'AnalysisState.initial'));
+    properties..add(DiagnosticsProperty('type', 'AnalysisState.initial'));
   }
 
   @override

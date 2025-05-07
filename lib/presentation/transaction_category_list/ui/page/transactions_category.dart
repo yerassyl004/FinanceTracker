@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:finance_app/app/date_format.dart';
 import 'package:finance_app/app/di.dart';
 import 'package:finance_app/domain/models/category.dart';
@@ -17,9 +18,10 @@ class TransactionsCategoryArguments {
       this.category, this.dateTime, this.totalCash);
 }
 
-class TransactionsCategory extends StatelessWidget {
+@RoutePage()
+class TransactionsCategoryPage extends StatelessWidget {
   final TransactionsCategoryArguments args;
-  const TransactionsCategory({super.key, required this.args});
+  const TransactionsCategoryPage({super.key, required this.args});
 
   @override
   Widget build(BuildContext context) {
