@@ -4,55 +4,35 @@ import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class AnalysHeaderWidget extends StatefulWidget {
+class AnalysHeaderWidget extends StatelessWidget {
   final Function(DateTime) onDateChanged;
   final Function(TypeSpending) typeSpending;
+  final DateTime currentDate;
+  final TypeSpending selectedType;
 
-  const AnalysHeaderWidget({
-    super.key,
-    required this.onDateChanged,
-    required this.typeSpending
-  });
-
-  @override
-  _AnalysHeaderWidgetState createState() => _AnalysHeaderWidgetState();
-}
-
-class _AnalysHeaderWidgetState extends State<AnalysHeaderWidget> {
-  late DateTime _currentDate;
-  var selectedType = TypeSpending.expense;
-
-  @override
-  void initState() {
-    super.initState();
-    _currentDate = DateTime.now();
-  }
+  const AnalysHeaderWidget(
+      {super.key,
+      required this.onDateChanged,
+      required this.typeSpending,
+      required this.currentDate,
+      required this.selectedType});
 
   void _previousMonth() {
-    setState(() {
-      _currentDate = DateTime(_currentDate.year, _currentDate.month - 1);
-    });
-    widget.onDateChanged(_currentDate);
+    onDateChanged(DateTime(currentDate.year, currentDate.month - 1));
   }
 
   void _nextMonth() {
-    setState(() {
-      _currentDate = DateTime(_currentDate.year, _currentDate.month + 1);
-    });
-    widget.onDateChanged(_currentDate);
+    onDateChanged(DateTime(currentDate.year, currentDate.month + 1));
   }
 
   void _onSelectedType(TypeSpending typeSpending) {
-    setState(() {
-      selectedType = typeSpending;
-    });
-    widget.typeSpending(typeSpending);
+    this.typeSpending(typeSpending);
   }
 
   @override
   Widget build(BuildContext context) {
     final padding = MediaQuery.of(context).padding;
-    String monthYear = DateFormat('MMMM, yyyy').format(_currentDate);
+    String monthYear = DateFormat('MMMM, yyyy').format(currentDate);
 
     return Container(
       padding: EdgeInsets.only(top: padding.top),
@@ -96,10 +76,16 @@ class _AnalysHeaderWidgetState extends State<AnalysHeaderWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              AnalysTypeSpendingWidget(typeSpending: TypeSpending.expense, isSelected: TypeSpending.expense == selectedType, onTap: _onSelectedType),
+              AnalysTypeSpendingWidget(
+                  typeSpending: TypeSpending.expense,
+                  isSelected: TypeSpending.expense == selectedType,
+                  onTap: _onSelectedType),
               SizedBox(width: 42),
-              AnalysTypeSpendingWidget(typeSpending: TypeSpending.income, isSelected: TypeSpending.income == selectedType, onTap: _onSelectedType),
-            ],    
+              AnalysTypeSpendingWidget(
+                  typeSpending: TypeSpending.income,
+                  isSelected: TypeSpending.income == typeSpending,
+                  onTap: _onSelectedType),
+            ],
           ),
           SizedBox(height: 8),
         ],

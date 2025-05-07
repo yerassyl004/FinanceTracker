@@ -60,10 +60,8 @@ class AnalysisPageView extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          AppStrings.categories,
-                                          style: AppTextStyle.body20Medium()
-                                        ),
+                                        Text(AppStrings.categories,
+                                            style: AppTextStyle.body20Medium()),
                                         SizedBox(height: 30),
                                         MultiSegmentCircularPercentIndicator(
                                           segments: data.segments,
@@ -92,12 +90,13 @@ class AnalysisPageView extends StatelessWidget {
                                     typeSpending: data.selectedType));
                           },
                           typeSpending: (selectedType) {
-                            
                             context.read<AnalysisBloc>().add(
                                 AnalysisEvent.updateTransactions(
                                     month: data.currentMonth,
                                     typeSpending: selectedType));
                           },
+                          currentDate: data.currentMonth,
+                          selectedType: data.selectedType,
                         ),
                       ),
                       Positioned(
@@ -111,7 +110,7 @@ class AnalysisPageView extends StatelessWidget {
                               Routes.createTransactionPage,
                               arguments: CreateTransactionsArgument(null),
                             );
-                            if (result == true) {
+                            if (context.mounted && result == true) {
                               context
                                   .read<AnalysisBloc>()
                                   .add(LoadTransactions());
