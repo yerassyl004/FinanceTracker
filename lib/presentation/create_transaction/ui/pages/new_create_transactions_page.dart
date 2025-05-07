@@ -10,13 +10,13 @@ import 'package:finance_app/presentation/resourses/strings_manager.dart';
 import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:finance_app/presentation/create_transaction/ui/widget/input_textField_widget.dart';
 import 'package:finance_app/presentation/create_transaction/ui/widget/transfer_info_widget.dart';
 import 'package:finance_app/presentation/create_transaction/ui/widget/types_spending_widget.dart';
 import 'package:finance_app/domain/models/transaction.dart';
 import 'package:finance_app/domain/models/type_spending.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class CreateTransactionsArgument {
   final Transaction? transaction;
@@ -61,13 +61,6 @@ class NewCreateTransactionView extends StatelessWidget {
             orElse: () => SizedBox(),
             editing: (data, error) {
               return Scaffold(
-                appBar: AppBar(
-                  title: Text(
-                    AppStrings.newTransaction,
-                    style: AppTextStyle.body22Medium()
-                  ),
-                  backgroundColor: Colors.grey.shade100,
-                ),
                 backgroundColor: Colors.grey.shade100,
                 body: SafeArea(
                   child: LayoutBuilder(
@@ -78,10 +71,29 @@ class NewCreateTransactionView extends StatelessWidget {
                             minHeight: constraints.maxHeight,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(16.0),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16.w, vertical: 12.h),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+                                Container(
+                                  color: Colors.grey.shade100,
+                                  child: Row(
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(Icons.arrow_back_ios),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      8.pw,
+                                      Text(
+                                        AppStrings.newTransaction,
+                                        style: AppTextStyle.body22Medium(),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                                 16.ph,
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -97,8 +109,8 @@ class NewCreateTransactionView extends StatelessWidget {
                                                   toAccount: null,
                                                   fromAccount: null,
                                                   category: null,
-                                                  transaction: data.transaction
-                                                      ?.clear(),
+                                                  transaction:
+                                                      data.transaction?.clear(),
                                                   selectedType:
                                                       TypeSpending.transfer),
                                             ))),
@@ -120,8 +132,8 @@ class NewCreateTransactionView extends StatelessWidget {
                                                   toAccount: null,
                                                   fromAccount: null,
                                                   category: null,
-                                                  transaction: data.transaction
-                                                      ?.clear(),
+                                                  transaction:
+                                                      data.transaction?.clear(),
                                                   selectedType:
                                                       TypeSpending.expense),
                                             ))),
@@ -143,8 +155,8 @@ class NewCreateTransactionView extends StatelessWidget {
                                                   toAccount: null,
                                                   fromAccount: null,
                                                   category: null,
-                                                  transaction: data.transaction
-                                                      ?.clear(),
+                                                  transaction:
+                                                      data.transaction?.clear(),
                                                   selectedType:
                                                       TypeSpending.income),
                                             ))),
@@ -162,25 +174,48 @@ class NewCreateTransactionView extends StatelessWidget {
                                         title: data.fromAccount?.title ??
                                             AppStrings.accounts,
                                         onTap: () async {
-                                          showBarModalBottomSheet(
-                                              expand: false,
-                                              context: context,
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              builder: (context) {
-                                                return AddAccountsPage(
-                                                  fromAccount: true,
-                                                  onTap: (account) async {
-                                                    debugPrint('Accounts::: ${account.toJson()}');
-                                                    bloc.add(CreateTransactionEvent
-                                                        .edit(
+                                          showModalBottomSheet(
+                                            context: context,
+                                            isScrollControlled: true,
+                                            backgroundColor: Colors.transparent,
+                                            builder: (context) {
+                                              return DraggableScrollableSheet(
+                                                initialChildSize: 0.5,
+                                                minChildSize: 0.3,
+                                                maxChildSize: 0.95,
+                                                expand: false,
+                                                builder: (context,
+                                                    scrollController) {
+                                                  return Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.vertical(
+                                                              top: Radius
+                                                                  .circular(
+                                                                      16)),
+                                                    ),
+                                                    child: AddAccountsPage(
+                                                      fromAccount: true,
+                                                      onTap: (account) async {
+                                                        debugPrint(
+                                                            'Accounts::: ${account.toJson()}');
+                                                        bloc.add(
+                                                          CreateTransactionEvent
+                                                              .edit(
                                                             data: data.copyWith(
                                                                 fromAccount:
-                                                                    account)));
-                                                  },
-                                                  data: data,
-                                                );
-                                              });
+                                                                    account),
+                                                          ),
+                                                        );
+                                                      },
+                                                      data: data,
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          );
                                         },
                                         isSelected: data.fromAccount != null,
                                       ),
@@ -193,24 +228,48 @@ class NewCreateTransactionView extends StatelessWidget {
                                                 'wallet_icon',
                                             title: data.toAccount?.title ??
                                                 AppStrings.account,
-                                            onTap: () =>
-                                                showBarModalBottomSheet(
-                                                    expand: false,
-                                                    context: context,
-                                                    backgroundColor:
-                                                        Colors.transparent,
-                                                    builder: (context) =>
-                                                        AddAccountsPage(
-                                                          data: data,
-                                                          onTap:
-                                                              (account) async {
-                                                                debugPrint('Accounts::: ${account.toJson()}');
-                                                            bloc.add(CreateTransactionEvent.edit(
-                                                                data: data.copyWith(
-                                                                    toAccount:
-                                                                        account)));
-                                                          },
-                                                        )),
+                                            onTap: () => showModalBottomSheet(
+                                              context: context,
+                                              isScrollControlled: true,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              builder: (context) {
+                                                return DraggableScrollableSheet(
+                                                  initialChildSize: 0.5,
+                                                  minChildSize: 0.3,
+                                                  maxChildSize: 0.95,
+                                                  expand: false,
+                                                  builder: (context,
+                                                      scrollController) {
+                                                    return Container(
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius.vertical(
+                                                                top: Radius
+                                                                    .circular(
+                                                                        16)),
+                                                      ),
+                                                      child: AddAccountsPage(
+                                                        data: data,
+                                                        onTap: (account) async {
+                                                          debugPrint(
+                                                              'Accounts::: ${account.toJson()}');
+                                                          bloc.add(
+                                                            CreateTransactionEvent
+                                                                .edit(
+                                                              data: data.copyWith(
+                                                                  toAccount:
+                                                                      account),
+                                                            ),
+                                                          );
+                                                        },
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            ),
                                             isSelected: data.toAccount != null,
                                           ))
                                         : Expanded(
@@ -219,27 +278,51 @@ class NewCreateTransactionView extends StatelessWidget {
                                                 'category_icon',
                                             title: data.category?.title ??
                                                 AppStrings.categoriy,
-                                            onTap: () =>
-                                                showBarModalBottomSheet(
-                                              expand: false,
+                                            onTap: () => showModalBottomSheet(
                                               context: context,
+                                              isScrollControlled: true,
                                               backgroundColor:
                                                   Colors.transparent,
-                                              builder: (context) =>
-                                                  CategoriesPage(
-                                                onCategorySelected:
-                                                    (category) async {
-                                                  bloc.add(CreateTransactionEvent
-                                                      .edit(
-                                                          data: data.copyWith(
-                                                              category:
-                                                                  category)));
-                                                  Navigator.pop(context);
-                                                },
-                                                isExpense: data.selectedType ==
-                                                    TypeSpending.expense,
-                                                data: data,
-                                              ),
+                                              builder: (context) {
+                                                return DraggableScrollableSheet(
+                                                  initialChildSize: 0.6,
+                                                  minChildSize: 0.3,
+                                                  maxChildSize: 0.95,
+                                                  expand: false,
+                                                  builder: (context,
+                                                      scrollController) {
+                                                    return Container(
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius.vertical(
+                                                                top: Radius
+                                                                    .circular(
+                                                                        16)),
+                                                      ),
+                                                      child: CategoriesPage(
+                                                        onCategorySelected:
+                                                            (category) async {
+                                                          bloc.add(
+                                                            CreateTransactionEvent
+                                                                .edit(
+                                                              data: data.copyWith(
+                                                                  category:
+                                                                      category),
+                                                            ),
+                                                          );
+                                                          context.pop();
+                                                        },
+                                                        isExpense:
+                                                            data.selectedType ==
+                                                                TypeSpending
+                                                                    .expense,
+                                                        data: data,
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
                                             ),
                                             isSelected: data.category != null,
                                           )),
@@ -247,13 +330,20 @@ class NewCreateTransactionView extends StatelessWidget {
                                 ),
                                 16.ph,
                                 InputTextfieldWidget(
-                                  hintText: '0',
-                                  inputType: TextInputType.number,
-                                  maxLine: 1,
-                                  minLine: 1,
-                                  controller: amountController,
-                                  onChanged: (text) => context.read<CreateTransactionBloc>().add(CreateTransactionEvent.edit(data: data.copyWith(transaction: data.transaction?.copyWith(cash: double.tryParse(text) ?? 0))))
-                                ),
+                                    hintText: '0',
+                                    inputType: TextInputType.number,
+                                    maxLine: 1,
+                                    minLine: 1,
+                                    controller: amountController,
+                                    onChanged: (text) => context
+                                        .read<CreateTransactionBloc>()
+                                        .add(CreateTransactionEvent.edit(
+                                            data: data.copyWith(
+                                                transaction: data.transaction
+                                                    ?.copyWith(
+                                                        cash: double.tryParse(
+                                                                text) ??
+                                                            0))))),
                                 12.ph,
                                 InputTextfieldWidget(
                                   hintText: AppStrings.addNotes,
@@ -268,22 +358,20 @@ class NewCreateTransactionView extends StatelessWidget {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Text(
-                                      DateFormat('MMM d, EEEE')
-                                          .format(DateTime.now()),
-                                      style: AppTextStyle.body16Regular()
-                                    ),
+                                        DateFormat('MMM d, EEEE')
+                                            .format(DateTime.now()),
+                                        style: AppTextStyle.body16Regular()),
                                     Container(
                                       width: 1,
                                       height: 20,
                                       color: Colors.grey,
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: 8.0),
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 8.0),
                                     ),
                                     Text(
-                                      DateFormat('h:mm a')
-                                          .format(DateTime.now()),
-                                      style: AppTextStyle.body16Regular()
-                                    ),
+                                        DateFormat('h:mm a')
+                                            .format(DateTime.now()),
+                                        style: AppTextStyle.body16Regular()),
                                   ],
                                 ),
                                 62.ph,
@@ -298,8 +386,7 @@ class NewCreateTransactionView extends StatelessWidget {
                 floatingActionButton: SizedBox(
                   width: double.infinity,
                   child: Padding(
-                    padding:
-                        EdgeInsets.only(left: 16, right: 16, bottom: 0),
+                    padding: EdgeInsets.only(left: 16, right: 16, bottom: 0),
                     child: FloatingActionButton.extended(
                       onPressed: () => context
                           .read<CreateTransactionBloc>()
@@ -318,10 +405,9 @@ class NewCreateTransactionView extends StatelessWidget {
                             ),
                           )),
                       backgroundColor: Colors.blueAccent,
-                      label: Text(
-                        AppStrings.save,
-                        style: AppTextStyle.bold16().copyWith(color: ColorManager.white)
-                      ),
+                      label: Text(AppStrings.save,
+                          style: AppTextStyle.bold16()
+                              .copyWith(color: ColorManager.white)),
                     ),
                   ),
                 ),

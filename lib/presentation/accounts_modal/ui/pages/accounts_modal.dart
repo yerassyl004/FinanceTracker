@@ -21,38 +21,88 @@ class AddAccountsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: ColorManager.white,
+      decoration: BoxDecoration(
+        color: ColorManager.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16.r),
+          topRight: Radius.circular(16.r),
+        ),
+      ),
       child: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(16.0),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Select an account',
-                style: AppTextStyle.bold24()
-              ),
+              Text('Select an account', style: AppTextStyle.bold24()),
               SizedBox(height: 16.h),
-              Flexible(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: MediaQuery.of(context).size.height * 0.8,
-                  ),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: data.accounts!.length,
-                    itemBuilder: (context, index) {
-                      final account = data.accounts![index];
-                      return InkWell(
-                        onTap: () {
-                          onTap(account);
-                          Navigator.pop(context);
-                        },
-                        child: AccountItemWidget(account: account),
-                      );
-                    },
-                  ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: data.accounts?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    final account = data.accounts![index];
+                    return InkWell(
+                      onTap: () {
+                        onTap(account);
+                        Navigator.pop(context);
+                      },
+                      child: AccountItemWidget(account: account),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AddAccountsPageWithScroll extends StatelessWidget {
+  final CreateTransactionData data;
+  final Function(Account) onTap;
+  final ScrollController scrollController;
+
+  const AddAccountsPageWithScroll({
+    super.key,
+    required this.onTap,
+    required this.data,
+    required this.scrollController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: ColorManager.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16.r),
+          topRight: Radius.circular(16.r),
+        ),
+      ),
+      child: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Select an account', style: AppTextStyle.bold24()),
+              SizedBox(height: 16.h),
+              Expanded(
+                child: ListView.builder(
+                  controller: scrollController,
+                  itemCount: data.accounts?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    final account = data.accounts![index];
+                    return InkWell(
+                      onTap: () {
+                        onTap(account);
+                        Navigator.pop(context);
+                      },
+                      child: AccountItemWidget(account: account),
+                    );
+                  },
                 ),
               ),
             ],

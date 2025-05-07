@@ -9,7 +9,6 @@ import 'package:finance_app/presentation/resourses/strings_manager.dart';
 import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class CategoriesPage extends StatelessWidget {
   const CategoriesPage({super.key});
@@ -18,8 +17,7 @@ class CategoriesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (context) =>
-            di.getCategoryBloc()
-              ..add(CategoryEvent.loadAccounts()),
+            di.getCategoryBloc()..add(CategoryEvent.loadAccounts()),
         child: CategoriesPageView());
   }
 }
@@ -50,12 +48,36 @@ class CategoriesPageView extends StatelessWidget {
                               expenseCategories: expense,
                               incomeCategories: income,
                               pushEditCategory: (category) async {
-                                final result = await showBarModalBottomSheet(
-                                  expand: true,
+                                final result = await showModalBottomSheet(
                                   context: context,
+                                  isScrollControlled: true,
                                   backgroundColor: Colors.transparent,
-                                  builder: (context) =>
-                                      CreateCategoryPage(args: CreateCategoryPageArguments(category),),
+                                  builder: (context) {
+                                    return Padding(
+                                      padding: EdgeInsets.only(
+                                        top: 16,
+                                        bottom: MediaQuery.of(context)
+                                            .viewInsets
+                                            .bottom,
+                                      ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(16),
+                                            topRight: Radius.circular(16),
+                                          ),
+                                        ),
+                                        child: FractionallySizedBox(
+                                          heightFactor: 0.95,
+                                          child: CreateCategoryPage(
+                                            args: CreateCategoryPageArguments(
+                                                category),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 );
                                 if (result == true) {
                                   context
@@ -81,25 +103,44 @@ class CategoriesPageView extends StatelessWidget {
                     height: 48,
                     child: FloatingActionButton(
                       onPressed: () async {
-                        final result = await showBarModalBottomSheet(
-                          expand: true,
+                        final result = await showModalBottomSheet(
                           context: context,
+                          isScrollControlled: true,
                           backgroundColor: Colors.transparent,
-                          builder: (context) =>
-                              CreateCategoryPage(),
+                          builder: (context) {
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                top: 16,
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom,
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(16),
+                                    topRight: Radius.circular(16),
+                                  ),
+                                ),
+                                child: FractionallySizedBox(
+                                  heightFactor: 0.95,
+                                  child: CreateCategoryPage(),
+                                ),
+                              ),
+                            );
+                          },
                         );
 
-                        if (result == true) {
+                        if (context.mounted && result == true) {
                           context
                               .read<CategoryBloc>()
                               .add(CategoryEvent.loadAccounts());
                         }
                       },
                       backgroundColor: Colors.blueAccent,
-                      child: Text(
-                        AppStrings.addNewCategory,
-                        style: AppTextStyle.bold16().copyWith(color: ColorManager.white)
-                      ),
+                      child: Text(AppStrings.addNewCategory,
+                          style: AppTextStyle.bold16()
+                              .copyWith(color: ColorManager.white)),
                     ),
                   ),
                 ],

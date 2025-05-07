@@ -6,6 +6,7 @@ import 'package:finance_app/presentation/resourses/color_manager.dart';
 import 'package:finance_app/presentation/resourses/strings_manager.dart';
 import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CategoriesPage extends StatelessWidget {
   final CreateTransactionData data;
@@ -25,7 +26,10 @@ class CategoriesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: ColorManager.white,
+      decoration: BoxDecoration(
+          color: ColorManager.white,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r))),
       padding: EdgeInsets.all(16.0),
       child: SafeArea(
         child: SingleChildScrollView(

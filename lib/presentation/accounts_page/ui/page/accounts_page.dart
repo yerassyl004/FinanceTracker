@@ -10,7 +10,6 @@ import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class AccountsPage extends StatelessWidget {
   const AccountsPage({super.key});
@@ -19,8 +18,7 @@ class AccountsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (context) =>
-            di.getAccountsBloc()
-              ..add(AccountsEvent.loadAccounts()),
+            di.getAccountsBloc()..add(AccountsEvent.loadAccounts()),
         child: AccountsPageView());
   }
 }
@@ -31,7 +29,7 @@ class AccountsPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+        backgroundColor: Colors.grey.shade100,
         body:
             BlocBuilder<AccountsBloc, AccountsState>(builder: (context, state) {
           return Stack(
@@ -41,7 +39,11 @@ class AccountsPageView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     SizedBox(height: 8.h),
-                    Text(AppStrings.accounts, style: AppTextStyle.bold24(), textAlign: TextAlign.center,),
+                    Text(
+                      AppStrings.accounts,
+                      style: AppTextStyle.bold24(),
+                      textAlign: TextAlign.center,
+                    ),
                     Expanded(
                         child: state.maybeWhen(
                             loaded: (accounts) => AccountsList(
@@ -51,21 +53,47 @@ class AccountsPageView extends StatelessWidget {
                                         .read<AccountsBloc>()
                                         .add(AccountsEvent.loadAccounts());
                                   },
-                                  deleteAccount:(account) {
-                                    context
-                                        .read<AccountsBloc>()
-                                        .add(AccountsEvent.deleteAccount(account));
+                                  deleteAccount: (account) {
+                                    context.read<AccountsBloc>().add(
+                                        AccountsEvent.deleteAccount(account));
                                   },
                                   pushEditAccount: (account) async {
-                                    final result =
-                                        await showBarModalBottomSheet(
-                                      expand: true,
+                                    final result = await showModalBottomSheet(
                                       context: context,
+                                      isScrollControlled: true,
                                       backgroundColor: Colors.transparent,
-                                      builder: (context) =>
-                                          CreateAccountPage(args: CreateAccountPageArguments(account: account)),
+                                      builder: (context) {
+                                        return Padding(
+                                          padding: EdgeInsets.only(
+                                            top: 16,
+                                            left: 0,
+                                            right: 0,
+                                            bottom: MediaQuery.of(context)
+                                                .viewInsets
+                                                .bottom,
+                                          ),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(16.r),
+                                                    topRight:
+                                                        Radius.circular(16.r))),
+                                            child: FractionallySizedBox(
+                                              heightFactor: 0.95,
+                                              child: CreateAccountPage(
+                                                args:
+                                                    CreateAccountPageArguments(
+                                                        account: account),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     );
-                                    if (result == true) {
+
+                                    if (context.mounted && result == true) {
                                       context
                                           .read<AccountsBloc>()
                                           .add(AccountsEvent.loadAccounts());
@@ -83,20 +111,43 @@ class AccountsPageView extends StatelessWidget {
                 height: 48,
                 child: FloatingActionButton(
                   onPressed: () async {
-                    final result = await showBarModalBottomSheet(
-                      expand: true,
+                    final result = await showModalBottomSheet(
                       context: context,
+                      isScrollControlled: true,
                       backgroundColor: Colors.transparent,
-                      builder: (context) => CreateAccountPage(),
+                      builder: (context) {
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            top: 16,
+                            left: 0,
+                            right: 0,
+                            bottom: MediaQuery.of(context).viewInsets.bottom,
+                          ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(16.r),
+                                    topRight: Radius.circular(16.r))),
+                            child: FractionallySizedBox(
+                              heightFactor: 0.95,
+                              child: CreateAccountPage(),
+                            ),
+                          ),
+                        );
+                      },
                     );
                     if (result == true) {
-                      context.read<AccountsBloc>().add(AccountsEvent.loadAccounts());
+                      context
+                          .read<AccountsBloc>()
+                          .add(AccountsEvent.loadAccounts());
                     }
                   },
                   backgroundColor: Colors.blueAccent,
                   child: Text(
                     'Add new account',
-                    style: AppTextStyle.bold16().copyWith(color: ColorManager.white),
+                    style: AppTextStyle.bold16()
+                        .copyWith(color: ColorManager.white),
                   ),
                 ),
               ),

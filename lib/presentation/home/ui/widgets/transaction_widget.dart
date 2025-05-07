@@ -6,7 +6,6 @@ import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:finance_app/presentation/transaction_info/ui/page/tansaction_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class TransactionWidget extends StatelessWidget {
   final Transaction transaction;
@@ -16,12 +15,23 @@ class TransactionWidget extends StatelessWidget {
 
   void _handleTransactionTap(
       BuildContext context, Transaction transaction) async {
-    await showBarModalBottomSheet(
-      expand: false,
+    await showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => TansactionPage(
-          args: TansactionInfoArgument(transaction: transaction)),
+      isScrollControlled: true,
+      useSafeArea: true,
+      enableDrag: true,
+      useRootNavigator: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+      ),
+      builder: (BuildContext context) {
+        return ClipRRect(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+          child: TansactionPage(
+            args: TansactionInfoArgument(transaction: transaction),
+          ),
+        );
+      },
     );
     updateList();
   }
