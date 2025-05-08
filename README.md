@@ -12,11 +12,12 @@ Transaction History: The main page shows a history of transactions, with detaile
 # Run Android CI/CD Pipeline
 To trigger the CI/CD workflow for building the Flutter Android APK, use the following command in your terminal:
 
-bash
-Copy
-Edit
 git checkout -b ci-cd
+
 git add .
+
 git commit -m "Trigger Android CI/CD"
+
 git push origin ci-cd
+
 This will trigger the GitHub Actions workflow defined in .github/workflows/flutter_android.yml and automatically build the APK.
