@@ -27,4 +27,4 @@ jobs:
       run: dart run build_runner build --delete-conflicting-outputs
 
     - name: Build APK
-      run: flutter build apk --release
+      run: flutter build apk --release --no-tree-shake-icons
