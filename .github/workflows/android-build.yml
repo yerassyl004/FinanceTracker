@@ -2,9 +2,9 @@ name: Build Flutter Android
 
 on:
   push:
-    branches: [ "fixCICD" ]
+    branches: [ "ci-cd" ]
   pull_request:
-    branches: [ "fixCICD" ]
+    branches: [ "ci-cd" ]
   workflow_dispatch:
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
       run: flutter build apk --release
 
     - name: Upload APK
-      uses: actions/upload-artifact@v3.1.3
+      uses: actions/upload-artifact@v3
       with:
         name: app-release.apk
         path: build/app/outputs/flutter-apk/app-release.apk
