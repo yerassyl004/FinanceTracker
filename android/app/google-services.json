@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "424888659516",
-    "project_id": "chatflutter-95381",
-    "storage_bucket": "chatflutter-95381.firebasestorage.app"
+    "project_number": "109820881861",
+    "project_id": "finance-tracker-f2132",
+    "storage_bucket": "finance-tracker-f2132.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:424888659516:android:3b6cca1410fb05f73a1d39",
+        "mobilesdk_app_id": "1:109820881861:android:c148664604ccf76f85f9ac",
         "android_client_info": {
           "package_name": "com.example.finance_app"
         }
@@ -15,7 +15,26 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDjPk36eqEtb1jImqSAOc78dM8AogDgmak"
+          "current_key": "AIzaSyDFR-ELTFCx9NO0CFZOwKla_6-CeVi_EQc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109820881861:android:54bb328dadf375ae85f9ac",
+        "android_client_info": {
+          "package_name": "kz.startmobile.chart_ai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFR-ELTFCx9NO0CFZOwKla_6-CeVi_EQc"
         }
       ],
       "services": {

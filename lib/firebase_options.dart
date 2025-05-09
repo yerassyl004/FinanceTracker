@@ -50,19 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDjPk36eqEtb1jImqSAOc78dM8AogDgmak',
-    appId: '1:424888659516:android:3b6cca1410fb05f73a1d39',
-    messagingSenderId: '424888659516',
-    projectId: 'chatflutter-95381',
-    storageBucket: 'chatflutter-95381.firebasestorage.app',
+    apiKey: 'AIzaSyDFR-ELTFCx9NO0CFZOwKla_6-CeVi_EQc',
+    appId: '1:109820881861:android:c148664604ccf76f85f9ac',
+    messagingSenderId: '109820881861',
+    projectId: 'finance-tracker-f2132',
+    storageBucket: 'finance-tracker-f2132.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyC-q79l-NoYwevJVb-gq0FAhWlbRWnrHx0',
-    appId: '1:424888659516:ios:2a12a2bafaacfba63a1d39',
-    messagingSenderId: '424888659516',
-    projectId: 'chatflutter-95381',
-    storageBucket: 'chatflutter-95381.firebasestorage.app',
+    apiKey: 'AIzaSyAuDWY93kSTWXLpRSd0pVEjU9l3pKjEQ5A',
+    appId: '1:109820881861:ios:1764afca0340e29d85f9ac',
+    messagingSenderId: '109820881861',
+    projectId: 'finance-tracker-f2132',
+    storageBucket: 'finance-tracker-f2132.firebasestorage.app',
     iosBundleId: 'com.example.financeApp',
   );
+
 }
