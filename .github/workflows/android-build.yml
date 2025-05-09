@@ -2,9 +2,9 @@ name: Build Flutter Android
 
 on:
   push:
-    branches: [ "ci-cd" ]
+    branches: [ "firebase" ]
   pull_request:
-    branches: [ "ci-cd" ]
+    branches: [ "firebase" ]
   workflow_dispatch:
 
 jobs:
