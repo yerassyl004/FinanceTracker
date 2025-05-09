@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "424888659516",
+    "project_id": "chatflutter-95381",
+    "storage_bucket": "chatflutter-95381.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424888659516:android:3b6cca1410fb05f73a1d39",
+        "android_client_info": {
+          "package_name": "com.example.finance_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjPk36eqEtb1jImqSAOc78dM8AogDgmak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
