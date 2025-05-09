@@ -29,10 +29,10 @@ jobs:
     - name: Build APK
       run: flutter build apk --release --no-tree-shake-icons
 
-    - name: Upload to Firebase App Distribution
+    - name: Distribute APK to Firebase
       uses: wzieba/Firebase-Distribution-Github-Action@v1
       with:
         appId: ${{ secrets.FIREBASE_APP_ID }}
-        token: ${{ secrets.FIREBASE_CLI_TOKEN }}
-        groups: testers
+        serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         file: build/app/outputs/flutter-apk/app-release.apk
+        groups: test
