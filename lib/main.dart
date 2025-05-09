@@ -16,7 +16,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await DatabaseHelper.instance.database;
-
   di.initLocators();
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
