@@ -19,7 +19,6 @@ import 'package:finance_app/domain/usecases.dart/analysis/segment_persentage_use
 import 'package:finance_app/domain/usecases.dart/account/update_account_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/category/update_category_usecase.dart';
 import 'package:finance_app/domain/usecases.dart/transactions/update_transaction_usecase.dart';
-import 'package:finance_app/presentation/accounts_page/bloc/accounts_bloc.dart';
 import 'package:finance_app/presentation/categories_page/bloc/category_bloc.dart';
 import 'package:finance_app/presentation/create_transaction/bloc/create_transaction_bloc.dart';
 import 'package:finance_app/presentation/home/bloc/transaction_bloc.dart';
@@ -48,7 +47,6 @@ class DI {
     getIt.registerLazySingleton<TransactionBloc>(() => TransactionBloc(getIt(), getIt(), getIt()));
     getIt.registerLazySingleton<CreateTransactionBloc>(() => CreateTransactionBloc(getIt(), getIt(), getIt(), getIt(), getIt()));
     getIt.registerLazySingleton<TransactionInfoBloc>(() => TransactionInfoBloc(getIt(), getIt()));
-    getIt.registerLazySingleton<AccountsBloc>(() => AccountsBloc(getIt(), getIt()));
     getIt.registerLazySingleton<CategoryBloc>(() => CategoryBloc(getIt(), getIt()));
 
     /// Usecase registrations
