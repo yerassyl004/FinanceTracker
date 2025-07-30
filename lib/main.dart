@@ -1,6 +1,8 @@
 import 'package:finance_app/app/app_router.dart';
 import 'package:finance_app/app/di.dart';
 import 'package:finance_app/data/data_source/local/database_helper.dart';
+import 'package:finance_app/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,8 +12,11 @@ import 'app/utils/screem_size.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DatabaseHelper.instance.database;
 
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await DatabaseHelper.instance.database;
   di.initLocators();
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
