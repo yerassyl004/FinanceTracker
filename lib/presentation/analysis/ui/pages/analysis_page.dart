@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:finance_app/app/app_router.dart';
-import 'package:finance_app/presentation/analysis/bloc/analysis_provider.dart';
+import 'package:finance_app/presentation/analysis/provider/analysis_provider.dart';
 import 'package:finance_app/presentation/analysis/ui/widgets/transaction_analys_list.dart';
 import 'package:finance_app/presentation/analysis/ui/widgets/analys_header_widget.dart';
 import 'package:finance_app/presentation/analysis/ui/widgets/multi_segment_circular_percent_indicator.dart';
@@ -20,20 +20,19 @@ class AnalysisPage extends ConsumerWidget {
     return state.when(
       loading: () => Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(child: Text('Error: $e')),
-      data: (data) => AnalysisPageView(data: data, ref: ref),
+      data: (data) => AnalysisPageView(data: data),
     );
   }
 }
 
 
-class AnalysisPageView extends StatelessWidget {
+class AnalysisPageView extends ConsumerWidget {
   final AnalysisData data;
-  final WidgetRef ref;
 
-  const AnalysisPageView({super.key, required this.data, required this.ref});
+  const AnalysisPageView({super.key, required this.data});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       body: Stack(

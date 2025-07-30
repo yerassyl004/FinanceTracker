@@ -5,7 +5,7 @@ import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesList extends StatelessWidget {
-  final VoidCallback updateList;
+  final Function(Category) deleteCategory;
   final Function(Category) pushEditCategory;
   final List<Category> expenseCategories;
   final List<Category> incomeCategories;
@@ -15,7 +15,7 @@ class CategoriesList extends StatelessWidget {
     required this.expenseCategories,
     required this.incomeCategories,
     required this.pushEditCategory,
-    required this.updateList,
+    required this.deleteCategory,
   });
 
   @override
@@ -31,7 +31,7 @@ class CategoriesList extends StatelessWidget {
         } else if (index > 0 && index <= expenseCategories.length) {
           return CategoriesWidget(
             category: expenseCategories[index - 1],
-            categoryDeleted: updateList,
+            categoryDeleted: deleteCategory,
             categoryEdit: pushEditCategory,
           );
         } else if (index == expenseCategories.length + 1) {
@@ -40,7 +40,7 @@ class CategoriesList extends StatelessWidget {
           int incomeIndex = index - expenseCategories.length - 2;
           return CategoriesWidget(
             category: incomeCategories[incomeIndex],
-            categoryDeleted: updateList,
+            categoryDeleted: deleteCategory,
             categoryEdit: pushEditCategory,
           );
         }

@@ -1,14 +1,12 @@
 import 'package:finance_app/app/extensions.dart';
 import 'package:finance_app/presentation/accounts_page/ui/widget/pop_up_menu_text.dart';
 import 'package:finance_app/domain/models/category.dart';
-import 'package:finance_app/presentation/categories_page/bloc/category_bloc.dart';
 import 'package:finance_app/presentation/resourses/strings_manager.dart';
 import 'package:finance_app/presentation/resourses/styles_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CategoriesWidget extends StatelessWidget {
-  final VoidCallback categoryDeleted;
+  final Function(Category) categoryDeleted;
   final Function(Category) categoryEdit;
   final Category category;
   const CategoriesWidget(
@@ -23,7 +21,7 @@ class CategoriesWidget extends StatelessWidget {
         categoryEdit(category);
         break;
       case 1:
-        context.read<CategoryBloc>().add(CategoryEvent.deleteAccount(category));
+        categoryDeleted(category);
         break;
     }
   }
